@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
       'Videojuego de cocina en 2D para móviles sobre gastronomía ecuatoriana, recetas tradicionales con el plátano como ingrediente principal.',
     status: 'Completado',
     tech: 'Unreal',
-    url: 'https://www.behance.net/gallery/166470549/Trazando-Pasos-(videojuego-VR)-(2023)',
+    url: 'https://www.behance.net/gallery/166078851/Plantain-Feast',
   },
 
 
