@@ -9,7 +9,4 @@ export default defineConfig({
     webAnalytics: { enabled: false }
   }),
   integrations: [tailwind(), react()],
-  security: {
-    checkOrigin: false
-  }
 });
