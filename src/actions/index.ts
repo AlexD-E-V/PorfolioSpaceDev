@@ -10,9 +10,13 @@ export const server = {
       email: z.string().email(),
       mission_type: z.enum(["web", "gaming", "apps", "arvr", "other"]),
       message: z.string().min(10),
+      website: z.string().optional(),
     }),
     handler: async (data) => {
-      // Verifica que las variables de entorno existan
+      if (data.website && data.website.length > 0) {
+        return { success: true };
+      }
+
       const apiKey = import.meta.env.RESEND_API_KEY;
       const contactEmail = import.meta.env.CONTACT_EMAIL;
 

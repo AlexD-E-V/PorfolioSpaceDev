@@ -80,6 +80,27 @@ export default function ContactForm() {
               : "opacity-100 scale-100 blur-0"}
           `}
         >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+          }}
+        >
+          <label>
+            No completar este campo
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
+        </div>
+
         <div className="glass-panel rounded-2xl relative overflow-hidden">
           <div className="scanline"></div>
 
