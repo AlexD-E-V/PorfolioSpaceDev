@@ -65,7 +65,7 @@ const Archivos: React.FC = () => {
 
             <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter uppercase mb-6">
               {' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-white">
+              <span className="text-cosmic">
                 Archivos
               </span>
             </h1>
@@ -330,7 +330,7 @@ const Archivos: React.FC = () => {
                             h-12 w-12 rounded-lg
                             flex items-center justify-center
                             bg-white/5 border border-white/10
-                            text-white/40
+                            text-white/60
                             cursor-default
                             relative
                           "
@@ -345,8 +345,8 @@ const Archivos: React.FC = () => {
                               el?.scrollIntoView({ behavior: 'smooth' });
                             }}
                           className="
-                            bg-primary hover:bg-white
-                            text-background-dark
+                            bg-primary hover:bg-star-300
+                            text-on-primary
                             h-12 w-12 md:w-12
                             rounded-lg
                             flex items-center justify-center
@@ -382,8 +382,8 @@ const Archivos: React.FC = () => {
                             rel="noopener noreferrer"
                             aria-label={`Ver ${project.title} (se abre en una pestaña nueva)`}
                             className="
-                              bg-primary hover:bg-white
-                              text-background-dark
+                              bg-primary hover:bg-star-300
+                              text-on-primary
                               h-12 w-12 md:w-12
                               rounded-lg
                               flex items-center justify-center
@@ -509,7 +509,7 @@ const FilterButton = ({
     className={`flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full px-6 cursor-pointer transition-colors
       ${
         active
-          ? 'bg-primary text-background-dark'
+          ? 'bg-primary text-on-primary'
           : 'border border-white/10 hover:border-primary/50'
       }
     `}

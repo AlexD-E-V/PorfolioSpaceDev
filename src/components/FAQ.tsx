@@ -58,7 +58,7 @@ export const FAQ: React.FC = () => {
           </span>
 
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-            CONSULTAS DE <span className="text-primary">SOPORTE</span>
+            CONSULTAS DE <span className="text-cosmic">SOPORTE</span>
           </h2>
 
           <div className="hud-line h-px w-32 mx-auto my-5"></div>
@@ -109,7 +109,7 @@ export const FAQ: React.FC = () => {
                     ${
                     openId === faq.id
                         ? 'rotate-180 text-primary'
-                        : 'text-white/40 group-hover:text-primary/70'
+                        : 'text-white/60 group-hover:text-primary/70'
                     }`}
                 />
 

@@ -126,7 +126,7 @@ export default function MobileMenu() {
                       setActive("contacto");
                       setIsOpen(false);
                     }}
-                    className="mt-4 bg-primary text-background-dark px-0 py-3 rounded-lg font-bold text-center hover:scale-[1.02] transition-all duration-300"
+                    className="mt-4 bg-primary text-on-primary px-0 py-3 rounded-lg font-bold text-center hover:scale-[1.02] transition-all duration-300"
                   >
                     Contáctanos
                   </a>

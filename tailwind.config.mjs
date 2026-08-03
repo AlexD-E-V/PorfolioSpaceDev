@@ -59,7 +59,14 @@ export default {
 			},
 
 			colors: {
+				/* Acción y marca. Escaso: CTAs, foco, acentos. */
 				primary: brand('--brand'),
+				'primary-hover': brand('--brand-hover'),
+				'on-primary': brand('--on-brand'),
+
+				/* Atmósfera. Fondos, degradados de titular, efectos. */
+				atmos: brand('--atmos'),
+
 				secondary: brand('--accent'),
 				'cosmic-violet': brand('--accent'),
 
@@ -113,21 +120,23 @@ export default {
 				full: '9999px',
 			},
 
-			/* Resplandor de marca. Sustituye a los rgba() arbitrarios que
-			   estaban repartidos por los componentes. */
+			/* Resplandor de marca. Solo el oro emite luz.
+			   Son sombras proyectadas hacia abajo, no halos concéntricos:
+			   leen como luz que cae, no como neón, y ensucian mucho menos
+			   la pantalla cuando hay varias a la vez. */
 			boxShadow: {
-				'glow-sm': glow('15px', 0.3),
-				'glow-md': glow('20px', 0.15),
-				'glow-lg': glow('30px', 0.2),
-				'glow-xl': glow('35px', 0.25),
-				'glow-card': glow('30px', 0.15),
-				'glow-panel': glow('60px', 0.25),
+				'glow-sm': '0 10px 30px -12px rgb(var(--brand) / 0.8)',
+				'glow-md': '0 0 20px -6px rgb(var(--brand) / 0.45)',
+				'glow-lg': '0 22px 60px -22px rgb(var(--brand) / 0.85)',
+				'glow-xl': '0 0 35px -8px rgb(var(--brand) / 0.35)',
+				'glow-card': '0 20px 60px -34px rgb(var(--brand) / 0.7)',
+				'glow-panel': '0 0 60px -20px rgb(var(--brand) / 0.4)',
 			},
 
 			dropShadow: {
 				'glow-xs': glow('2px', 0.3),
-				'glow-sm': glow('8px', 0.8),
-				'glow-lg': glow('25px', 0.6),
+				'glow-sm': glow('8px', 0.7),
+				'glow-lg': glow('25px', 0.5),
 			},
 
 			zIndex: {

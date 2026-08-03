@@ -1,0 +1,78 @@
+/* =========================================================================
+   Escala tipográfica de Mizarium — Space Grotesk
+   =========================================================================
+
+   Es la disciplina que se roba del HTML de referencia: tamaños fluidos con
+   clamp(), interlineado apretado en display, `text-wrap: balance` en los
+   titulares y anchos medidos en `ch` (no en px) para el cuerpo.
+
+   Lo que NO se roba: el peso 300. En el diseño de referencia funciona porque
+   la fuente es una serif editorial; con Space Grotesk, un titular enorme y
+   ultraligero se queda flojo — y la marca es una estrella, brillante y
+   rotunda, no delicada. Los display siguen en 700/900.
+
+   La fase 3 construye las secciones nuevas sobre estas clases en vez de
+   repetir combinaciones sueltas de `text-5xl md:text-7xl font-black`.
+   ====================================================================== */
+
+.display-1 {
+  font-size: clamp(3.25rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.display-2 {
+  font-size: clamp(2.5rem, 5.2vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.display-3 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Párrafo de entrada, justo debajo de un display. */
+.lede {
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.62;
+  max-width: 60ch;
+  text-wrap: pretty;
+  color: rgb(var(--ink-200));
+}
+
+/* Cuerpo normal. El ancho va en `ch` para que la línea mida ~66 caracteres
+   sea cual sea el tamaño de pantalla; en px cambia con cada breakpoint. */
+.body-text {
+  line-height: 1.6;
+  max-width: 66ch;
+  text-wrap: pretty;
+  color: rgb(var(--ink-200));
+}
+
+/* Etiqueta pequeña sobre un título. Siempre en oro: es acento de marca. */
+.eyebrow {
+  font-family: theme('fontFamily.mono');
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--brand));
+}
+
+/* Dato técnico monoespaciado (latencias, códigos, coordenadas). */
+.data-stream-text {
+  font-family: theme('fontFamily.mono');
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--brand) / 0.6);
+}

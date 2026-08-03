@@ -1,14 +1,17 @@
-/* Todo el color sale de los alias de tokens.css. No añadir hex aquí. */
+/* Atmósfera. Aquí vive el cian y el violeta — nunca el oro.
+   El oro es la estrella; esto es el cielo detrás. Ver tokens.css. */
 
 .nebula-glow {
   background:
-    radial-gradient(circle at 80% 20%, rgb(var(--accent) / 0.15), transparent 50%),
-    radial-gradient(circle at 10% 80%, rgb(var(--brand) / 0.1), transparent 50%);
+    radial-gradient(circle at 80% 20%, rgb(var(--accent) / 0.16), transparent 50%),
+    radial-gradient(circle at 10% 80%, rgb(var(--atmos) / 0.10), transparent 50%),
+    /* Un rescoldo cálido bajo el hero: insinúa la estrella sin dibujarla. */
+    radial-gradient(circle at 50% 0%, rgb(var(--brand) / 0.07), transparent 45%);
   filter: blur(80px);
 }
 
 .neon-glow:hover {
-  box-shadow: 0 0 20px rgb(var(--brand) / 0.3);
+  box-shadow: 0 0 20px -4px rgb(var(--brand) / 0.35);
   border-color: rgb(var(--brand) / 0.5);
 }
 
@@ -16,7 +19,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(var(--brand) / 0.4),
+    rgb(var(--atmos) / 0.45),
     transparent
   );
 }
@@ -24,9 +27,30 @@
 .scanline {
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgb(var(--brand)), transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--atmos)), transparent);
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0.2;
+}
+
+/* Degradado de titular. Termina en el punto cian-violáceo y NO llega al
+   violeta puro: ahí el contraste cae a 3.1:1 y la última palabra queda
+   casi ilegible. Ver docs/MIZARIUM.md §2. */
+.text-cosmic {
+  background-image: linear-gradient(
+    104deg,
+    rgb(var(--ink-50)) 4%,
+    rgb(var(--atmos)) 52%,
+    rgb(var(--accent) / 0.85) 96%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula-glow {
+    animation: none;
+  }
 }

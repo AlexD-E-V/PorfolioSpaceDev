@@ -141,7 +141,7 @@ export default function ContactForm() {
                       name="name"
                       required
                       placeholder="Nombre completo"
-                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/30 focus:outline-none focus-visible:outline-none
+                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/55 focus:outline-none focus-visible:outline-none
                         outline-none ring-0 focus:ring-0"
                       onChange={() =>
                         errors.name && setErrors((e) => ({ ...e, name: undefined }))
@@ -168,7 +168,7 @@ export default function ContactForm() {
                       name="email"
                       required
                       placeholder="comandante@nave.space"
-                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/30 focus:outline-none focus-visible:outline-none
+                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/55 focus:outline-none focus-visible:outline-none
                         outline-none ring-0 focus:ring-0"
                       onChange={() =>
                         errors.email && setErrors((e) => ({ ...e, email: undefined }))
@@ -217,7 +217,7 @@ export default function ContactForm() {
                           : "border-white/10 bg-white/5 hover:border-primary/50"
                       }`}
                     >
-                      <Icon name={mission.icon} className="text-3xl text-white/40 group-hover:text-primary" />
+                      <Icon name={mission.icon} className="text-3xl text-white/60 group-hover:text-primary" />
                       <p className="text-xs font-bold uppercase tracking-widest text-white/80">
                         {mission.label}
                       </p>
@@ -244,7 +244,7 @@ export default function ContactForm() {
                   name="message"
                   required
                   placeholder="Describe tu proyecto, objetivos y cualquier detalle"
-                  className="w-full bg-white/5 glow-border-primary rounded-xl p-5 text-white font-light leading-relaxed placeholder:text-white/30 text-base h-32"
+                  className="w-full bg-white/5 glow-border-primary rounded-xl p-5 text-white font-light leading-relaxed placeholder:text-white/55 text-base h-32"
                   onChange={() =>
                     errors.message && setErrors((e) => ({ ...e, message: undefined }))
                   }
@@ -279,7 +279,7 @@ export default function ContactForm() {
                   ${status === "sending" ? "opacity-70 animate-pulse" : "hover:scale-105"}
                 `}
               >
-                <div className="relative h-14 flex items-center justify-center overflow-hidden rounded-xl bg-primary text-background-dark font-black uppercase tracking-[0.4em] glow-cyan px-10">
+                <div className="relative h-14 flex items-center justify-center overflow-hidden rounded-xl bg-primary text-on-primary font-black uppercase tracking-[0.4em] glow-cyan px-10">
                   <span className="relative z-10 flex items-center gap-1">
                     {status === "sending" ? "Transmitiendo…" : "Lanzar Misión"}
                     <Icon name="rocket_launch" />

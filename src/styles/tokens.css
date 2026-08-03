@@ -45,11 +45,24 @@
 
   /* ---------------------------------------------------------------------
      2. ALIAS SEMÁNTICOS  ←  lo único que consume el sitio
+
+     El reparto de roles es la regla de diseño de Mizarium:
+
+       --brand  ORO. Marca y acción. CTAs, foco, iconos de acento,
+                etiquetas, bordes, resplandores. Es la estrella.
+       --atmos  CIAN. Atmósfera. Nebulosa, campo de estrellas, scanlines,
+                líneas HUD y degradados de titular. NUNCA un CTA.
+       --accent VIOLETA. Solo relleno y degradado — 3.1:1, jamás texto.
+
+     Superficie por encima de todo: la tinta ocupa ~88% de la página.
      --------------------------------------------------------------------- */
 
-  /* FASE 2: --brand: var(--star-500) */
-  --brand: var(--cosmic-cyan);
-  --accent: 127 0 255;
+  --brand: var(--star-500);
+  --brand-hover: var(--star-600);
+  --on-brand: 36 23 3;      /* texto sobre oro: marrón muy oscuro, no negro */
+
+  --atmos: var(--cosmic-cyan);
+  --accent: var(--cosmic-violet);
 
   --surface: 24 24 37;      /* paneles de vidrio */
   --bg: 10 10 16;           /* fondo de página */

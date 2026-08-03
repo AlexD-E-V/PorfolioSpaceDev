@@ -36,7 +36,7 @@ export default function DirectLink() {
           <p className="text-sm font-light text-white/70 mb-1">
             {EMAIL}
           </p>
-          <p className="text-[9px] uppercase tracking-widest text-white/30">
+          <p className="text-[9px] uppercase tracking-widest text-white/55">
             Canal de transmisión principal
           </p>
         </div>
