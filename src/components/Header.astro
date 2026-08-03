@@ -1,7 +1,7 @@
 ---
 import Logo from './ui/Logo.astro';
 import MobileMenu from './MobileMenu.tsx';
-import { NAV_LINKS } from '../data/nav';
+import { NAV_LINKS, CTA_HREF, HOME_HREF } from '../data/nav';
 ---
 
 <header class="fixed top-6 left-1/2 z-50 w-[92%] max-w-6xl -translate-x-1/2">
@@ -10,7 +10,7 @@ import { NAV_LINKS } from '../data/nav';
     aria-label="Principal"
   >
     <a
-      href="#inicio"
+      href={HOME_HREF}
       class="group flex cursor-pointer items-center"
       aria-label="Mizarium — volver al inicio"
     >
@@ -26,7 +26,7 @@ import { NAV_LINKS } from '../data/nav';
       {
         NAV_LINKS.map((link) => (
           <a
-            href={`#${link.id}`}
+            href={link.href}
             class="text-[0.95rem] font-medium text-ink-200 transition-colors hover:text-primary"
           >
             {link.label}
@@ -37,7 +37,7 @@ import { NAV_LINKS } from '../data/nav';
 
     <div class="hidden md:flex">
       <a
-        href="#contacto"
+        href={CTA_HREF}
         class="rounded-full bg-primary px-6 py-2.5 text-[0.95rem] font-bold text-on-primary shadow-glow-sm transition-all duration-300 hover:bg-star-300"
       >
         Empezar

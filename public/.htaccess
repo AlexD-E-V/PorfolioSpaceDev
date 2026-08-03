@@ -1,0 +1,51 @@
+# =============================================================================
+# Mizarium — configuración de Apache para Hostinger
+# =============================================================================
+# Astro copia public/ tal cual a dist/, así que este archivo acaba en
+# public_html/ y Apache lo lee solo.
+
+# --- 1. Nuestra página 404 --------------------------------------------------
+# SIN ESTO NO SE VE. El servidor de desarrollo de Astro sirve 404.html cuando
+# una ruta no existe, pero Apache no: muestra su propia página gris de
+# "Not Found" y la 404 con la marca no aparece nunca.
+ErrorDocument 404 /404.html
+
+# --- 2. Compresión ----------------------------------------------------------
+# El HTML y el CSS bajan a menos de un tercio. Los .woff2 y las imágenes ya
+# vienen comprimidos, así que no se tocan.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- 3. Caché ---------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Todo lo de /_astro/ lleva un hash en el nombre: si cambia el contenido,
+  # cambia el nombre. Por eso se puede cachear un año sin miedo.
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+
+  # El HTML no se cachea: es lo que hace que un despliegue nuevo se vea al
+  # instante en vez de a los días.
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# --- 4. Cabeceras de seguridad ---------------------------------------------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# --- 5. HTTPS ---------------------------------------------------------------
+# A propósito NO se fuerza aquí: Hostinger ya lo hace desde hPanel
+# (SSL → "Forzar HTTPS"), y duplicarlo detrás de su proxy puede provocar un
+# bucle de redirecciones. Si algún día hace falta, se activa allí.

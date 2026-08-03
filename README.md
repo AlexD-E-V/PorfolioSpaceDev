@@ -73,7 +73,10 @@ componentes: `--brand` es la marca (oro), `--atmos` la atmósfera (cian) y
 1. `npm run build`
 2. Subir el **contenido** de `dist/` a `public_html/` por FTP o desde el
    Administrador de archivos.
-3. Comprobar que `contacto.php` quedó en la raíz y abrir la web.
+3. Comprobar que llegaron `contacto.php` y **`.htaccess`** — muchos clientes
+   FTP ocultan los archivos que empiezan por punto. Sin el `.htaccess` Apache
+   muestra su propia página de error en vez de la 404 de la marca, y se pierden
+   la compresión y la caché.
 
 Antes del primer despliegue hay que editar tres valores al principio de
 `public/contacto.php`: el correo de destino, el remitente (tiene que ser una

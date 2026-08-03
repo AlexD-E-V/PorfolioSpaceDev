@@ -53,7 +53,7 @@ import { NAV_LINKS } from '../data/nav';
             <>
               {i > 0 && <li aria-hidden="true" class="text-primary/40">✦</li>}
               <li>
-                <a href={`/#${link.id}`} class="transition-colors hover:text-primary">
+                <a href={link.href} class="transition-colors hover:text-primary">
                   {link.label}
                 </a>
               </li>

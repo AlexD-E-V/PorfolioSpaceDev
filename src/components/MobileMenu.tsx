@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { NAV_LINKS } from "../data/nav";
+import { NAV_LINKS, CTA_HREF } from "../data/nav";
 import { Icon } from "./ui/Icon";
 
 /* Reescrito. El anterior tenía cuatro problemas:
@@ -98,7 +98,7 @@ export default function MobileMenu() {
                 {NAV_LINKS.map((link) => (
                   <a
                     key={link.id}
-                    href={`#${link.id}`}
+                    href={link.href}
                     onClick={close}
                     className="rounded-lg px-4 py-3 text-lg font-medium transition-all duration-300 hover:bg-white/5 hover:text-primary"
                   >
@@ -107,7 +107,7 @@ export default function MobileMenu() {
                 ))}
 
                 <a
-                  href="#contacto"
+                  href={CTA_HREF}
                   onClick={close}
                   className="mt-4 rounded-full bg-primary px-4 py-3 text-center font-bold text-on-primary transition-all duration-300 hover:bg-star-300"
                 >
