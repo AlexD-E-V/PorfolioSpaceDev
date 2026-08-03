@@ -8,6 +8,20 @@ import { PRIMARY_SERVICE, SECONDARY_SERVICES, FORMATS } from '../data/services';
 
    Antes esto era `Matriz.astro`, cuatro tarjetas iguales con un párrafo
    genérico cada una y nada que un comprador pudiera evaluar. */
+
+/* Movimiento del icono decorativo, uno distinto por tarjeta. Es un detalle
+   que venía de Space DEV: cada recuadro giraba hacia un lado diferente al
+   pasar por encima, y eso hacía que la rejilla no se sintiera repetida.
+
+   Van como cadenas literales completas y no montadas por concatenación
+   porque Tailwind rastrea el texto del archivo: si construyera las clases
+   pegando trozos, no generaría el CSS. */
+const TILTS = [
+  'group-hover:rotate-12 group-hover:translate-x-1.5 group-hover:-translate-y-1',
+  'group-hover:-rotate-6 group-hover:-translate-x-1 group-hover:-translate-y-1.5',
+  'group-hover:rotate-6 group-hover:translate-x-1 group-hover:translate-y-1.5',
+  'group-hover:-rotate-12 group-hover:-translate-x-1.5 group-hover:-translate-y-1',
+];
 ---
 
 <section id="servicios" class="relative w-full px-6 py-28 md:py-32">
@@ -36,9 +50,10 @@ import { PRIMARY_SERVICE, SECONDARY_SERVICES, FORMATS } from '../data/services';
       >
         <div class="scanline"></div>
 
-        <!-- Icono decorativo de fondo -->
+        <!-- Icono decorativo de fondo. Mismo gesto que en las secundarias,
+             algo más amplio porque la tarjeta es mucho mayor. -->
         <div
-          class="pointer-events-none absolute -right-8 -top-8 text-primary opacity-[0.06] transition-all duration-700 group-hover:scale-110 group-hover:opacity-[0.12]"
+          class="pointer-events-none absolute -right-8 -top-8 text-primary opacity-[0.06] transition-all duration-700 ease-out will-change-transform group-hover:scale-110 group-hover:rotate-6 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-[0.13]"
           aria-hidden="true"
         >
           <Icon name={PRIMARY_SERVICE.icon} class="text-[190px]" />
@@ -81,13 +96,30 @@ import { PRIMARY_SERVICE, SECONDARY_SERVICES, FORMATS } from '../data/services';
       <!-- Resto -->
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         {
-          SECONDARY_SERVICES.map((s) => (
-            <article class="glass-card group rounded-2xl p-6">
-              <div class="flex size-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-transform group-hover:scale-110">
-                <Icon name={s.icon} class="text-xl" />
+          SECONDARY_SERVICES.map((s, i) => (
+            <article class="glass-card group relative overflow-hidden rounded-2xl p-6">
+              {/* Icono grande de fondo, como en Space DEV. Cada tarjeta gira
+                  hacia un lado distinto para que la rejilla no se sienta
+                  repetida. */}
+              <div
+                class:list={[
+                  'pointer-events-none absolute -right-7 -top-7 text-primary opacity-[0.06]',
+                  'transition-all duration-700 ease-out will-change-transform',
+                  'group-hover:scale-110 group-hover:opacity-[0.13]',
+                  TILTS[i % TILTS.length],
+                ]}
+                aria-hidden="true"
+              >
+                <Icon name={s.icon} class="text-[130px]" />
               </div>
-              <h3 class="mt-5 text-lg font-bold tracking-tight">{s.title}</h3>
-              <p class="body-text mt-2.5 text-sm">{s.description}</p>
+
+              <div class="relative">
+                <div class="flex size-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-transform group-hover:scale-110">
+                  <Icon name={s.icon} class="text-xl" />
+                </div>
+                <h3 class="mt-5 text-lg font-bold tracking-tight">{s.title}</h3>
+                <p class="body-text mt-2.5 text-sm">{s.description}</p>
+              </div>
             </article>
           ))
         }
