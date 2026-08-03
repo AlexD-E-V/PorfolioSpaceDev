@@ -1,0 +1,128 @@
+---
+import Icon from './ui/Icon.astro';
+import MemberCard from './team/MemberCard.astro';
+import { PROJECTS, PORTFOLIO_URL } from '../data/projects';
+import { TEAM } from '../data/team';
+
+/* Antes esto era `Archivos.tsx`: filtros por categoría, expandir/colapsar,
+   SIGNAL_MAP y framer-motion entero para animar la rejilla — la sección más
+   trabajada del sitio, y la que más lo hacía parecer un portafolio.
+
+   Ahora son dos casos reales con su resultado, un enlace al portafolio
+   personal para quien quiera más, y las caras de quien lo hizo. Al quitar los
+   filtros se cayeron 138 KB de framer-motion del bundle. */
+---
+
+<section id="trabajo" class="relative w-full px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-6xl">
+
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow">Trabajo reciente</p>
+        <h2 class="display-2 mt-4">Casos, no galería</h2>
+      </div>
+      <p class="body-text max-w-[36ch] text-[0.95rem]">
+        Enseñamos pocos a propósito: los que explican cómo trabajamos y qué
+        consiguieron.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        PROJECTS.map((p) => (
+          <article class="glass-card group flex flex-col overflow-hidden rounded-2xl">
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <div
+                class="absolute inset-0 bg-cover bg-center grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                style={`background-image: url('${p.image}')`}
+                role="img"
+                aria-label={`Captura de ${p.title}`}
+              />
+              <div class="absolute inset-0 mission-overlay" />
+              <div class="scanline" />
+
+              <div class="absolute inset-x-0 bottom-0 flex flex-wrap gap-1.5 p-4">
+                {p.tags.map((t) => (
+                  <span class="rounded border border-white/20 bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider backdrop-blur-sm">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="flex flex-1 flex-col p-6">
+              <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
+                {p.role} · {p.year}
+              </p>
+              <h3 class="mt-2.5 text-xl font-bold tracking-tight">{p.title}</h3>
+              <p class="body-text mt-2.5 text-sm">{p.description}</p>
+
+              <div class="mt-5 border-t border-ink-600 pt-4">
+                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
+                  Resultado
+                </p>
+                <p class="mt-1.5 text-sm text-ink-50">{p.result}</p>
+              </div>
+
+              <div class="mt-5 flex items-center justify-between gap-3">
+                <span class="font-mono text-[10px] text-slate-400">{p.tech}</span>
+                {p.url && (
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visitar ${p.title} (se abre en una pestaña nueva)`}
+                    class="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-star-300"
+                  >
+                    Visitar
+                    <Icon name="travel_explore" class="text-sm" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+
+      <!-- Portafolio personal: deja esta página magra sin perder a quien
+           quiere profundidad, y evita que las dos compitan. -->
+      <a
+        href={PORTFOLIO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-card group flex flex-col items-start justify-center gap-4 rounded-2xl p-8 md:col-span-2 lg:col-span-1"
+      >
+        <Icon name="explore" class="text-3xl text-primary" />
+        <h3 class="text-xl font-bold tracking-tight">¿Quieres ver más?</h3>
+        <p class="body-text text-sm">
+          El resto del trabajo, con cada caso desglosado, está en el portafolio
+          personal de Alex.
+        </p>
+        <span
+          class="mt-1 inline-flex items-center gap-2 text-sm font-bold text-primary transition-all group-hover:gap-3.5"
+        >
+          Abrir portafolio
+          <Icon name="arrow_forward" />
+        </span>
+      </a>
+    </div>
+
+    <!-- Quién lo hizo -->
+    <div class="mt-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Quién está detrás</p>
+          <h3 class="display-3 mt-3">Dos personas, cuatro disciplinas</h3>
+        </div>
+        <p class="body-text max-w-[34ch] text-sm">
+          Trabajamos desde la latitud 0°, el punto donde empiezan las
+          coordenadas.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-5 lg:grid-cols-2">
+        {TEAM.map((member) => <MemberCard member={member} />)}
+      </div>
+    </div>
+  </div>
+</section>

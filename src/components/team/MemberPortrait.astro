@@ -5,34 +5,22 @@ import type { TeamMember } from '../../data/team';
 
 interface Props {
   member: TeamMember;
-  /** Tamaño del marco en unidades de Tailwind (size-48, size-24…). */
+  /** Tamaño del marco en unidades de Tailwind (size-32, size-40…). */
   size: string;
 }
 
 const { member, size } = Astro.props;
-const square = member.frame === 'square';
-const radius = square ? 'rounded-xl' : 'rounded-full';
-const innerRadius = square ? 'rounded-lg' : 'rounded-full';
 ---
 
 <div
   class:list={[
-    'relative overflow-hidden border-primary/30 bg-background-dark',
+    'relative overflow-hidden rounded-full border-2 border-primary/30 bg-background-dark p-1.5',
     size,
-    radius,
-    square
-      ? 'border-2 p-2 rotate-[-6deg] group-hover:rotate-[-3deg] transition-transform duration-500'
-      : member.featured
-        ? 'border-2 p-2'
-        : 'border p-1',
   ]}
 >
   {member.photo ? (
     <div
-      class:list={[
-        'w-full h-full bg-cover bg-center portrait-filter transition-all duration-500 ease-out group-hover:filter-none',
-        innerRadius,
-      ]}
+      class="w-full h-full rounded-full bg-cover bg-center portrait-filter transition-all duration-500 ease-out group-hover:filter-none"
       style={`background-image: url('${member.photo}');`}
       role="img"
       aria-label={`Retrato de ${member.name}`}
@@ -40,24 +28,15 @@ const innerRadius = square ? 'rounded-lg' : 'rounded-full';
     </div>
   ) : (
     <div
-      class:list={[
-        'w-full h-full flex items-center justify-center bg-primary/10 font-bold text-primary/70',
-        innerRadius,
-        member.featured ? 'text-5xl' : 'text-2xl',
-      ]}
+      class="w-full h-full rounded-full flex items-center justify-center bg-primary/10 text-4xl font-bold text-primary/70"
       aria-hidden="true"
     >
       {member.name.charAt(0)}
     </div>
   )}
 
-  {member.featured && (
-    <div
-      class:list={[
-        'absolute inset-0 brand-tint mix-blend-overlay opacity-100 group-hover:opacity-0 transition-opacity duration-500',
-        square && 'rounded-xl',
-      ]}
-    >
-    </div>
-  )}
+  <div
+    class="absolute inset-0 rounded-full brand-tint mix-blend-overlay opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+  >
+  </div>
 </div>

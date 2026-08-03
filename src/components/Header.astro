@@ -1,54 +1,49 @@
 ---
 import Logo from './ui/Logo.astro';
-import MobileMenu from "../components/MobileMenu.tsx";
+import MobileMenu from './MobileMenu.tsx';
+import { NAV_LINKS } from '../data/nav';
 ---
 
-<header class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl z-50">
-  <nav class="glass-panel rounded-xl px-8 lg:px-8 md:px-5 py-4 flex items-center justify-between shadow-2xl">
-    
-    <!-- LOGO -->
+<header class="fixed top-6 left-1/2 z-50 w-[92%] max-w-6xl -translate-x-1/2">
+  <nav
+    class="glass-panel flex items-center justify-between rounded-2xl px-6 py-3.5 shadow-2xl md:px-8"
+    aria-label="Principal"
+  >
     <a
-    href="#inicio"
-    class="flex items-center group cursor-pointer"
-    aria-label="Mizarium — volver al inicio"
+      href="#inicio"
+      class="group flex cursor-pointer items-center"
+      aria-label="Mizarium — volver al inicio"
     >
-    <Logo
+      <Logo
         variant="lockup"
         class="h-7 w-auto text-ink-50 transition-colors duration-300 group-hover:text-primary"
-    />
+      />
     </a>
 
-    <!-- NAV LINKS -->
-    <div class="hidden md:flex items-center gap-10 lg:gap-10 md:gap-4">
-      <a href="#manifiesto" class="text-md font-medium hover:text-primary transition-colors">
-        Manifiesto
-      </a>
-      <a href="#servicios" class="text-md font-medium hover:text-primary transition-colors">
-        Servicios
-      </a>
-      <a href="#archivos" class="text-md font-medium hover:text-primary transition-colors">
-        Archivos
-      </a>
-      <a href="#tripulacion" class="text-md font-medium hover:text-primary transition-colors">
-        Tripulación
-      </a>
-      <a href="#faq" class="text-md font-medium hover:text-primary transition-colors">
-        FAQ
-      </a>
+    <!-- Etiquetas en llano. Los nombres poéticos quedan para los títulos de
+         sección: en el menú cuestan orientación. Ver docs/MIZARIUM.md §4. -->
+    <div class="hidden items-center gap-8 md:flex lg:gap-10">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={`#${link.id}`}
+            class="text-[0.95rem] font-medium text-ink-200 transition-colors hover:text-primary"
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </div>
 
-    <!-- CTA -->
-    <div class="hidden md:flex items-center gap-4">
+    <div class="hidden md:flex">
       <a
         href="#contacto"
-        class="bg-primary hover:bg-star-300 text-on-primary text-md px-6 lg:px-6 md:px-4 py-2.5 rounded-lg font-bold transition-all duration-300 shadow-glow-sm"
+        class="rounded-full bg-primary px-6 py-2.5 text-[0.95rem] font-bold text-on-primary shadow-glow-sm transition-all duration-300 hover:bg-star-300"
       >
-        Contáctanos
+        Empezar
       </a>
     </div>
 
-    <!-- MOBILE MENU -->
     <MobileMenu client:load />
-
   </nav>
 </header>

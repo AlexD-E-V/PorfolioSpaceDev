@@ -1,145 +1,90 @@
 ---
 import Icon from './ui/Icon.astro';
-import DirectLink from '../components/DirectLink.tsx';
-import ContactForm from '../components/ContactForm.tsx';
+import DirectLink from './DirectLink.tsx';
+import ContactForm from './ContactForm.tsx';
+import FaqList from './FaqList.astro';
+
+/* Contacto absorbe la FAQ: las objeciones de compra —precio, plazo, propiedad
+   del código, soporte— se responden en el momento exacto de la duda y no a
+   media página de distancia. Con eso son cinco secciones y no seis. */
 ---
 
-<section id="contacto" class="py-32 px-6 max-w-6xl mx-auto relative">
-  <!-- Background blobs. Iban en `fixed`, así que se quedaban pegados al
-       viewport y acompañaban al visitante por toda la página en vez de
-       vivir solo en esta sección. -->
-  <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10"></div>
-  <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] -z-10"></div>
-
-  <!-- Header -->
-  <div class="mb-12 text-center">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
-      <span class="relative flex h-2 w-2">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-      </span>
-      Conexión Establecida
-    </div>
-
-    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-4 leading-tight">
-      Contácta<span class="text-cosmic">nos</span>
-    </h1>
-
-    <p class="text-white/60 max-w-xl mx-auto text-lg font-light leading-relaxed">
-      ¡Envíanos tu señal para iniciar tu odisea digital ahora!
-    </p>
+<section id="contacto" class="relative w-full px-6 py-28 md:py-32">
+  <!-- Antes estos blobs iban en `fixed`, así que acompañaban al visitante por
+       toda la página en vez de vivir solo aquí. -->
+  <div
+    class="absolute -left-20 top-1/4 -z-10 h-96 w-96 rounded-full bg-primary/[0.07] blur-[120px]"
+  >
+  </div>
+  <div
+    class="absolute -right-20 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-secondary/[0.07] blur-[120px]"
+  >
   </div>
 
-  <!-- Formulario -->
-  <ContactForm client:load />
+  <div class="mx-auto max-w-6xl">
 
-  <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- Cuartel General -->
-    <div class="glass-panel p-6 rounded-xl border border-white/5">
-      <div class="flex items-center gap-3 mb-4">
-        <Icon name="location_on" class="text-primary text-sm" />
-        <h5 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
-          Cuartel General
-        </h5>
+    <!-- Cabecera -->
+    <div class="text-center">
+      <div
+        class="inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/[0.06] px-4 py-1.5"
+      >
+        <span class="relative flex h-1.5 w-1.5">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
+          ></span>
+          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary"></span>
+        </span>
+        <span class="eyebrow">Aceptando proyectos</span>
       </div>
 
-      <p class="text-sm font-light text-white/60">
-        Sector 7G, Base Lunar Uno
+      <h2 class="display-2 mt-7 mx-auto max-w-[18ch]">
+        Dinos qué quieres <span class="text-cosmic">construir</span>
+      </h2>
+
+      <p class="lede mx-auto mt-6">
+        Elige por dónde empezar y te respondemos en menos de 24 h con una
+        primera valoración honesta — incluso si te decimos que no somos los
+        adecuados.
       </p>
-
-      <div class="aspect-video bg-white/5 rounded-lg mt-4 overflow-hidden border border-white/10 opacity-40 group relative">
-        
-        <!-- Rejilla de radar. Antes aquí había una imagen alojada en
-             lh3.googleusercontent.com/aida-public/…, una URL temporal que
-             íbamos a perder sin enterarnos. Ahora es CSS, no se rompe y
-             encaja mejor con el resto de la sección. -->
-        <div
-          class="absolute inset-0 transition-all duration-700 scale-110"
-          style="
-            background-color: rgb(var(--bg-deep));
-            background-image:
-              radial-gradient(circle at 64% 32%, rgb(var(--brand) / 0.25), transparent 45%),
-              linear-gradient(rgb(var(--brand) / 0.10) 1px, transparent 1px),
-              linear-gradient(90deg, rgb(var(--brand) / 0.10) 1px, transparent 1px);
-            background-size: 100% 100%, 18px 18px, 18px 18px;
-          ">
-        </div>
-
-        <!-- Capa energética -->
-        <div
-          class="
-            absolute inset-0
-            opacity-0
-            group-hover:opacity-100
-            transition-opacity duration-700
-            bg-gradient-to-r
-            from-transparent
-            via-primary/20
-            to-transparent
-            animate-[scan_3s_linear_infinite]
-            mix-blend-screen
-          ">
-        </div>
-
-        <!-- Distorsión -->
-        <div
-          class="
-            absolute inset-0
-            opacity-0
-            group-hover:opacity-100
-            transition-opacity duration-500
-            pointer-events-none
-            backdrop-blur-[1.5px]
-            bg-white/5
-            animate-[distort_4s_ease-in-out_infinite]
-          ">
-        </div>
-
-        <!-- Contacto detectado -->
-        <span
-          class="
-            absolute
-            w-2.5 h-2.5
-            rounded-full
-            bg-yellow-200 mix-blend-screen
-            opacity-0
-            blur-[0.6px]
-            shadow-[0_0_8px_rgba(253,224,71,1),0_0_20px_rgba(253,224,71,0.8)]
-            group-hover:animate-contact
-            group-hover:opacity-100
-          "
-          style="top: 32%; left: 64%;"
-        ></span>
-      </div>
     </div>
 
-    <!-- Enlace Directo -->
-    <DirectLink client:idle />
+    <div class="mt-14 grid gap-8 lg:grid-cols-[1.6fr_1fr] lg:items-start">
 
-    <!-- Disponibilidad -->
-    <div class="glass-panel p-6 rounded-xl border border-white/5 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center gap-3 mb-4">
-          <Icon name="schedule" class="text-primary text-sm" />
-          <h5 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
-            Disponibilidad
-          </h5>
+      <!-- Formulario -->
+      <ContactForm client:load />
+
+      <!-- Objeciones y datos -->
+      <aside class="space-y-8">
+        <div>
+          <p class="eyebrow">Antes de escribir</p>
+          <h3 class="mt-3 text-xl font-bold tracking-tight">
+            Lo que suelen preguntarnos
+          </h3>
+          <div class="mt-5">
+            <FaqList />
+          </div>
         </div>
 
-        <div class="flex items-center gap-2 mb-1">
-          <span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span class="text-sm font-light text-white/70">
-            Ventanas de Lanzamiento Abiertas
-          </span>
-        </div>
+        <DirectLink client:idle />
 
-        <p class="text-[9px] uppercase tracking-widest text-white/55 ml-4">
-          Aceptando nuevas misiones
-        </p>
-      </div>
+        <div class="glass-panel rounded-xl p-6">
+          <div class="mb-4 flex items-center gap-3">
+            <Icon name="location_on" class="text-sm text-primary" />
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+              Dónde estamos
+            </h4>
+          </div>
+
+          <p class="text-sm font-light text-white/70">Quito, Ecuador</p>
+          <p class="mt-1 font-mono text-[11px] text-slate-400">
+            LAT 0°00'00" · LON 78°27'00"
+          </p>
+          <p class="mt-4 text-sm italic leading-relaxed text-slate-400">
+            Trabajamos desde la latitud 0°, el punto donde empiezan las
+            coordenadas.
+          </p>
+        </div>
+      </aside>
     </div>
-
   </div>
-
 </section>

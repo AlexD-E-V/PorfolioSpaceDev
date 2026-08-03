@@ -1,158 +1,82 @@
 ---
 import Icon from './ui/Icon.astro';
+
+/* Hero centrado. La columna derecha asimétrica del sitio viejo se retiró:
+   ahí vivían las métricas inventadas ("LATENCIA_MS 0.0012", "4.2 TB/S") y una
+   tarjeta de "proyecto actual", que es lenguaje de portafolio. La tira de
+   capacidades de abajo hace su trabajo — mostrar amplitud — sin desviar la
+   atención del CTA. Ver docs/MIZARIUM.md §5. */
+
+const CAPABILITIES = [
+  'Web & e-commerce',
+  'Apps móviles',
+  'Videojuegos',
+  'VR / AR',
+  'Software a medida',
+];
 ---
 
-<section id="inicio" class="relative w-full pt-44 pb-32 px-6">
-  <div class="flex items-center justify-center">
-    <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<section id="inicio" class="relative w-full px-6 pt-40 pb-28 md:pt-48 md:pb-32">
+  <div class="mx-auto max-w-4xl text-center">
 
-      <!-- Columna izquierda -->
-      <div class="lg:col-span-8">
-
-        <!-- Estado -->
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-[10px] uppercase tracking-[0.2em] font-bold">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-          </span>
-          SISTEMA EN LÍNEA: V3.0.0
-        </div>
-
-        <!-- Título -->
-        <div class="mt-6">
-          <h1 class="text-7xl md:text-8xl font-bold leading-[0.9] tracking-tight">
-            MIZA<span class="text-cosmic">RIUM</span>
-          </h1>
-
-          <!-- Slogan -->
-           <div class="flex flex-row items-center mt-2 gap-4 md:gap-6">
-              <p class="text-2xl md:text-3xl italic tracking-widest text-primary glow-text">Donde las ideas despegan
-              </p>
-
-              <Icon name="rocket_launch" class="text-primary text-sm" /> 
-            </div>
-        </div>
-
-        <!-- Desarrollo -->
-        <p class="mt-8 mb-8 text-lg md:text-xl text-gray-400 max-w-xl font-light leading-relaxed text-pretty">
-          Transformamos ideas en productos digitales reales.
-          Desde páginas web hasta aplicaciones diseñadas para crecer y evolucionar.
-        </p>
-
-
-        <!-- CTAs -->
-        <div class="flex flex-wrap gap-4 pt-4">
-          <a 
-            href="#archivos"
-            class="group flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 active:scale-95 shadow-glow-lg">
-            Explorar Proyectos
-            <Icon name="arrow_forward" class="transition-transform group-hover:translate-x-1" />
-          </a>
-
-          <a
-            href="#manifiesto"
-            class="group flex items-center gap-2 border border-white/10 hover:border-primary/50 bg-white/5 px-8 py-4 rounded-xl text-lg font-bold transition-all backdrop-blur-sm"
-          >
-            Ver Manifiesto
-            <Icon name="terminal" class="text-primary" />
-          </a>
-        </div>
-      </div>
-
-      <!-- Columna derecha -->
-      <div class="lg:col-span-4 hidden lg:flex flex-col gap-6">
-
-        <!-- Estado del nodo -->
-        <div class="glass-panel p-6 rounded-xl space-y-4">
-          <div class="flex justify-between items-center border-b border-white/10 pb-2">
-            <span class="text-[10px] uppercase tracking-widest text-primary font-bold">
-              ESTADO DEL NODO
-            </span>
-            <Icon name="sensors" class="text-xs text-primary" />
-          </div>
-
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="data-stream-text text-gray-500 uppercase">LATENCIA_MS</span>
-              <span class="data-stream-text text-primary">0.0012</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="data-stream-text text-gray-500 uppercase">SINC_NÚCLEO</span>
-              <span class="data-stream-text text-primary">99.9%</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="data-stream-text text-gray-500 uppercase">RENDIMIENTO</span>
-              <span class="data-stream-text text-primary">4.2 TB/S</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card proyecto -->
-        <div class="relative aspect-square rounded-xl overflow-visible border border-white/5 bg-gradient-to-br from-white/5 to-transparent group p-4 flex flex-col justify-around">
-
-          <!-- Pantalla / Preview -->
-          <div class="relative z-10 w-full aspect-[3/2] rounded-xl overflow-hidden border border-primary/30 bg-black/50">
-
-            <!-- Imagen (BASE) -->
-            <div
-              class="absolute inset-0 z-10
-                    bg-[url('/projectsApps/PA_Pets.webp')]
-                    bg-cover bg-center
-                    transition-all duration-700
-                    opacity-[0.4] grayscale
-                    group-hover:opacity-100
-                    group-hover:grayscale-0
-                    group-hover:scale-110
-                    group-hover:skew-x-[0.5deg]">
-            </div>
-
-            <!-- Overlay azul / señal -->
-            <div class="absolute inset-0 z-20 bg-primary/15"></div>
-
-            <!-- Scanlines -->
-            <div class="absolute inset-0 z-30
-                        bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]
-                        bg-[length:100%_4px]
-                        opacity-30">
-            </div>
-
-            <!-- Glitch (interferencia vertical) -->
-            <div class="absolute inset-0 z-40 pointer-events-none
-                        bg-[linear-gradient(to_bottom,transparent_0%,rgb(var(--brand)/0.2)_50%,transparent_100%)]
-                        bg-[length:100%_6px]
-                        animate-glitch
-                        opacity-60
-                        mix-blend-screen">
-            </div>
-
-            <!-- Glow de pantalla (MARCO FINAL) -->
-            <div class="absolute inset-0 z-60
-                        ring-1 ring-primary/40
-                        shadow-glow-xl">
-            </div>
-
-          </div>
-
-          <!-- Info del proyecto (controles) -->
-          <div class="glass-panel rounded-lg p-4 flex items-center gap-4 z-20">
-            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <Icon name="phone_iphone" class="text-primary text-sm" />
-            </div>
-            <div>
-              <p class="text-[10px] text-gray-400 uppercase tracking-tighter">
-                PROYECTO ACTUAL
-              </p>
-              <p class="text-xs font-bold uppercase tracking-widest">
-                PROTOCOLO PETS
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
+    <!-- Estado -->
+    <div
+      class="inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/[0.06] px-4 py-1.5"
+    >
+      <span class="relative flex h-1.5 w-1.5">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
+        ></span>
+        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary"></span>
+      </span>
+      <span class="eyebrow">Estudio digital multidisciplinar</span>
     </div>
+
+    <!-- Título -->
+    <h1 class="display-1 mt-8 mx-auto max-w-[16ch]">
+      Lo que imaginas,
+      <span class="text-cosmic">construido</span>.
+    </h1>
+
+    <!-- Bajada: nombra la web primero, que es lo que se vende -->
+    <p class="lede mx-auto mt-8">
+      Diseñamos y programamos <strong class="font-semibold text-ink-50"
+        >páginas web que venden</strong
+      > — y desde ahí, apps, videojuegos y experiencias inmersivas. Un solo
+      equipo, del primer boceto al despliegue.
+    </p>
+
+    <!-- CTAs -->
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="#contacto"
+        class="group flex items-center gap-2.5 rounded-full bg-primary px-8 py-4 text-base font-bold text-on-primary shadow-glow-lg transition-all hover:bg-star-300 hover:scale-[1.03] active:scale-95"
+      >
+        Empezar un proyecto
+        <Icon name="arrow_forward" class="transition-transform group-hover:translate-x-1" />
+      </a>
+
+      <a
+        href="#servicios"
+        class="group flex items-center gap-2.5 rounded-full border border-ink-600 bg-white/[0.04] px-7 py-4 text-base font-semibold backdrop-blur-sm transition-all hover:border-ink-400 hover:bg-white/[0.07]"
+      >
+        Ver lo que hacemos
+        <Icon name="keyboard_arrow_down" class="text-primary transition-transform group-hover:translate-y-0.5" />
+      </a>
+    </div>
+
+    <!-- Tira de capacidades -->
+    <ul
+      class="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-mono text-[10px] uppercase tracking-[0.16em] text-slate-400"
+    >
+      {
+        CAPABILITIES.map((cap, i) => (
+          <>
+            {i > 0 && <li aria-hidden="true" class="text-primary/40">✦</li>}
+            <li>{cap}</li>
+          </>
+        ))
+      }
+    </ul>
   </div>
-
-
 </section>

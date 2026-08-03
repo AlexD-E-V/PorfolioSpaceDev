@@ -1,0 +1,135 @@
+---
+import Icon from './ui/Icon.astro';
+import { PRIMARY_SERVICE, SECONDARY_SERVICES, FORMATS } from '../data/services';
+
+/* El movimiento que reposiciona la página entera: la web ocupa una tarjeta
+   grande con entregables y CTA propio, y el resto son cuatro tarjetas
+   pequeñas al lado. Visualmente queda claro qué se vende y qué es extensión.
+
+   Antes esto era `Matriz.astro`, cuatro tarjetas iguales con un párrafo
+   genérico cada una y nada que un comprador pudiera evaluar. */
+---
+
+<section id="servicios" class="relative w-full px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-6xl">
+
+    <!-- Cabecera -->
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow">Servicios</p>
+        <h2 class="display-2 mt-4 max-w-[18ch]">
+          Empieza por la web.<br class="hidden sm:block" /> Sigue por donde quieras.
+        </h2>
+      </div>
+      <p class="body-text max-w-[38ch] text-[0.95rem]">
+        Cada servicio se contrata solo o encadenado. Lo habitual es empezar por
+        el sitio y volver con lo siguiente.
+      </p>
+    </div>
+
+    <!-- Servicio principal + secundarios -->
+    <div class="mt-12 grid gap-5 lg:grid-cols-2">
+
+      <!-- Web -->
+      <article
+        class="glass-card group relative overflow-hidden rounded-2xl p-8 md:p-10 !border-primary/35"
+      >
+        <div class="scanline"></div>
+
+        <!-- Icono decorativo de fondo -->
+        <div
+          class="pointer-events-none absolute -right-8 -top-8 text-primary opacity-[0.06] transition-all duration-700 group-hover:scale-110 group-hover:opacity-[0.12]"
+          aria-hidden="true"
+        >
+          <Icon name={PRIMARY_SERVICE.icon} class="text-[190px]" />
+        </div>
+
+        <div class="relative">
+          <span
+            class="inline-block rounded-full bg-primary px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-on-primary"
+          >
+            {PRIMARY_SERVICE.badge}
+          </span>
+
+          <h3 class="display-3 mt-6">{PRIMARY_SERVICE.title}</h3>
+
+          <p class="body-text mt-4 max-w-[46ch]">
+            {PRIMARY_SERVICE.description}
+          </p>
+
+          <ul class="mt-7 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            {
+              PRIMARY_SERVICE.deliverables.map((d) => (
+                <li class="flex items-start gap-2.5 text-sm text-ink-50">
+                  <span class="mt-[3px] text-primary" aria-hidden="true">✦</span>
+                  {d}
+                </li>
+              ))
+            }
+          </ul>
+
+          <a
+            href="#contacto"
+            class="group/cta mt-8 inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-star-300"
+          >
+            {PRIMARY_SERVICE.cta}
+            <Icon name="arrow_forward" class="transition-transform group-hover/cta:translate-x-1.5" />
+          </a>
+        </div>
+      </article>
+
+      <!-- Resto -->
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        {
+          SECONDARY_SERVICES.map((s) => (
+            <article class="glass-card group rounded-2xl p-6">
+              <div class="flex size-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-transform group-hover:scale-110">
+                <Icon name={s.icon} class="text-xl" />
+              </div>
+              <h3 class="mt-5 text-lg font-bold tracking-tight">{s.title}</h3>
+              <p class="body-text mt-2.5 text-sm">{s.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Formatos de contratación -->
+    <div class="mt-14 rounded-2xl border border-ink-600 bg-ink-900/60 p-8 md:p-10">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Formatos de trabajo</p>
+          <h3 class="display-3 mt-3">Tres maneras de trabajar con nosotros</h3>
+        </div>
+        <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400">
+          Presupuesto cerrado, siempre por escrito
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        {
+          FORMATS.map((f) => (
+            <div
+              class:list={[
+                'rounded-xl border p-6 transition-all duration-300',
+                f.featured
+                  ? 'border-primary/45 bg-primary/[0.06] shadow-glow-card'
+                  : 'border-ink-600 bg-white/[0.02] hover:border-ink-400',
+              ]}
+            >
+              <h4
+                class:list={[
+                  'text-lg font-bold tracking-tight',
+                  f.featured && 'text-star-300',
+                ]}
+              >
+                {f.title}
+              </h4>
+              <p class="body-text mt-2.5 text-sm">{f.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,362 +1,335 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { actions } from "astro:actions";
-import { Icon } from './ui/Icon';
-import type { IconName } from '../data/icons';
-import { CONTACT_EMAIL } from '../data/site';
+import { Icon } from "./ui/Icon";
+import { CONTACT_EMAIL } from "../data/site";
 
-const MISSION_TYPES: { id: string; label: string; icon: IconName }[] = [
-  { id: "web", label: "Desarrollo Web", icon: "language" },
-  { id: "gaming", label: "Gaming", icon: "videogame_asset" },
-  { id: "apps", label: "Mobile Apps", icon: "vibration" },
-  { id: "arvr", label: "AR / VR", icon: "view_in_ar" },
-  { id: "other", label: "Otros", icon: "settings_suggest" },
+/* El compositor es la mejor idea del HTML de referencia: el visitante arma su
+   propia frase con dos filas de chips y de paso queda calificado antes de
+   escribir nada. Sustituye a la rejilla de "Selección de Tipo de Misión".
+
+   La narrativa de la estrella vive aquí como MECÁNICA, no como etiqueta: se
+   pide algo y se construye, sin que la página tenga que decir la palabra.
+   Ver docs/MIZARIUM.md §4. */
+
+type MissionType = "web" | "gaming" | "apps" | "arvr" | "other";
+
+const KINDS: { id: string; label: string; phrase: string; mission: MissionType }[] = [
+  { id: "web", label: "una página web", phrase: "una página web", mission: "web" },
+  { id: "shop", label: "una tienda online", phrase: "una tienda online", mission: "web" },
+  { id: "app", label: "una app", phrase: "una app", mission: "apps" },
+  { id: "game", label: "un videojuego", phrase: "un videojuego", mission: "gaming" },
+  { id: "xr", label: "algo en VR/AR", phrase: "una experiencia en VR/AR", mission: "arvr" },
+  { id: "other", label: "otra cosa", phrase: "algo que aún no tiene nombre", mission: "other" },
 ];
 
+const GOALS = [
+  { id: "vender", label: "vender más", phrase: "vender más" },
+  { id: "lanzar", label: "lanzar pronto", phrase: "lanzarlo cuanto antes" },
+  { id: "renovar", label: "renovar mi marca", phrase: "renovar mi marca" },
+];
 
 export default function ContactForm() {
-  const [missionType, setMissionType] = useState("web");
+  const [kind, setKind] = useState(KINDS[0]);
+  const [goal, setGoal] = useState(GOALS[0]);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [showForm, setShowForm] = useState(true);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    email?: string;
-    message?: string;
-  }>({});
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+
+  const sentence = useMemo(() => `Quiero ${kind.phrase} para ${goal.phrase}.`, [kind, goal]);
 
   useEffect(() => {
     if (status !== "sent") return;
-
-    const timer = setTimeout(() => {
-      setShowForm(false);
-    }, 500);
-
+    const timer = setTimeout(() => setShowForm(false), 500);
     return () => clearTimeout(timer);
   }, [status]);
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
+    const formData = new FormData(e.currentTarget);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
     const message = String(formData.get("message") || "").trim();
 
     const newErrors: typeof errors = {};
+    if (name.length < 2) newErrors.name = "Escribe al menos 2 caracteres";
+    if (!email.includes("@")) newErrors.email = "Revisa el email";
+    if (message.length < 10) newErrors.message = "Cuéntanos un poco más (mínimo 10 caracteres)";
 
-    if (name.length < 2) {
-      newErrors.name = "El nombre debe tener al menos 2 caracteres";
-    }
-
-    if (!email.includes("@")) {
-      newErrors.email = "Frecuencia inválida. Revisa el email";
-    }
-
-    if (message.length < 10) {
-      newErrors.message = "Describe la misión con al menos 10 caracteres";
-    }
-
-    // 🚫 Si hay errores, NO se envía
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // ✅ Todo OK → seguimos flujo normal
     setErrors({});
     setStatus("sending");
 
     try {
-    const { error } = await actions.submitContact(formData);
-
-    if (error) throw new Error(error.message);
-
+      const { error } = await actions.submitContact(formData);
+      if (error) throw new Error(error.message);
       setStatus("sent");
     } catch {
       setStatus("error");
     }
   }
 
+  const chip = (active: boolean) =>
+    `rounded-full border px-4 py-2.5 text-sm transition-all duration-200 ${
+      active
+        ? "border-primary bg-primary/15 font-bold text-star-300"
+        : "border-ink-600 bg-white/[0.03] font-medium text-slate-400 hover:border-ink-400 hover:text-ink-50"
+    }`;
 
   return (
     <div className="relative">
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className={`
-            transition-all duration-500 ease-out
-            ${status === "sent"
-              ? "opacity-0 scale-[0.98] blur-sm pointer-events-none"
-              : "opacity-100 scale-100 blur-0"}
-          `}
+          className={`transition-all duration-500 ease-out ${
+            status === "sent"
+              ? "pointer-events-none scale-[0.98] opacity-0 blur-sm"
+              : "scale-100 opacity-100 blur-0"
+          }`}
         >
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            left: "-9999px",
-            width: "1px",
-            height: "1px",
-            overflow: "hidden",
-          }}
-        >
-          <label>
-            No completar este campo
-            <input
-              type="text"
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </label>
-        </div>
+          {/* Honeypot anti-spam */}
+          <div
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}
+          >
+            <label>
+              No completar este campo
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
 
-        <div className="glass-panel rounded-2xl relative overflow-hidden">
-          <div className="scanline"></div>
+          <input type="hidden" name="mission_type" value={kind.mission} />
+          <input type="hidden" name="goal" value={goal.phrase} />
 
-          <div className="p-8 md:p-10 space-y-16">
-            {/* ===================== SECCIÓN 01 ===================== */}
-            <section className="space-y-4">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="size-6 flex items-center justify-center rounded-full bg-primary/10 text-primary text-[9px] opacity-40 border border-primary/20">
-                  01
-                </span>
-                <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-white/70">
-                  Identidad del Nuevo Comandante
-                </h3>
-                <div className="h-px flex-1 bg-white/10"></div>
-              </div>
+          <div className="glass-panel relative overflow-hidden rounded-2xl">
+            <div className="scanline"></div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Nombre */}
-                <div className="group relative">
-                  <label className="block text-xs uppercase tracking-widest text-white/60 mb-4 group-focus-within:text-primary transition-colors">
-                    Nombre del Explorador
-                  </label>
-                  <div className="glow-input bg-white/5 rounded-lg flex items-center px-4">
-                    <Icon name="person" className="text-white/20 text-xs mr-3" />
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="Nombre completo"
-                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/55 focus:outline-none focus-visible:outline-none
-                        outline-none ring-0 focus:ring-0"
-                      onChange={() =>
-                        errors.name && setErrors((e) => ({ ...e, name: undefined }))
-                      }
-                    />
-                  </div>
+            <div className="space-y-12 p-7 md:p-10">
+
+              {/* ── Compositor ────────────────────────────────────── */}
+              <section className="text-center">
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                  Quiero…
+                </p>
+                <div className="mt-4 flex flex-wrap justify-center gap-2.5">
+                  {KINDS.map((k) => (
+                    <button
+                      key={k.id}
+                      type="button"
+                      onClick={() => setKind(k)}
+                      aria-pressed={kind.id === k.id}
+                      className={chip(kind.id === k.id)}
+                    >
+                      {k.label}
+                    </button>
+                  ))}
+                </div>
+
+                <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                  …para
+                </p>
+                <div className="mt-4 flex flex-wrap justify-center gap-2.5">
+                  {GOALS.map((g) => (
+                    <button
+                      key={g.id}
+                      type="button"
+                      onClick={() => setGoal(g)}
+                      aria-pressed={goal.id === g.id}
+                      className={chip(goal.id === g.id)}
+                    >
+                      {g.label}
+                    </button>
+                  ))}
+                </div>
+
+                <p
+                  className="mx-auto mt-9 max-w-[26ch] text-2xl italic leading-tight text-star-300 md:text-3xl"
+                  aria-live="polite"
+                >
+                  «{sentence}»
+                </p>
+              </section>
+
+              {/* ── Quién eres ────────────────────────────────────── */}
+              <section>
+                <div className="mb-6 flex items-center gap-3">
+                  <span className="flex size-6 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-[9px] text-primary">
+                    01
+                  </span>
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
+                    Quién eres
+                  </h3>
+                  <div className="h-px flex-1 bg-white/10"></div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="group">
+                    <label
+                      htmlFor="name"
+                      className="mb-3 block text-xs uppercase tracking-widest text-white/60 group-focus-within:text-primary"
+                    >
+                      Tu nombre
+                    </label>
+                    <div className="glow-input flex items-center rounded-lg bg-white/5 px-4">
+                      <Icon name="person" className="mr-3 text-xs text-white/40" />
+                      <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        required
+                        placeholder="Nombre y apellido"
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? "err-name" : undefined}
+                        onChange={() => errors.name && setErrors((e) => ({ ...e, name: undefined }))}
+                        className="w-full border-none bg-transparent px-0 py-3 font-light text-white outline-none ring-0 placeholder:text-white/55 focus:outline-none focus:ring-0"
+                      />
+                    </div>
                     {errors.name && (
-                      <p className="mt-2 text-[10px] uppercase tracking-widest text-red-400 flex items-center gap-1">
+                      <p
+                        id="err-name"
+                        role="alert"
+                        className="mt-2 flex items-center gap-1 text-[11px] uppercase tracking-widest text-red-400"
+                      >
                         <Icon name="error" className="text-xs" />
                         {errors.name}
                       </p>
                     )}
-                </div>
-
-                {/* Email */}
-                <div className="group relative">
-                  <label className="block text-xs uppercase tracking-widest text-white/60 mb-4 group-focus-within:text-primary transition-colors">
-                    Frecuencia de Enlace (Email)
-                  </label>
-                  <div className="glow-input bg-white/5 rounded-lg flex items-center px-4">
-                    <Icon name="alternate_email" className="text-white/20 text-xs mr-3" />
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="comandante@nave.space"
-                      className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/55 focus:outline-none focus-visible:outline-none
-                        outline-none ring-0 focus:ring-0"
-                      onChange={() =>
-                        errors.email && setErrors((e) => ({ ...e, email: undefined }))
-                      }
-                    />
                   </div>
-                  {errors.email && (
-                    <p className="mt-2 text-[10px] uppercase tracking-widest text-red-400 flex items-center gap-1">
-                      <Icon name="error" className="text-xs" />
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </section>
 
-            {/* ===================== SECCIÓN 02 ===================== */}
-            <section className="space-y-4">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="size-6 flex items-center justify-center rounded-full bg-primary/10 text-primary text-[9px] opacity-40 border border-primary/20">
-                  02
-                </span>
-                <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-white/70">
-                  Selección de Tipo de Misión
-                </h3>
-                <div className="h-px flex-1 bg-white/10"></div>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {MISSION_TYPES.map((mission) => (
-                  <label key={mission.id} className="cursor-pointer group">
-                    <input
-                      type="radio"
-                      name="mission_type"
-                      value={mission.id}
-                      checked={missionType === mission.id}
-                      onChange={() => setMissionType(mission.id)}
-                      required
-                      className="hidden"
-                    />
-
-                    <div
-                      className={`mission-type-card flex flex-col items-center justify-center gap-3 p-4 rounded-xl border transition-all text-center h-full ${
-                        missionType === mission.id
-                          ? "border-primary bg-primary/10"
-                          : "border-white/10 bg-white/5 hover:border-primary/50"
-                      }`}
+                  <div className="group">
+                    <label
+                      htmlFor="email"
+                      className="mb-3 block text-xs uppercase tracking-widest text-white/60 group-focus-within:text-primary"
                     >
-                      <Icon name={mission.icon} className="text-3xl text-white/60 group-hover:text-primary" />
-                      <p className="text-xs font-bold uppercase tracking-widest text-white/80">
-                        {mission.label}
-                      </p>
+                      Tu email
+                    </label>
+                    <div className="glow-input flex items-center rounded-lg bg-white/5 px-4">
+                      <Icon name="alternate_email" className="mr-3 text-xs text-white/40" />
+                      <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="nombre@empresa.com"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "err-email" : undefined}
+                        onChange={() => errors.email && setErrors((e) => ({ ...e, email: undefined }))}
+                        className="w-full border-none bg-transparent px-0 py-3 font-light text-white outline-none ring-0 placeholder:text-white/55 focus:outline-none focus:ring-0"
+                      />
                     </div>
-                  </label>
-                ))}
-              </div>
-            </section>
+                    {errors.email && (
+                      <p
+                        id="err-email"
+                        role="alert"
+                        className="mt-2 flex items-center gap-1 text-[11px] uppercase tracking-widest text-red-400"
+                      >
+                        <Icon name="error" className="text-xs" />
+                        {errors.email}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </section>
 
-            {/* ===================== SECCIÓN 03 ===================== */}
-            <section className="space-y-4">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="size-6 flex items-center justify-center rounded-full bg-primary/10 text-primary text-[9px] opacity-40 border border-primary/20">
-                  03
-                </span>
-                <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-white/70">
-                  Objetivos de la Misión
-                </h3>
-                <div className="h-px flex-1 bg-white/10"></div>
-              </div>
+              {/* ── El proyecto ───────────────────────────────────── */}
+              <section>
+                <div className="mb-6 flex items-center gap-3">
+                  <span className="flex size-6 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-[9px] text-primary">
+                    02
+                  </span>
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
+                    Cuéntanos
+                  </h3>
+                  <div className="h-px flex-1 bg-white/10"></div>
+                </div>
 
-              <div className="relative group">
+                <label htmlFor="message" className="sr-only">
+                  Detalles del proyecto
+                </label>
                 <textarea
+                  id="message"
                   name="message"
                   required
-                  placeholder="Describe tu proyecto, objetivos y cualquier detalle"
-                  className="w-full bg-white/5 glow-border-primary rounded-xl p-5 text-white font-light leading-relaxed placeholder:text-white/55 text-base h-32"
-                  onChange={() =>
-                    errors.message && setErrors((e) => ({ ...e, message: undefined }))
-                  }
+                  placeholder="¿Qué necesitas? Si tienes plazo, presupuesto aproximado o referencias que te gusten, cuéntanoslo aquí."
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "err-message" : undefined}
+                  onChange={() => errors.message && setErrors((e) => ({ ...e, message: undefined }))}
+                  className="glow-border-primary h-32 w-full rounded-xl bg-white/5 p-5 font-light leading-relaxed text-white placeholder:text-white/55"
                 />
-
-                {/* Terminal de Entrada de Datos */}
-                <div className="absolute -top-3 right-6 bg-background-dark border border-primary/50 px-3 py-1 rounded-full flex items-center gap-2">
-                  <span className="size-1.5 bg-primary animate-pulse rounded-full"></span>
-                  <span className="text-[9px] uppercase tracking-widest text-primary font-bold">
-                    Terminal de Entrada de Datos
-                  </span>
-                </div>
-
                 {errors.message && (
-                  <p className="mt-3 text-[11px] uppercase tracking-widest text-red-400 flex items-center gap-2 animate-fade-in">
+                  <p
+                    id="err-message"
+                    role="alert"
+                    className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-widest text-red-400"
+                  >
                     <Icon name="report" className="text-sm" />
                     {errors.message}
                   </p>
                 )}
+              </section>
 
-              </div>
-            </section>
-
-            {/* ===================== ENVÍO ===================== */}
-            <div className="flex flex-col items-center">
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className={`
-                  group relative flex flex-col items-center gap-3
-                  transition-transform
-                  ${status === "sending" ? "opacity-70 animate-pulse" : "hover:scale-105"}
-                `}
-              >
-                <div className="relative h-14 flex items-center justify-center overflow-hidden rounded-xl bg-primary text-on-primary font-black uppercase tracking-[0.4em] glow-cyan px-10">
-                  <span className="relative z-10 flex items-center gap-1">
-                    {status === "sending" ? "Transmitiendo…" : "Lanzar Misión"}
-                    <Icon name="rocket_launch" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-[#a5f3fc] to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-white/50">
-                  Confirmar secuencia de transmisión
-                </p>
-              </button>
-
-              {/* Antes, si Resend fallaba, se ponía status="error" y no se
-                  pintaba nada: el visitante se quedaba mirando el formulario
-                  intacto creyendo que se había enviado. */}
-              {status === "error" && (
-                <div
-                  role="alert"
-                  className="mt-6 w-full max-w-md animate-fade-in rounded-xl border border-red-400/40 bg-red-400/5 p-4 text-center"
+              {/* ── Envío ─────────────────────────────────────────── */}
+              <div className="flex flex-col items-center">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className={`group flex flex-col items-center gap-3 transition-transform ${
+                    status === "sending" ? "animate-pulse opacity-70" : "hover:scale-[1.03]"
+                  }`}
                 >
-                  <p className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-400">
-                    <Icon name="report" className="text-sm" />
-                    La transmisión no salió
-                  </p>
-                  <p className="mt-2 text-sm font-light leading-relaxed text-white/70">
-                    No pudimos enviar tu mensaje. Inténtalo de nuevo en un
-                    momento o escríbenos directamente a{" "}
-                    <a
-                      href={`mailto:${CONTACT_EMAIL}`}
-                      className="text-primary underline underline-offset-2"
-                    >
-                      {CONTACT_EMAIL}
-                    </a>
-                    .
-                  </p>
-                </div>
-              )}
+                  <span className="glow-cyan flex h-14 items-center justify-center gap-2.5 rounded-full bg-primary px-10 text-base font-black uppercase tracking-[0.2em] text-on-primary transition-colors group-hover:bg-star-300">
+                    {status === "sending" ? "Enviando…" : "Enviar"}
+                    <Icon name="arrow_forward" className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.28em] text-white/55">
+                    Respondemos en menos de 24 h
+                  </span>
+                </button>
+
+                {/* Antes, si el envío fallaba se ponía status="error" y no se
+                    pintaba nada: el visitante creía que se había enviado. */}
+                {status === "error" && (
+                  <div
+                    role="alert"
+                    className="animate-fade-in mt-6 w-full max-w-md rounded-xl border border-red-400/40 bg-red-400/5 p-4 text-center"
+                  >
+                    <p className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-400">
+                      <Icon name="report" className="text-sm" />
+                      No se pudo enviar
+                    </p>
+                    <p className="mt-2 text-sm font-light leading-relaxed text-white/70">
+                      Inténtalo de nuevo en un momento, o escríbenos directamente a{" "}
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary underline underline-offset-2">
+                        {CONTACT_EMAIL}
+                      </a>
+                      .
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
       )}
 
-      {/* PANEL DE ÉXITO */}
       {status === "sent" && (
-        <div
-          className={`
-            flex justify-center mt-16
-            transition-all duration-500 ease-out
-            ${status === "sent"
-              ? "opacity-100 scale-100 translate-y-0 delay-150"
-              : "opacity-0 scale-[0.95] translate-y-4 pointer-events-none"}
-          `}
-        >
-          <div className="glass-panel rounded-2xl relative overflow-hidden w-full">
-            <div className="scanline opacity-60"></div>
-
-            <div className="p-16 text-center space-y-4">
-              <Icon
-                name="check_circle"
-                className={`
-                  text-[4.5rem] text-primary
-                  drop-shadow-glow-lg
-                  transition-all duration-700 ease-out
-                  ${status === "sent"
-                    ? "scale-100 opacity-100 animate-[pulse_3s_ease-in-out_infinite]"
-                    : "scale-0 opacity-0"}
-                `}
-              />
-
-              <h3 className="text-lg font-bold uppercase tracking-[0.3em] text-primary transition-opacity duration-500 delay-200">
-                Misión recibida
-              </h3>
-
-              <p className="text-base uppercase tracking-widest text-white/60 transition-opacity duration-500 delay-300">
-                La transmisión fue exitosa. Pronto nos pondremos en contacto.
-              </p>
-            </div>
+        <div className="glass-panel relative overflow-hidden rounded-2xl">
+          <div className="scanline opacity-60"></div>
+          <div className="space-y-4 p-14 text-center">
+            <Icon
+              name="check_circle"
+              className="animate-[pulse_3s_ease-in-out_infinite] text-[4.5rem] text-primary drop-shadow-glow-lg"
+            />
+            <h3 className="text-lg font-bold uppercase tracking-[0.28em] text-primary">
+              Mensaje recibido
+            </h3>
+            <p className="text-base text-white/70">
+              Ya lo estamos mirando. Te respondemos en menos de 24 h.
+            </p>
           </div>
         </div>
       )}

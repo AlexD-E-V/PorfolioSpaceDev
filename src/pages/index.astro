@@ -1,37 +1,32 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import Manifiesto from '../components/Manifiesto.astro';
-import Matriz from '../components/Matriz.astro';
-import Archivos from '../components/Archivos.tsx';
-import Tripulacion from '../components/Tripulacion.astro';
+import Servicios from '../components/Servicios.astro';
+import Metodo from '../components/Metodo.astro';
+import Trabajo from '../components/Trabajo.astro';
 import Contacto from '../components/Contacto.astro';
-import { FAQ } from '../components/FAQ.tsx';
+
+/* Cinco secciones. Space DEV tenía siete y el diseño de referencia ocho.
+
+   Varias de las que faltan no se han recortado: se han absorbido. Los
+   formatos de contratación viven dentro de Servicios porque responden a "qué
+   compro"; el Sistema Mizar dentro de Método porque "un solo equipo, sin
+   traspasos" es un argumento de método; el equipo dentro de Trabajo porque la
+   prueba de quién lo hizo va junto a lo hecho; y la FAQ dentro de Contacto
+   porque las objeciones se responden donde se decide.
+
+   Ver docs/MIZARIUM.md §5. */
 ---
 
-<Layout 
+<Layout
   title="Mizarium — Estudio digital"
-  description="Mizarium es un estudio digital multidisciplinar. Diseñamos y programamos páginas web, y desde ahí apps, videojuegos y experiencias inmersivas. Un solo equipo, del primer boceto al despliegue."
+  description="Mizarium es un estudio digital multidisciplinar. Diseñamos y programamos páginas web que venden, y desde ahí apps, videojuegos y experiencias inmersivas. Un solo equipo, del primer boceto al despliegue."
 >
-  <main class="z-10">
-    
-    <!-- Hero / Top -->
+  <main>
     <Hero />
-    <!-- Manifiesto -->
-    <Manifiesto />
-    <!-- Matriz -->
-    <Matriz />
-    <!-- Archivos -->
-    <Archivos client:load/>
-    <!-- Equipo -->
-    <Tripulacion />
-    <!-- FAQ -->
-    <FAQ client:load/>
-    <!-- Contacto -->
+    <Servicios />
+    <Metodo />
+    <Trabajo />
     <Contacto />
-
   </main>
 </Layout>
-
-
-
