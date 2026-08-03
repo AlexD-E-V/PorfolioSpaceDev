@@ -2,31 +2,50 @@
 /* Logotipo de Mizarium.
 
    Los SVG originales de Illustrator viven en src/assets/logos/ y vienen con
-   un color fijo (#1d2331 el iso, #fff los lockups). Aquí se les quita ese
+   un color fijo (#1d2331 el iso, #fff los demás). Aquí se les quita ese
    relleno y se sustituye por currentColor, así que el color lo manda el CSS:
 
      <Logo variant="lockup" class="h-8 text-primary" />   → oro
      <Logo variant="iso"    class="h-6 text-ink-50" />    → blanco
 
-   Para cambiar el logo basta con reemplazar el archivo en src/assets/logos/:
-   no hay que tocar este componente ni copiar paths a ningún sitio. */
+   Para cambiar un logo basta con reemplazar su archivo: no hay paths
+   copiados dentro de ningún componente.
+
+   VARIANTES (proporción ancho/alto entre paréntesis)
+     iso              solo la estrella                       (0.82)
+     wordmark         solo el nombre, una línea             (11.57)
+     wordmark-stacked solo el nombre, dos líneas             (2.58)
+     lockup           estrella + nombre en una línea         (4.83)
+     lockup-compact   estrella + nombre en dos líneas        (2.90)
+     lockup-vertical  estrella encima del nombre             (0.75)
+
+   Las proporciones importan al elegir: `lockup` es muy apaisado y se queda
+   diminuto en espacios estrechos; ahí funciona mejor `lockup-compact`. */
 
 import iso from '../../assets/logos/iso.svg?raw';
+import wordmark from '../../assets/logos/wordmark.svg?raw';
+import wordmarkStacked from '../../assets/logos/wordmark-stacked.svg?raw';
 import lockup from '../../assets/logos/lockup.svg?raw';
+import lockupCompact from '../../assets/logos/lockup-compact.svg?raw';
 import lockupVertical from '../../assets/logos/lockup-vertical.svg?raw';
 
-type Variant = 'iso' | 'lockup' | 'lockup-vertical';
+/* Sin `export`: exportar una unión de tipos desde el frontmatter de un .astro
+   pasa `astro check` pero revienta el build (esbuild no la digiere). */
+type LogoVariant = 'iso' | 'wordmark' | 'wordmark-stacked' | 'lockup' | 'lockup-compact' | 'lockup-vertical';
 
 interface Props {
-  variant?: Variant;
+  variant?: LogoVariant;
   class?: string;
   /** Texto alternativo. Si se omite, el logo es decorativo (aria-hidden). */
   label?: string;
 }
 
-const SOURCES: Record<Variant, string> = {
+const SOURCES: Record<LogoVariant, string> = {
   iso,
+  wordmark,
+  'wordmark-stacked': wordmarkStacked,
   lockup,
+  'lockup-compact': lockupCompact,
   'lockup-vertical': lockupVertical,
 };
 
@@ -43,10 +62,7 @@ const svg = SOURCES[variant]
   /* Fuera el color quemado — pero se respeta fill="none", que en algunos
      logos marca huecos y no un relleno. */
   .replace(/\sfill="(?!none)[^"]*"/g, '')
-  .replace(
-    /<svg\b/,
-    `<svg fill="currentColor" class="${className}" ${a11y}`
-  );
+  .replace(/<svg\b/, `<svg fill="currentColor" class="${className}" ${a11y}`);
 ---
 
 <Fragment set:html={svg} />

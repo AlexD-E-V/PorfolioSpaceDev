@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
@@ -9,17 +8,16 @@ export default defineConfig({
      aquí y se propaga solo. */
   site: 'https://mizarium.com',
 
-  /* La landing es HTML que no cambia entre visitas: se prerenderiza y la
-     sirve el CDN. La action de contacto sigue ejecutándose bajo demanda
-     como función, que es lo único que necesita servidor.
+  /* Sitio 100% estático y SIN adaptador.
 
-     Antes era output:'server' con prerender:false, así que cada visita
-     arrancaba una función serverless para devolver siempre lo mismo. */
+     Antes esto era output:'server' con el adaptador de Vercel, y el único
+     motivo era que las Astro Actions del formulario necesitaban un servidor
+     Node. Al pasar el formulario a un PHP propio (public/contacto.php) ese
+     motivo desaparece: `astro build` produce HTML plano en dist/ y se sube
+     por FTP a Hostinger, donde ya está el dominio.
+
+     Ver docs/MIZARIUM.md §9ter. */
   output: 'static',
-
-  adapter: vercel({
-    webAnalytics: { enabled: false }
-  }),
 
   integrations: [tailwind(), react()],
 });

@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { actions } from "astro:actions";
 import { Icon } from "./ui/Icon";
-import { CONTACT_EMAIL } from "../data/site";
+import { CONTACT_EMAIL, CONTACT_ENDPOINT } from "../data/site";
 
 /* El compositor es la mejor idea del HTML de referencia: el visitante arma su
    propia frase con dos filas de chips y de paso queda calificado antes de
@@ -65,8 +64,15 @@ export default function ContactForm() {
     setStatus("sending");
 
     try {
-      const { error } = await actions.submitContact(formData);
-      if (error) throw new Error(error.message);
+      const res = await fetch(CONTACT_ENDPOINT, { method: "POST", body: formData });
+
+      /* Se comprueba el JSON y no solo `res.ok`. En desarrollo `astro dev` no
+         ejecuta PHP: sirve el archivo como texto plano y devolvería un 200
+         con el código fuente dentro. Exigir `ok === true` hace que ese caso
+         caiga en el estado de error, que es lo correcto. */
+      const data = await res.json().catch(() => null);
+      if (!res.ok || data?.ok !== true) throw new Error(data?.mensaje ?? "Error");
+
       setStatus("sent");
     } catch {
       setStatus("error");

@@ -1,107 +1,102 @@
-# 🌌 Space DEV - Sitio Web Oficial
+# Mizarium — Sitio web oficial
 
-Donde las ideas despegan 🚀
+Estudio digital multidisciplinar. Diseñamos y programamos páginas web, y desde
+ahí apps, videojuegos y experiencias inmersivas.
 
-Este repositorio contiene el sitio web oficial de Space DEV, un estudio creativo enfocado en el desarrollo de páginas web, aplicaciones, videojuegos, ar/vr y otros.
-
-La web fue construida priorizando rendimiento, estructura escalable y experiencia de usuario, siguiendo una arquitectura moderna basada en componentes.
-
----
-
-## 🚀 Stack Tecnológico
-- ⚡ Astro — Renderizado híbrido y performance optimizado
-- ⚛️ React — Componentes interactivos
-- 🎨 TailwindCSS — Sistema de diseño utilitario
-- 🟦 TypeScript — Tipado estático y mayor robustez
-- 📩 Resend — Envío de emails desde el formulario de contacto
-- 🛰 Astro Server Actions — Backend ligero integrado en el proyecto
-- 🌐 Hostinger (deploy con dominio propio)
+> Este proyecto era **Space DEV**. El último estado con esa marca está en el
+> tag [`v2.0.0`](../../releases/tag/v2.0.0).
 
 ---
 
-## ✨ Características Principales
-- Landing page optimizada para conversión
-- Sección de proyectos dinámica
-- Componentes reutilizables y modulares
-- Efectos visuales personalizados (glitch, noise, ambientación espacial)
-- Formulario de contacto funcional con envío real de correos
-- Diseño responsive y optimizado para dispositivos móviles
-- Enfoque en rendimiento y buenas prácticas
+## Stack
+
+| | |
+|---|---|
+| **Astro 5** | Sitio estático, sin adaptador ni servidor |
+| **React 19** | Solo en las tres islas que necesitan interacción |
+| **TailwindCSS 3** | Sobre variables CSS propias (`src/styles/tokens.css`) |
+| **TypeScript** | `astro check` limpio |
+| **PHP** | Un único archivo para el formulario (`public/contacto.php`) |
+| **Hostinger** | Alojamiento estático + dominio |
+
+**No hay backend Node.** El sitio se compila a HTML plano y lo único dinámico
+es el receptor del formulario, que es PHP corriendo en el propio Hostinger.
 
 ---
 
-## 📦 Instalación y uso
-
-Clona el repositorio:
+## Puesta en marcha
 
 ```bash
-git clone https://github.com/AlexSpaceDev/PorfolioSpaceDev.git
-cd PorfolioSpaceDev
 npm install
-```
-Inicia el servidor local de desarrollo:
-
-```bash
 npm run dev
-
 ```
-Crea una build de producción:
 
 ```bash
 npm run build
 ```
 
-Haz una vista previa de la build:
+La build queda en `dist/`. No hace falta ninguna variable de entorno: el
+correo de destino se configura dentro de `public/contacto.php`.
 
-```bash
-npm run preview
-```
 ---
 
-## 🔐 Variables de entorno
-Para que el formulario de contacto funcione correctamente, debes crear un archivo .env en la raíz del proyecto con:
-```bash
-RESEND_API_KEY=tu_api_key_aqui
-CONTACT_EMAIL=correo_destino@tudominio.com
-
-```
----
-
-## 📂 Estructura del proyecto
-
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura
 
 ```text
-/
-├── public/                # Archivos estáticos
-├── src/
-│   ├── components/        # Componentes React y Astro
-│   ├── layouts/           # Layouts base
-│   ├── pages/             # Rutas del sitio
-│   ├── styles/            # Configuración global y estilos
-│   └── actions/           # Server Actions (formulario, etc.)
-├── astro.config.mjs
-├── tailwind.config.mjs
-└── package.json
-
+public/
+  contacto.php          receptor del formulario (se ejecuta en Hostinger)
+  favicon.svg og.png …  generados por scripts/gen-brand-assets.cjs
+src/
+  assets/logos/         SVG originales del logo (6 variantes)
+  components/           secciones + ui/ (Icon, Logo) + team/
+  data/                 servicios, proyectos, método, equipo, FAQ, iconos, nav
+  layouts/              Layout.astro
+  pages/                index.astro
+  styles/               tokens.css · type.css · globals.css · effects.css
+scripts/
+  gen-icons.cjs         extrae los SVG de los iconos que se usan
+  gen-brand-assets.cjs  genera favicon, apple-touch-icon y la imagen social
+docs/                   documentación de marca y plan (local, no versionada)
 ```
 
-## 🌍 Deploy
-El proyecto está preparado para deploy en entornos compatibles con Astro (Node o adaptadores).
-Puede desplegarse en servicios como:
+**Todo el contenido vive en `src/data/`.** Añadir un servicio, un proyecto o
+una persona al equipo es editar un objeto, no tocar markup.
 
-- Vercel
-- Netlify
-- Hostinger (Node compatible)
-- Servidores VPS
+**Todo el color sale de `src/styles/tokens.css`.** No hay hex en los
+componentes: `--brand` es la marca (oro), `--atmos` la atmósfera (cian) y
+`--ink-*` la superficie.
 
-## 📖 Notas
-El sitio no es solo una vitrina, es una declaración de identidad:
-- Diseño con intención
-- Código estructurado y escalable
-- Estética espacial como narrativa visual
-- Tecnología moderna aplicada con propósito
+---
 
-## ✍️ Autor: Space DEV
-🌌 https://spacedev.me
+## Despliegue en Hostinger
 
+1. `npm run build`
+2. Subir el **contenido** de `dist/` a `public_html/` por FTP o desde el
+   Administrador de archivos.
+3. Comprobar que `contacto.php` quedó en la raíz y abrir la web.
+
+Antes del primer despliegue hay que editar tres valores al principio de
+`public/contacto.php`: el correo de destino, el remitente (tiene que ser una
+dirección `@mizarium.com` o Hostinger rechaza el envío) y los orígenes
+permitidos.
+
+> `astro dev` no ejecuta PHP, así que en local el formulario mostrará el
+> estado de error. Para probarlo de verdad: `php -S localhost:8080 -t dist`.
+
+---
+
+## Scripts propios
+
+```bash
+node scripts/gen-icons.cjs          # regenera src/data/icons.ts
+node scripts/gen-brand-assets.cjs   # regenera favicon, iconos y og.png
+```
+
+El primero solo hace falta al añadir un icono nuevo; el segundo, al cambiar
+el logo o la paleta.
+
+---
+
+## Autoría
+
+Mizarium — Quito, Ecuador. Latitud 0°.
