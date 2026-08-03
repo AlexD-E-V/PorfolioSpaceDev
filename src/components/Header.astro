@@ -1,5 +1,5 @@
 ---
-import Icon from './ui/Icon.astro';
+import Logo from './ui/Logo.astro';
 import MobileMenu from "../components/MobileMenu.tsx";
 ---
 
@@ -9,16 +9,13 @@ import MobileMenu from "../components/MobileMenu.tsx";
     <!-- LOGO -->
     <a
     href="#inicio"
-    class="flex items-center gap-3 group cursor-pointer"
-    aria-label="Volver al inicio"
+    class="flex items-center group cursor-pointer"
+    aria-label="Mizarium — volver al inicio"
     >
-    <div class="text-primary transition-transform group-hover:scale-110">
-        <Icon name="rocket_launch" class="text-3xl" />
-    </div>
-
-    <span class="text-xl font-bold tracking-tighter uppercase whitespace-nowrap group-hover:text-primary transition-colors">
-        Space DEV
-    </span>
+    <Logo
+        variant="lockup"
+        class="h-7 w-auto text-ink-50 transition-colors duration-300 group-hover:text-primary"
+    />
     </a>
 
     <!-- NAV LINKS -->

@@ -1,0 +1,52 @@
+---
+/* Logotipo de Mizarium.
+
+   Los SVG originales de Illustrator viven en src/assets/logos/ y vienen con
+   un color fijo (#1d2331 el iso, #fff los lockups). Aquí se les quita ese
+   relleno y se sustituye por currentColor, así que el color lo manda el CSS:
+
+     <Logo variant="lockup" class="h-8 text-primary" />   → oro
+     <Logo variant="iso"    class="h-6 text-ink-50" />    → blanco
+
+   Para cambiar el logo basta con reemplazar el archivo en src/assets/logos/:
+   no hay que tocar este componente ni copiar paths a ningún sitio. */
+
+import iso from '../../assets/logos/iso.svg?raw';
+import lockup from '../../assets/logos/lockup.svg?raw';
+import lockupVertical from '../../assets/logos/lockup-vertical.svg?raw';
+
+type Variant = 'iso' | 'lockup' | 'lockup-vertical';
+
+interface Props {
+  variant?: Variant;
+  class?: string;
+  /** Texto alternativo. Si se omite, el logo es decorativo (aria-hidden). */
+  label?: string;
+}
+
+const SOURCES: Record<Variant, string> = {
+  iso,
+  lockup,
+  'lockup-vertical': lockupVertical,
+};
+
+const { variant = 'lockup', class: className = 'h-8 w-auto', label } = Astro.props;
+
+const a11y = label
+  ? `role="img" aria-label="${label}"`
+  : 'role="presentation" aria-hidden="true"';
+
+const svg = SOURCES[variant]
+  /* Sin width/height el SVG toma su proporción del viewBox y se deja
+     dimensionar por CSS. */
+  .replace(/\s(?:width|height)="[^"]*"/g, '')
+  /* Fuera el color quemado — pero se respeta fill="none", que en algunos
+     logos marca huecos y no un relleno. */
+  .replace(/\sfill="(?!none)[^"]*"/g, '')
+  .replace(
+    /<svg\b/,
+    `<svg fill="currentColor" class="${className}" ${a11y}`
+  );
+---
+
+<Fragment set:html={svg} />

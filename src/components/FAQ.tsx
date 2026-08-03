@@ -10,7 +10,7 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     id: 'faq-1',
-    question: '¿Cómo iniciamos un proyecto en Space DEV?',
+    question: '¿Cómo iniciamos un proyecto en Mizarium?',
     answer:
       'El proceso comienza con una reunión inicial donde analizamos tus objetivos, necesidades y alcance del proyecto. A partir de ahí definimos una propuesta clara y, una vez aprobada, iniciamos el desarrollo con un primer entregable funcional en poco tiempo.'
   },

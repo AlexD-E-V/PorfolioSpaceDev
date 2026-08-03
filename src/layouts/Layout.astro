@@ -20,6 +20,12 @@ interface Props {
 }
 
 const { description, title } = Astro.props;
+
+/* `Astro.site` sale de astro.config.mjs. El fallback evita que reviente si
+   se compila sin él. */
+const base = Astro.site ?? new URL('https://mizarium.com');
+const canonical = new URL(Astro.url.pathname, base);
+const ogImage = new URL('/og.png', base);
 ---
 
 <!doctype html>
@@ -28,9 +34,32 @@ const { description, title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/faviconSD.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+
+    <!-- Iconos. Generados por scripts/gen-brand-assets.cjs -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0B0F1A" />
+
+    <!-- Compartir. Sin esto, un enlace a la web no muestra nada en
+         WhatsApp ni en LinkedIn. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mizarium" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mizarium — estudio digital" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
 
   <body class="relative min-h-screen overflow-x-hidden bg-background-dark text-white font-sans">

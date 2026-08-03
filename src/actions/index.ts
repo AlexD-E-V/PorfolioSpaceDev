@@ -28,7 +28,7 @@ export const server = {
 
       try {
         await resend.emails.send({
-          from: "Space DEV <onboarding@resend.dev>",
+          from: "Mizarium <onboarding@resend.dev>",
           to: contactEmail,
           subject: `Nueva misión: ${data.mission_type.toUpperCase()}`,
           html:`

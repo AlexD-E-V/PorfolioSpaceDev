@@ -4,6 +4,11 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
 export default defineConfig({
+  /* Necesario para las URL canónicas y las etiquetas Open Graph, y más
+     adelante para el sitemap. Si el dominio final no es este, se cambia
+     aquí y se propaga solo. */
+  site: 'https://mizarium.com',
+
   /* La landing es HTML que no cambia entre visitas: se prerenderiza y la
      sirve el CDN. La action de contacto sigue ejecutándose bajo demanda
      como función, que es lo único que necesita servidor.

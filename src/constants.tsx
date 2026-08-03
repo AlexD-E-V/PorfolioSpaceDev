@@ -18,12 +18,12 @@ export const PROJECTS: Project[] = [
 
   {
     id: 'space-dev',
-    title: 'Space DEV',
+    title: 'Mizarium',
     category: Category.WEB,
     image: '/projectsWeb/PW_Spacedev.webp',
     tags: ['Estudio Creativo', 'Web'],
     description:
-      'Creadores de Spacedev.me, presentando nuestra marca/estudio dentro de una experiencia web fluida, accesible y cósmica.',
+      'Nuestro propio sitio: la marca y el estudio dentro de una experiencia web fluida, accesible y cósmica.',
     status: 'En Vivo',
     tech: 'Astro / React / TailwindCSS / TS',
     url: '#inicio',

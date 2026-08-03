@@ -1,26 +1,18 @@
 ---
+import Logo from './ui/Logo.astro';
+
 const year = new Date().getFullYear();
 ---
 
+<footer class="py-12 px-6 border-t border-white/5 text-center">
+  <!-- Antes había un rombo genérico que no era de la marca. -->
+  <Logo variant="iso" class="h-8 w-auto mx-auto mb-6 text-white/40" />
 
-<footer class="py-12 px-2 border-t border-white/5 text-center">
-  <div class="size-6 mx-auto mb-6 text-white/50">
-    <svg
-      fill="none"
-      viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        clip-rule="evenodd"
-        fill-rule="evenodd"
-        d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
-        fill="currentColor"
-      />
-    </svg>
-  </div>
+  <p class="text-xs uppercase tracking-[0.4em] text-white/55">
+    Mizarium © {year}. La exploración es nuestra esencia.
+  </p>
 
-  <p class="text-xs uppercase tracking-[0.4em] text-white/50">
-    Space DEV © {year}. La exploración es nuestra esencia.
+  <p class="mt-3 text-[10px] uppercase tracking-[0.3em] text-white/50">
+    Antes Space DEV · Latitud 0°
   </p>
 </footer>
