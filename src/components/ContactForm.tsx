@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
 import { actions } from "astro:actions";
+import { Icon } from './ui/Icon';
+import type { IconName } from '../data/icons';
+import { CONTACT_EMAIL } from '../data/site';
+
+const MISSION_TYPES: { id: string; label: string; icon: IconName }[] = [
+  { id: "web", label: "Desarrollo Web", icon: "language" },
+  { id: "gaming", label: "Gaming", icon: "videogame_asset" },
+  { id: "apps", label: "Mobile Apps", icon: "vibration" },
+  { id: "arvr", label: "AR / VR", icon: "view_in_ar" },
+  { id: "other", label: "Otros", icon: "settings_suggest" },
+];
 
 
 export default function ContactForm() {
@@ -124,9 +135,7 @@ export default function ContactForm() {
                     Nombre del Explorador
                   </label>
                   <div className="glow-input bg-white/5 rounded-lg flex items-center px-4">
-                    <span className="material-symbols-outlined text-white/20 text-xs mr-3">
-                      person
-                    </span>
+                    <Icon name="person" className="text-white/20 text-xs mr-3" />
                     <input
                       type="text"
                       name="name"
@@ -134,11 +143,14 @@ export default function ContactForm() {
                       placeholder="Nombre completo"
                       className="w-full bg-transparent border-none py-3 px-0 text-white font-light placeholder:text-white/30 focus:outline-none focus-visible:outline-none
                         outline-none ring-0 focus:ring-0"
+                      onChange={() =>
+                        errors.name && setErrors((e) => ({ ...e, name: undefined }))
+                      }
                     />
                   </div>
                     {errors.name && (
                       <p className="mt-2 text-[10px] uppercase tracking-widest text-red-400 flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">error</span>
+                        <Icon name="error" className="text-xs" />
                         {errors.name}
                       </p>
                     )}
@@ -150,9 +162,7 @@ export default function ContactForm() {
                     Frecuencia de Enlace (Email)
                   </label>
                   <div className="glow-input bg-white/5 rounded-lg flex items-center px-4">
-                    <span className="material-symbols-outlined text-white/20 text-xs mr-3">
-                      alternate_email
-                    </span>
+                    <Icon name="alternate_email" className="text-white/20 text-xs mr-3" />
                     <input
                       type="email"
                       name="email"
@@ -167,7 +177,7 @@ export default function ContactForm() {
                   </div>
                   {errors.email && (
                     <p className="mt-2 text-[10px] uppercase tracking-widest text-red-400 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-xs">error</span>
+                      <Icon name="error" className="text-xs" />
                       {errors.email}
                     </p>
                   )}
@@ -188,13 +198,7 @@ export default function ContactForm() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {[
-                  { id: "web", label: "Desarrollo Web", icon: "language" },
-                  { id: "gaming", label: "Gaming", icon: "videogame_asset" },
-                  { id: "apps", label: "Mobile Apps", icon: "vibration" },
-                  { id: "arvr", label: "AR / VR", icon: "view_in_ar" },
-                  { id: "other", label: "Otros", icon: "settings_suggest" },
-                ].map((mission) => (
+                {MISSION_TYPES.map((mission) => (
                   <label key={mission.id} className="cursor-pointer group">
                     <input
                       type="radio"
@@ -213,9 +217,7 @@ export default function ContactForm() {
                           : "border-white/10 bg-white/5 hover:border-primary/50"
                       }`}
                     >
-                      <span className="material-symbols-outlined text-3xl text-white/40 group-hover:text-primary">
-                        {mission.icon}
-                      </span>
+                      <Icon name={mission.icon} className="text-3xl text-white/40 group-hover:text-primary" />
                       <p className="text-xs font-bold uppercase tracking-widest text-white/80">
                         {mission.label}
                       </p>
@@ -258,7 +260,7 @@ export default function ContactForm() {
 
                 {errors.message && (
                   <p className="mt-3 text-[11px] uppercase tracking-widest text-red-400 flex items-center gap-2 animate-fade-in">
-                    <span className="material-symbols-outlined text-sm">report</span>
+                    <Icon name="report" className="text-sm" />
                     {errors.message}
                   </p>
                 )}
@@ -280,7 +282,7 @@ export default function ContactForm() {
                 <div className="relative h-14 flex items-center justify-center overflow-hidden rounded-xl bg-primary text-background-dark font-black uppercase tracking-[0.4em] glow-cyan px-10">
                   <span className="relative z-10 flex items-center gap-1">
                     {status === "sending" ? "Transmitiendo…" : "Lanzar Misión"}
-                    <span className="material-symbols-outlined">rocket_launch</span>
+                    <Icon name="rocket_launch" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-primary via-[#a5f3fc] to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
@@ -288,6 +290,32 @@ export default function ContactForm() {
                   Confirmar secuencia de transmisión
                 </p>
               </button>
+
+              {/* Antes, si Resend fallaba, se ponía status="error" y no se
+                  pintaba nada: el visitante se quedaba mirando el formulario
+                  intacto creyendo que se había enviado. */}
+              {status === "error" && (
+                <div
+                  role="alert"
+                  className="mt-6 w-full max-w-md animate-fade-in rounded-xl border border-red-400/40 bg-red-400/5 p-4 text-center"
+                >
+                  <p className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-400">
+                    <Icon name="report" className="text-sm" />
+                    La transmisión no salió
+                  </p>
+                  <p className="mt-2 text-sm font-light leading-relaxed text-white/70">
+                    No pudimos enviar tu mensaje. Inténtalo de nuevo en un
+                    momento o escríbenos directamente a{" "}
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="text-primary underline underline-offset-2"
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -309,19 +337,17 @@ export default function ContactForm() {
             <div className="scanline opacity-60"></div>
 
             <div className="p-16 text-center space-y-4">
-              <span
+              <Icon
+                name="check_circle"
                 className={`
-                  material-symbols-outlined text-primary
-                  drop-shadow-[0_0_25px_rgba(56,189,248,0.6)]
+                  text-[4.5rem] text-primary
+                  drop-shadow-glow-lg
                   transition-all duration-700 ease-out
                   ${status === "sent"
                     ? "scale-100 opacity-100 animate-[pulse_3s_ease-in-out_infinite]"
                     : "scale-0 opacity-0"}
                 `}
-                style={{ fontSize: "4.5rem" }}
-              >
-                check_circle
-              </span>
+              />
 
               <h3 className="text-lg font-bold uppercase tracking-[0.3em] text-primary transition-opacity duration-500 delay-200">
                 Misión recibida

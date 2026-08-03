@@ -1,4 +1,5 @@
 ---
+import '../styles/tokens.css';
 import '../styles/globals.css';
 import '../styles/effects.css';
 
@@ -7,8 +8,6 @@ import '@fontsource/space-grotesk/400.css';
 import '@fontsource/space-grotesk/500.css';
 import '@fontsource/space-grotesk/600.css';
 import '@fontsource/space-grotesk/700.css';
-
-import 'material-symbols';
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -27,7 +26,7 @@ const { description, title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/faviconSD.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -58,7 +57,7 @@ const { description, title } = Astro.props;
     color-scheme: dark;
   }
 
-  html {  
+  html {
     scroll-behavior: smooth;
   }
 
@@ -68,20 +67,26 @@ const { description, title } = Astro.props;
     min-height: 100vh;
   }
 
+  /* El header es fijo y mide ~6rem con su offset superior. Sin esto, los
+     enlaces de ancla dejan el título de cada sección debajo del header. */
+  section[id] {
+    scroll-margin-top: 7rem;
+  }
+
   .data-stream-text {
     @apply font-mono text-[10px] tracking-widest uppercase text-primary/60;
   }
 
   .social-icon-glow {
     @apply transition-all duration-300 hover:text-primary;
-    filter: drop-shadow(0 0 2px rgba(0, 225, 255, 0.3));
+    filter: drop-shadow(0 0 2px rgb(var(--brand) / 0.3));
   }
 
   .mission-type-card.active {
     @apply border-primary bg-primary/10;
   }
 
-  .mission-type-card.active span.material-symbols-outlined {
+  .mission-type-card.active svg {
     @apply text-primary;
   }
 

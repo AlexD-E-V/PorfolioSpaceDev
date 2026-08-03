@@ -1,0 +1,98 @@
+---
+/* Tarjeta de miembro. Dos variantes según `featured`:
+     · destacada — ocupa dos columnas, retrato grande, código, área y frase
+     · compacta  — una columna, centrada, con línea de especialidad */
+import type { TeamMember } from '../../data/team';
+import MemberPortrait from './MemberPortrait.astro';
+import SocialLink from './SocialLink.astro';
+
+interface Props {
+  member: TeamMember;
+}
+
+const { member } = Astro.props;
+const socials = Object.entries(member.socials) as [
+  keyof TeamMember['socials'],
+  string,
+][];
+---
+
+{member.featured ? (
+  <article class="lg:col-span-2 glass-card rounded-xl p-8 flex flex-col md:flex-row gap-8 items-center neon-glow group transition-all duration-500 relative">
+    {socials.length > 0 && (
+      <div class="absolute top-6 right-8 flex gap-4">
+        {socials.map(([network, href]) => (
+          <SocialLink network={network} href={href} name={member.name} />
+        ))}
+      </div>
+    )}
+
+    <div class="relative">
+      <div
+        class:list={[
+          'absolute inset-0 bg-primary/20 blur-xl group-hover:bg-primary/40 transition-all',
+          member.frame === 'square' ? 'rounded-xl' : 'rounded-full',
+        ]}
+      >
+      </div>
+      <MemberPortrait member={member} size={member.frame === 'square' ? 'size-44' : 'size-48'} />
+    </div>
+
+    <div class="flex-1 space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] font-mono text-primary border border-primary/40 px-2 py-0.5 rounded">
+          {member.code}
+        </span>
+        <span class="text-[10px] font-mono text-slate-500 uppercase">
+          {member.area}
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-bold tracking-tight">{member.name}</h3>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase">
+          {member.role}
+        </span>
+        {member.secondaryRole && (
+          <span class="bg-white/5 text-slate-400 text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase">
+            {member.secondaryRole}
+          </span>
+        )}
+      </div>
+
+      {member.focus && <p class="text-slate-400 text-sm italic">{member.focus}</p>}
+    </div>
+  </article>
+) : (
+  <article class="glass-card rounded-xl p-6 flex flex-col items-center text-center neon-glow group transition-all duration-500 relative">
+    {socials.length > 0 && (
+      <div class="absolute top-6 right-6 flex gap-3">
+        {socials.map(([network, href]) => (
+          <SocialLink network={network} href={href} name={member.name} />
+        ))}
+      </div>
+    )}
+
+    <div class="relative mb-6">
+      <MemberPortrait member={member} size="size-24" />
+      <div class="absolute inset-0 rounded-full border border-primary/0 group-hover:border-primary/50 transition-all scale-110 group-hover:scale-125">
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold mb-2">{member.name}</h3>
+
+    <span class="text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase mb-4">
+      {member.role}
+    </span>
+
+    <div class="w-full h-px bg-white/5 my-4"></div>
+
+    <div class="flex gap-4 w-full text-left">
+      <div>
+        <p class="text-xs text-primary uppercase tracking-normal">Especialidad</p>
+        <p class="text-sm text-white">{member.specialty}</p>
+      </div>
+    </div>
+  </article>
+)}

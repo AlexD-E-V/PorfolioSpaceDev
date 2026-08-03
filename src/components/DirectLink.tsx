@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Icon } from './ui/Icon';
+import { CONTACT_EMAIL } from '../data/site';
 
-const EMAIL = "spacedev.me@gmail.com";
+const EMAIL = CONTACT_EMAIL;
 
 export default function DirectLink() {
   const [copied, setCopied] = useState(false);
@@ -22,9 +24,7 @@ export default function DirectLink() {
     <div className="glass-panel p-6 rounded-xl border border-white/5">
       {/* Header */}
       <div className="flex items-center gap-3 mb-4">
-        <span className="material-symbols-outlined text-primary text-sm">
-          sensors
-        </span>
+        <Icon name="sensors" className="text-primary text-sm" />
         <h5 className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
           Enlace Directo
         </h5>
@@ -48,9 +48,7 @@ export default function DirectLink() {
           aria-label="Copiar email"
           className="group size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 transition-all"
         >
-          <span className="material-symbols-outlined text-sm text-white/60 group-hover:text-primary transition-colors">
-            content_copy
-          </span>
+          <Icon name="content_copy" className="text-sm text-white/60 group-hover:text-primary transition-colors" />
         </button>
       </div>
 

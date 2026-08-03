@@ -1,3 +1,6 @@
+---
+import Icon from './ui/Icon.astro';
+---
 
 <section id="inicio" class="relative w-full pt-44 pb-32 px-6">
   <div class="flex items-center justify-center">
@@ -26,12 +29,10 @@
 
           <!-- Slogan -->
            <div class="flex flex-row items-center mt-2 gap-4 md:gap-6">
-              <p class="text-2xl md:text-3xl italic tracking-widest text-primary glow-text align-text">Donde las ideas despegan
+              <p class="text-2xl md:text-3xl italic tracking-widest text-primary glow-text">Donde las ideas despegan
               </p>
 
-              <span class="material-symbols-outlined text-primary text-sm">
-                  rocket_launch
-                </span> 
+              <Icon name="rocket_launch" class="text-primary text-sm" /> 
             </div>
         </div>
 
@@ -46,11 +47,9 @@
         <div class="flex flex-wrap gap-4 pt-4">
           <a 
             href="#archivos"
-            class="group flex items-center gap-2 bg-primary text-background-dark px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(0,225,255,0.2)]">
+            class="group flex items-center gap-2 bg-primary text-background-dark px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 active:scale-95 shadow-glow-lg">
             Explorar Proyectos
-            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">
-              arrow_forward
-            </span>
+            <Icon name="arrow_forward" class="transition-transform group-hover:translate-x-1" />
           </a>
 
           <a
@@ -58,9 +57,7 @@
             class="group flex items-center gap-2 border border-white/10 hover:border-primary/50 bg-white/5 px-8 py-4 rounded-xl text-lg font-bold transition-all backdrop-blur-sm"
           >
             Ver Manifiesto
-            <span class="material-symbols-outlined text-primary">
-              terminal
-            </span>
+            <Icon name="terminal" class="text-primary" />
           </a>
         </div>
       </div>
@@ -74,9 +71,7 @@
             <span class="text-[10px] uppercase tracking-widest text-primary font-bold">
               ESTADO DEL NODO
             </span>
-            <span class="material-symbols-outlined text-xs text-primary">
-              sensors
-            </span>
+            <Icon name="sensors" class="text-xs text-primary" />
           </div>
 
           <div class="space-y-3">
@@ -126,7 +121,7 @@
 
             <!-- Glitch (interferencia vertical) -->
             <div class="absolute inset-0 z-40 pointer-events-none
-                        bg-[linear-gradient(to_bottom,transparent_0%,rgba(0,225,255,0.2)_50%,transparent_100%)]
+                        bg-[linear-gradient(to_bottom,transparent_0%,rgb(var(--brand)/0.2)_50%,transparent_100%)]
                         bg-[length:100%_6px]
                         animate-glitch
                         opacity-60
@@ -136,7 +131,7 @@
             <!-- Glow de pantalla (MARCO FINAL) -->
             <div class="absolute inset-0 z-60
                         ring-1 ring-primary/40
-                        shadow-[0_0_35px_rgba(0,225,255,0.25)]">
+                        shadow-glow-xl">
             </div>
 
           </div>
@@ -144,9 +139,7 @@
           <!-- Info del proyecto (controles) -->
           <div class="glass-panel rounded-lg p-4 flex items-center gap-4 z-20">
             <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <span class="material-symbols-outlined text-primary text-sm">
-                phone_iphone
-              </span>
+              <Icon name="phone_iphone" class="text-primary text-sm" />
             </div>
             <div>
               <p class="text-[10px] text-gray-400 uppercase tracking-tighter">

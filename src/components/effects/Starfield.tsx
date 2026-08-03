@@ -24,10 +24,26 @@ export const Starfield: React.FC = () => {
     let stars: Star[] = [];
     const starCount = 150;
 
+    /* El color sale del token de marca, igual que el resto del sitio. */
+    const brand =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--brand')
+        .trim()
+        .replace(/\s+/g, ', ') || '0, 225, 255';
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       initStars();
+    };
+
+    /* En móvil, mostrar u ocultar la barra de direcciones dispara `resize`
+       constantemente. Sin esto se regeneraban las 150 estrellas en cada
+       evento y el campo entero parpadeaba al hacer scroll. */
+    let resizeTimer: number;
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(resizeCanvas, 150);
     };
 
     const initStars = () => {
@@ -50,9 +66,9 @@ export const Starfield: React.FC = () => {
       stars.forEach((star) => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 225, 255, ${star.opacity})`;
+        ctx.fillStyle = `rgba(${brand}, ${star.opacity})`;
         ctx.shadowBlur = 5;
-        ctx.shadowColor = 'rgba(0, 225, 255, 0.5)';
+        ctx.shadowColor = `rgba(${brand}, 0.5)`;
         ctx.fill();
 
         // Move stars
@@ -74,12 +90,13 @@ export const Starfield: React.FC = () => {
       animationFrameId = requestAnimationFrame(draw);
     };
 
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', onResize);
     resizeCanvas();
     draw();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', onResize);
+      window.clearTimeout(resizeTimer);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

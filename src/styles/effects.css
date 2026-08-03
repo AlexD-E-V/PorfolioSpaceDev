@@ -1,20 +1,22 @@
+/* Todo el color sale de los alias de tokens.css. No añadir hex aquí. */
+
 .nebula-glow {
   background:
-    radial-gradient(circle at 80% 20%, rgba(127, 0, 255, 0.15), transparent 50%),
-    radial-gradient(circle at 10% 80%, rgba(0, 225, 255, 0.1), transparent 50%);
+    radial-gradient(circle at 80% 20%, rgb(var(--accent) / 0.15), transparent 50%),
+    radial-gradient(circle at 10% 80%, rgb(var(--brand) / 0.1), transparent 50%);
   filter: blur(80px);
 }
 
 .neon-glow:hover {
-  box-shadow: 0 0 20px rgba(0, 225, 255, 0.3);
-  border-color: rgba(0, 225, 255, 0.5);
+  box-shadow: 0 0 20px rgb(var(--brand) / 0.3);
+  border-color: rgb(var(--brand) / 0.5);
 }
 
 .hud-line {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 225, 255, 0.4),
+    rgb(var(--brand) / 0.4),
     transparent
   );
 }
@@ -22,11 +24,9 @@
 .scanline {
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #00e1ff, transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--brand)), transparent);
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0.2;
 }
-
-

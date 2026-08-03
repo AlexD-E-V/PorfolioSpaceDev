@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Icon } from './ui/Icon';
 
 interface FAQItem {
   question: string;
@@ -76,7 +77,7 @@ export const FAQ: React.FC = () => {
                     group
                     ${
                     openId === faq.id
-                        ? 'border-primary/50 shadow-[0_0_30px_rgba(0,225,255,0.15)]'
+                        ? 'border-primary/50 shadow-glow-card'
                         : 'border-white/10 hover:border-primary/30 hover:-translate-y-[2px]'
                     }`}
             >
@@ -101,17 +102,16 @@ export const FAQ: React.FC = () => {
                   </h3>
                 </div>
 
-                <span
-                className={`material-symbols-outlined
+                <Icon
+                  name="expand_more"
+                  className={`
                     transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
                     ${
                     openId === faq.id
                         ? 'rotate-180 text-primary'
                         : 'text-white/40 group-hover:text-primary/70'
                     }`}
-                >
-                expand_more
-                </span>
+                />
 
               </button>
 
@@ -148,9 +148,7 @@ export const FAQ: React.FC = () => {
                 Establecer conexión
                 </span>
 
-                <span className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-2">
-                arrow_forward
-                </span>
+                <Icon name="arrow_forward" className="transition-transform duration-300 group-hover:translate-x-2" />
             </a>
         </div>
 

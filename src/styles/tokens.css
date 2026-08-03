@@ -1,0 +1,57 @@
+/* =========================================================================
+   MIZARIUM — Tokens de diseño
+   =========================================================================
+
+   Los canales van en formato "R G B" (sin coma, sin rgb()) para que:
+     · Tailwind pueda aplicar opacidad     → text-primary/60
+     · CSS pueda componer alfa a mano      → rgb(var(--brand) / .3)
+
+   ESTRUCTURA
+     1. Rampa Mizarium — la paleta nueva. Definida y lista, aún sin usar.
+     2. Alias semánticos — lo que el sitio consume de verdad.
+
+   En la FASE 1 los alias apuntan a los valores heredados de Space DEV, así
+   que la web se ve exactamente igual. En la FASE 2 se repuntan a la rampa
+   Mizarium y cambia el sitio entero desde este archivo.
+
+   Ver docs/MIZARIUM.md §2 para los roles de cada color.
+   ====================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. RAMPA MIZARIUM
+     --------------------------------------------------------------------- */
+
+  /* Estrella — marca y acción. Escasa por diseño. */
+  --star-100: 255 244 214;
+  --star-300: 255 226 154;
+  --star-500: 255 194 75;   /* primario */
+  --star-600: 240 165 41;   /* hover */
+  --star-800: 138 90 12;    /* bordes y fondos tenues */
+
+  /* Cósmico — atmósfera. Nunca un CTA primario. */
+  --cosmic-cyan: 0 225 255;
+  --cosmic-violet: 122 11 255;   /* ⚠️ 3.1:1 — nunca como texto */
+
+  /* Tinta — superficie. 85-90% de la página. */
+  --ink-950: 7 9 18;
+  --ink-900: 11 15 26;
+  --ink-800: 18 23 39;
+  --ink-700: 29 35 49;      /* color exacto de la diseñadora (#1d2331) */
+  --ink-600: 42 50 68;      /* ⚠️ 1.5:1 — solo bordes */
+  --ink-400: 92 103 132;    /* ⚠️ 3.5:1 — solo texto ≥24px */
+  --ink-200: 168 178 200;
+  --ink-50: 232 236 245;
+
+  /* ---------------------------------------------------------------------
+     2. ALIAS SEMÁNTICOS  ←  lo único que consume el sitio
+     --------------------------------------------------------------------- */
+
+  /* FASE 2: --brand: var(--star-500) */
+  --brand: var(--cosmic-cyan);
+  --accent: 127 0 255;
+
+  --surface: 24 24 37;      /* paneles de vidrio */
+  --bg: 10 10 16;           /* fondo de página */
+  --bg-deep: 2 2 5;
+}

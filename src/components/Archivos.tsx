@@ -3,6 +3,8 @@ import { PROJECTS } from '../constants';
 import { Category, SIGNAL_MAP, type ArchiveFilter } from '../types';
 import type { Project } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Icon } from './ui/Icon';
+import type { IconName } from '../data/icons';
 
 const Archivos: React.FC = () => {
   /* --- estado del filtro --- */
@@ -68,7 +70,7 @@ const Archivos: React.FC = () => {
               </span>
             </h1>
 
-            <p className="text-slate-300 dark:text-slate-400 text-lg leading-relaxed font-light max-w-3xl text-pretty">
+            <p className="text-slate-300 text-lg leading-relaxed font-light max-w-3xl text-pretty">
               Registros de proyectos desarrollados por nuestro estudio creativo
               que documentan nuestro recorrido, transformando ideas en productos digitales funcionales y memorables.
             </p>
@@ -334,9 +336,7 @@ const Archivos: React.FC = () => {
                           "
                           title="Proyecto en fase de prototipo"
                         >
-                          <span className="material-symbols-outlined text-xl">
-                            hourglass_top
-                          </span>
+                          <Icon name="hourglass_top" className="text-xl" />
                         </div>
                         ) : isInternalLink ? (
                           <button
@@ -358,9 +358,7 @@ const Archivos: React.FC = () => {
                           "
                             title="Volver al inicio"
                           >
-                            <span className="material-symbols-outlined text-xl md:absolute md:left-3.5">
-                              Public
-                            </span>
+                            <Icon name="public" className="text-xl md:absolute md:left-3.5" />
                             <span
                               className="
                                 hidden md:block
@@ -375,43 +373,40 @@ const Archivos: React.FC = () => {
 
                           </button>
                         ) : (
+                          /* Antes era un <button> dentro de un <a>: HTML
+                             inválido y dos controles interactivos anidados
+                             para una sola acción. */
                           <a
                             href={project.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group"
-                          >
-                            <button
-                              className="
-                                bg-primary hover:bg-white
-                                text-background-dark
-                                h-12 w-12 md:w-12
-                                rounded-lg
-                                flex items-center justify-center
-                                transition-all
-                                overflow-hidden relative
+                            aria-label={`Ver ${project.title} (se abre en una pestaña nueva)`}
+                            className="
+                              bg-primary hover:bg-white
+                              text-background-dark
+                              h-12 w-12 md:w-12
+                              rounded-lg
+                              flex items-center justify-center
+                              transition-all
+                              overflow-hidden relative
 
-                                /* Desktop expansión */
-                                md:group-hover:w-40
-                                active:scale-95 md:active:scale-100
+                              /* Desktop expansión */
+                              md:group-hover:w-40
+                              active:scale-95 md:active:scale-100
+                            "
+                          >
+                            <Icon name="travel_explore" className="text-xl md:absolute md:left-3.5" />
+                            <span
+                              className="
+                                hidden md:block
+                                ml-8 opacity-0
+                                md:group-hover:opacity-100
+                                transition-opacity
+                                font-bold uppercase text-xs whitespace-nowrap
                               "
                             >
-                              <span className="material-symbols-outlined text-xl md:absolute md:left-3.5">
-                                travel_explore
-                              </span>
-                              <span
-                                className="
-                                  hidden md:block
-                                  ml-8 opacity-0
-                                  md:group-hover:opacity-100
-                                  transition-opacity
-                                  font-bold uppercase text-xs whitespace-nowrap
-                                "
-                              >
-                                Explorar Archivo
-                              </span>
-
-                            </button>
+                              Explorar Archivo
+                            </span>
                           </a>
                         )}
                     </div>
@@ -453,9 +448,7 @@ const Archivos: React.FC = () => {
                 group-hover:border-primary
                 transition-colors
               ">
-                <span className="material-symbols-outlined text-lg text-primary animate-bounce pt-1">
-                  keyboard_arrow_down
-                </span>
+                <Icon name="keyboard_arrow_down" className="text-lg text-primary animate-bounce pt-1" />
               </div>
             </button>
 
@@ -484,9 +477,7 @@ const Archivos: React.FC = () => {
                 group-hover:border-primary
                 transition-colors
               ">
-                <span className="material-symbols-outlined text-lg text-primary animate-bounce pt-1">
-                  keyboard_arrow_up
-                </span>
+                <Icon name="keyboard_arrow_up" className="text-lg text-primary animate-bounce pt-1" />
               </div>
             </button>
             ) : null}
@@ -508,7 +499,7 @@ const FilterButton = ({
   active,
   onClick,
 }: {
-  icon: string;
+  icon: IconName;
   label: string;
   active: boolean;
   onClick: () => void;
@@ -523,7 +514,7 @@ const FilterButton = ({
       }
     `}
   >
-    <span className="material-symbols-outlined text-lg">{icon}</span>
+    <Icon name={icon} className="text-lg" />
     <p
       className={`text-sm uppercase tracking-tight ${
         active ? 'font-bold' : 'font-medium opacity-70'

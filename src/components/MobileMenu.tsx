@@ -89,7 +89,7 @@ export default function MobileMenu() {
               className={`fixed top-0 right-0 bottom-0 w-64
               bg-background-dark/95
               border-l border-primary/20
-              shadow-[0_0_60px_rgba(57,129,191,0.25)]
+              shadow-glow-panel
               transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
               ${isOpen ? "translate-x-0" : "translate-x-full"}
               `}
@@ -110,7 +110,7 @@ export default function MobileMenu() {
                         transition-all duration-300
                         ${
                           active === link.id
-                            ? "bg-primary/15 text-primary shadow-[0_0_20px_rgba(0,225,255,0.15)]"
+                            ? "bg-primary/15 text-primary shadow-glow-md"
                             : "hover:bg-white/5 hover:text-primary"
                         }
                       `}

@@ -1,0 +1,32 @@
+---
+/* Icono SVG inline. Sustituye a <span class="material-symbols-outlined">.
+
+   Mide 1em, así que las clases de tamaño de texto que ya había en el markup
+   (text-sm, text-3xl, style="font-size:180px") siguen controlándolo igual.
+   Usa fill-current, así que text-primary sigue tiñéndolo igual.
+
+   Por defecto es decorativo (aria-hidden). Pasa `label` cuando el icono
+   comunique algo que no esté ya escrito al lado. */
+import { ICON_PATHS, ICON_VIEWBOX, type IconName } from '../../data/icons';
+
+interface Props {
+  name: IconName;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className = '', label } = Astro.props;
+const paths = ICON_PATHS[name];
+---
+
+<svg
+  class:list={['inline-block h-[1em] w-[1em] shrink-0 fill-current', className]}
+  viewBox={ICON_VIEWBOX}
+  style="vertical-align: -0.125em"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  {paths.map((d) => <path d={d} />)}
+</svg>

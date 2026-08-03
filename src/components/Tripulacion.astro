@@ -1,3 +1,14 @@
+---
+import Icon from './ui/Icon.astro';
+import MemberCard from './team/MemberCard.astro';
+import { TEAM, AREAS } from '../data/team';
+
+/* La tarjeta de "Áreas Exploradas" va entre el tercer y el cuarto miembro
+   para que la retícula de 4 columnas cierre igual que antes. */
+const before = TEAM.slice(0, 3);
+const after = TEAM.slice(3);
+---
+
 <section
   id="tripulacion"
   class="flex flex-col items-center px-6 py-32 max-w-7xl mx-auto w-full"
@@ -16,8 +27,7 @@
       </div>
 
       <h2 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-none uppercase">
-        TRIPULA<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">CIÓN
-        </span>
+        TRIPULA<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">CIÓN</span>
       </h2>
     </div>
 
@@ -36,7 +46,7 @@
         <div class="w-px h-10 bg-white/10 mx-2"></div>
 
         <div class="flex flex-col">
-          <span class="text-primary font-bold text-2xl">6</span>
+          <span class="text-primary font-bold text-2xl">{AREAS.length}</span>
           <span class="text-[10px] text-slate-500 tracking-widest uppercase">Áreas</span>
         </div>
 
@@ -52,403 +62,25 @@
 
   <!-- Grid de miembros -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-    
-    <!-- ALEX DEV -->
-    <div class="lg:col-span-2 glass-card rounded-xl p-8 flex flex-col md:flex-row gap-8 items-center neon-glow group transition-all duration-500 relative">
+    {before.map((member) => <MemberCard member={member} />)}
 
-      <!-- Redes -->
-      <div class="absolute top-6 right-8 flex gap-4">
-
-        <a class="social-icon-glow text-slate-500 hover:text-primary transition-colors"
-          href="https://github.com/AlexSpaceDev"
-          target="_blank"
-          title="GitHub">
-          <!-- Github icon -->
-          <svg class="size-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
-          </svg>
-        </a>
-
-      </div>
-
-      <!-- Avatar -->
-      <div class="relative">
-        <div class="absolute inset-0 bg-primary/20 rounded-full blur-xl group-hover:bg-primary/40 transition-all"></div>
-
-        <div class="relative size-48 rounded-full border-2 border-primary/30 p-2 overflow-hidden bg-background-dark">
-          <div
-            class="w-full h-full rounded-full bg-cover bg-center portrait-filter group-hover:filter-none transition-all duration-500"
-            style="background-image: url('/perfiles/alexperfil.webp');">
-          </div>
-          <div class="absolute inset-0 cyan-tint mix-blend-overlay opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
-        </div>
-      </div>
-
-      <!-- Info -->
-      <div class="flex-1 space-y-4">
-
-        <!-- Meta -->
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono text-primary border border-primary/40 px-2 py-0.5 rounded">
-            CMDR-01
-          </span>
-          <span class="text-[10px] font-mono text-slate-500 uppercase">
-            Proyecto · Desarrollo
-          </span>
-        </div>
-
-        <!-- Nombre -->
-        <h3 class="text-3xl font-bold tracking-tight">
-          ALEX DEV
-        </h3>
-
-        <!-- Roles -->
-        <div class="flex flex-wrap gap-2">
-          <span
-            class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase"
-            title="Rol principal">
-            Programador Full-Stack
-          </span>
-
-          <span
-            class="bg-white/5 text-slate-400 text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase"
-            title="Especialidad">
-            Dirección Técnica
-          </span>
-        </div>
-
-        <!-- Enfoque -->
-        <p class="text-slate-400 text-sm italic" title="Enfoque profesional">
-          Toda idea se puede programar. De problemas complejos a soluciones claras a través de código y estructura.
-        </p>
-
-      </div>
-    </div>
-
-    <!-- ESTEBAN -->
-    <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center neon-glow group transition-all duration-500 relative">
-
-      <div class="absolute top-6 right-6 flex gap-3">
-
-        <!-- INSTAGRAM -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.instagram.com/1_tal_esteban/?igsh=MWV1NjdmY2N4anF0NA%3D%3D#"
-          target="_blank" 
-          title="Instagram">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" 
-              d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"></path>
-          </svg>
-        </a>
-
-        <!-- WEB PERSONAL -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://sites.google.com/view/estebanortiz/proyectos?authuser=0"
-          target="_blank" 
-          title="Sitio web">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor"
-              d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2" />
-          </svg>
-        </a>
-
-      </div>
-
-
-      <div class="relative mb-6">
-        <div class="size-24 rounded-full border border-primary/30 p-1 bg-background-dark overflow-hidden">
-          <div
-            class="w-full h-full rounded-full bg-cover bg-center portrait-filter
-              transition-all duration-500 ease-out
-              group-hover:filter-none 
-              group-hover:mix-blend-mode-normal"
-            style="background-image: url('/perfiles/estebanperfil.webp');">
-          </div>
-        </div>
-        <div class="absolute inset-0 rounded-full border border-primary/0 group-hover:border-primary/50 transition-all scale-110 group-hover:scale-125"></div>
-      </div>
-
-      <h3 class="text-xl font-bold mb-2">ESTEBAN ORTÍZ</h3>
-
-      <span
-        class="text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase mb-4">
-        Modelador 3D
-      </span>
-
-      <div class="w-full h-px bg-white/5 my-4"></div>
-
-      <!-- BLOQUE APROVECHADO -->
-      <div class="flex gap-4 w-full text-left">
-
-        <div>
-          <p class="text-xs text-primary uppercase tracking-normal">
-            Especialidad
-          </p>
-          <p class="text-sm text-white">
-            Assets y entornos 3D
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- DANIELA -->
-    <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center neon-glow group transition-all duration-500 relative">
-
-      <div class="absolute top-6 right-6 flex gap-2">
-
-        <!-- ART STATION -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.artstation.com/colorsbeta"
-          target="_blank" 
-          title="Art Station">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" 
-            d="m1.77 16.88l1.73 2.98c.34.68 1.04 1.14 1.83 1.14h11.46l-2.36-4.12zm20.46.02c0-.4-.12-.79-.33-1.12L15.17 4.1A2.04 2.04 0 0 0 13.35 3H9.8l10.38 18l1.64-2.86c.31-.54.41-.78.41-1.24m-9.5-2.96L8.1 5.92l-4.65 8.02z" /> </svg>
-        </a>
-        
-        <!-- INSTAGRAM -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.instagram.com/colorsbeta?igsh=MTM5ZTRsZGR5dzZqaw=="
-          target="_blank" 
-          title="Instagram">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" 
-              d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"></path>
-          </svg>
-        </a>
-
-        <!-- BEHANCE -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.behance.net/danielajamel"
-          target="_blank" 
-          title="Behance">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M9.456 10.772q-.378.278-.964.278l-2.219.002V8.72h2.051q.286 0 .566.049q.272.048.482.174q.21.125.335.35q.125.223.126.571q0 .628-.377.907m-.224 4.447a3 3 0 0 1-.614.063H6.273v-2.736H8.66q.713 0 1.145.328t.433 1.096q0 .39-.133.642q-.132.25-.356.398a1.5 1.5 0 0 1-.517.21m7.115-4.336q.726 0 1.083.39q.355.392.496 1.145h-3.225q.014-.21.09-.474a1.45 1.45 0 0 1 .768-.9q.313-.16.788-.16"></path>
-            <path fill="currentColor" d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1s11 4.925 11 11M10.07 7.141a6.2 6.2 0 0 0-1.299-.125h-4.69v9.97h4.831c.44 0 .88-.056 1.305-.168q.635-.167 1.131-.517q.496-.348.79-.9q.292-.552.292-1.306q0-.936-.454-1.599q-.453-.662-1.375-.928q.67-.321 1.012-.824t.342-1.256q0-.699-.23-1.173a1.9 1.9 0 0 0-.65-.762a2.8 2.8 0 0 0-1.005-.412m6.403 8.363q-.838 0-1.285-.433t-.487-1.393h5.208a5.1 5.1 0 0 0-.14-1.606a3.9 3.9 0 0 0-.636-1.368a3.2 3.2 0 0 0-1.123-.957q-.685-.356-1.606-.356q-.825 0-1.502.293t-1.166.802t-.754 1.208a4.2 4.2 0 0 0-.265 1.507q0 .837.258 1.536q.258.697.733 1.2t1.16.775t1.535.272q1.229 0 2.094-.559q.866-.557 1.285-1.856h-1.745q-.098.335-.53.635q-.434.3-1.034.3m1.918-7.982h-4.03v1.117h4.03z"></path>
-          </svg>
-        </a>
-
-      </div>
-
-      <div class="relative mb-6">
-        <div class="size-24 rounded-full border border-primary/30 p-1 bg-background-dark overflow-hidden">
-          <div
-            class="w-full h-full rounded-full bg-cover bg-center portrait-filter 
-              transition-all duration-500 ease-out
-              group-hover:filter-none 
-              group-hover:mix-blend-mode-normal"
-            style="background-image: url('/perfiles/danielaperfil.webp');">
-          </div>
-        </div>
-        <div class="absolute inset-0 rounded-full border border-primary/0 group-hover:border-primary/50 transition-all scale-110 group-hover:scale-125"></div>
-      </div>
-
-      <h3 class="text-xl font-bold mb-2">COLORSBETA</h3>
-
-      <span
-        class="text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase mb-4">
-        Ilustradora
-      </span>
-
-      <div class="w-full h-px bg-white/5 my-4"></div>
-
-      <!-- BLOQUE APROVECHADO -->
-      <div class="flex gap-4 w-full text-left">
-
-        <div>
-          <p class="text-xs text-primary uppercase tracking-normal">
-            Especialidad
-          </p>
-          <p class="text-sm text-white">
-            Concept Artist de personajes
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- AREAS -->
+    <!-- Áreas exploradas -->
     <div class="glass-card rounded-xl p-6 flex flex-col justify-center bg-primary/5 border border-primary/20">
+      <Icon name="explore" class="text-primary text-4xl mb-4" />
 
-      <!-- ICONO -->
-      <span class="material-symbols-outlined text-primary text-4xl mb-4">
-        Atr
-      </span>
-
-      <!-- TITULO -->
-      <h4 class="text-sm font-bold tracking-widest uppercase mb-4">
+      <h3 class="text-sm font-bold tracking-widest uppercase mb-4">
         Áreas Exploradas
-      </h4>
+      </h3>
 
-      <!-- LISTA DE AREAS -->
       <div class="flex flex-wrap gap-2 text-left">
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Arquitectura & Programación
-        </span>
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Diseño UI/UX
-        </span>
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Dirección Creativa
-        </span>
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Arte & Visuales
-        </span>
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Narrativa
-        </span>
-        <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
-          Optimización & Escalabilidad
-        </span>
-      </div>
-
-    </div>
-
-    <!-- JUANITO -->
-    <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center neon-glow group transition-all duration-500 relative">
-
-      <!-- SOCIALS -->
-      <div class="absolute top-6 right-6 flex gap-3">
-
-        <!-- ART STATION -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.artstation.com/jbetancourt"
-          target="_blank" 
-          title="Art Station">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" 
-            d="m1.77 16.88l1.73 2.98c.34.68 1.04 1.14 1.83 1.14h11.46l-2.36-4.12zm20.46.02c0-.4-.12-.79-.33-1.12L15.17 4.1A2.04 2.04 0 0 0 13.35 3H9.8l10.38 18l1.64-2.86c.31-.54.41-.78.41-1.24m-9.5-2.96L8.1 5.92l-4.65 8.02z" /> </svg>
-        </a>
-
-        <!-- BEHANCE -->
-        <a class="social-icon-glow text-slate-500" 
-          href="https://www.behance.net/juanb11953633"
-          target="_blank" 
-          title="Behance">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M9.456 10.772q-.378.278-.964.278l-2.219.002V8.72h2.051q.286 0 .566.049q.272.048.482.174q.21.125.335.35q.125.223.126.571q0 .628-.377.907m-.224 4.447a3 3 0 0 1-.614.063H6.273v-2.736H8.66q.713 0 1.145.328t.433 1.096q0 .39-.133.642q-.132.25-.356.398a1.5 1.5 0 0 1-.517.21m7.115-4.336q.726 0 1.083.39q.355.392.496 1.145h-3.225q.014-.21.09-.474a1.45 1.45 0 0 1 .768-.9q.313-.16.788-.16"></path>
-            <path fill="currentColor" d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1s11 4.925 11 11M10.07 7.141a6.2 6.2 0 0 0-1.299-.125h-4.69v9.97h4.831c.44 0 .88-.056 1.305-.168q.635-.167 1.131-.517q.496-.348.79-.9q.292-.552.292-1.306q0-.936-.454-1.599q-.453-.662-1.375-.928q.67-.321 1.012-.824t.342-1.256q0-.699-.23-1.173a1.9 1.9 0 0 0-.65-.762a2.8 2.8 0 0 0-1.005-.412m6.403 8.363q-.838 0-1.285-.433t-.487-1.393h5.208a5.1 5.1 0 0 0-.14-1.606a3.9 3.9 0 0 0-.636-1.368a3.2 3.2 0 0 0-1.123-.957q-.685-.356-1.606-.356q-.825 0-1.502.293t-1.166.802t-.754 1.208a4.2 4.2 0 0 0-.265 1.507q0 .837.258 1.536q.258.697.733 1.2t1.16.775t1.535.272q1.229 0 2.094-.559q.866-.557 1.285-1.856h-1.745q-.098.335-.53.635q-.434.3-1.034.3m1.918-7.982h-4.03v1.117h4.03z"></path>
-          </svg>
-        </a>
-
-      </div>
-
-      <!-- AVATAR -->
-      <div class="relative mb-6">
-        <div class="size-24 rounded-full border border-primary/30 p-1 bg-background-dark overflow-hidden">
-          <div
-            class="w-full h-full rounded-full bg-cover bg-center portrait-filter 
-         transition-all duration-500 ease-out
-         group-hover:filter-none 
-         group-hover:mix-blend-mode-normal"
-            style="background-image: url('https://preview.redd.it/7mbn7uzoejsc1.jpg?auto=webp&s=bc17e36b89eaaaa4e75f0e65bbbeb09f9f71be1d');">
-          </div>
-        </div>
-        <div class="absolute inset-0 rounded-full border border-primary/0 group-hover:border-primary/50 transition-all scale-110 group-hover:scale-125"></div>
-      </div>
-
-      <!-- NOMBRE -->
-      <h3 class="text-xl font-bold mb-2">J. BETANCOURT</h3>
-
-      <!-- ROL -->
-      <span
-        class="text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase mb-4">
-        Modelador 3D
-      </span>
-
-      <div class="w-full h-px bg-white/5 my-4"></div>
-
-      <!-- BLOQUE DE PERFIL -->
-      <div class="flex gap-4 w-full text-left">
-
-        <div>
-          <p class="text-xs text-primary uppercase tracking-normal">
-            Especialidad
-          </p>
-          <p class="text-sm text-white">
-            Personajes y criaturas 3D
-          </p>
-        </div>
-      </div>
-    </div>
-  
-    <!-- RÁBANO -->
-    <div class="lg:col-span-2 glass-card rounded-xl p-8 flex flex-col md:flex-row gap-8 items-center neon-glow group transition-all duration-500 relative">
-
-      <!-- Redes 
-      <div class="absolute top-6 right-8 flex gap-4">
-        <a class="social-icon-glow text-slate-500 hover:text-primary transition-colors"
-          href="#"
-          title="LinkedIn">
-          <svg class="size-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
-          </svg>
-        </a>
-
-        <a class="social-icon-glow text-slate-500 hover:text-primary transition-colors"
-          href="#"
-          title="GitHub">
-          <svg class="size-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
-          </svg>
-        </a>
-      </div> -->
-
-      <!-- Avatar cuadrado -->
-      <div class="relative">
-        <!-- Halo -->
-        <div class="absolute inset-0 bg-primary/20 rounded-xl blur-xl group-hover:bg-primary/40 transition-all"></div>
-
-        <!-- Marco -->
-        <div class="relative size-44 rounded-xl border-2 border-primary/30 p-2 overflow-hidden bg-background-dark
-                rotate-[-6deg] group-hover:rotate-[-3deg] transition-transform duration-500">
-          <div
-            class="w-full h-full rounded-lg bg-cover bg-center portrait-filter group-hover:filter-none transition-all duration-500"
-            style="background-image: url('/perfiles/rabanoperfil.webp');">
-          </div>
-          <div class="absolute inset-0 cyan-tint mix-blend-overlay rounded-xl opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
-        </div>
-      </div>
-
-      <!-- Info -->
-      <div class="flex-1 space-y-4">
-
-        <!-- Meta -->
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono text-primary border border-primary/40 px-2 py-0.5 rounded">
-            CMDR-02
+        {AREAS.map((area) => (
+          <span class="text-xs px-2 py-1 rounded-full border border-primary/20 text-primary uppercase">
+            {area}
           </span>
-          <span class="text-[10px] font-mono text-slate-500 uppercase">
-            Diseño · Experiencia
-          </span>
-        </div>
-
-        <!-- Nombre -->
-        <h3 class="text-3xl font-bold tracking-tight">
-          ALEJO RÁBANO
-        </h3>
-
-        <!-- Roles -->
-        <div class="flex flex-wrap gap-2">
-          <span
-            class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase">
-            Solo un diseñador
-          </span>
-
-          <span
-            class="bg-white/5 text-slate-400 text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase">
-            Dirección Visual
-          </span>
-        </div>
-
-        <!-- Enfoque -->
-        <p class="text-slate-400 text-sm italic">
-          Diseño experiencias claras y coherentes donde la estética y la usabilidad trabajan juntas.
-        </p>
-
+        ))}
       </div>
     </div>
 
+    {after.map((member) => <MemberCard member={member} />)}
   </div>
 </section>

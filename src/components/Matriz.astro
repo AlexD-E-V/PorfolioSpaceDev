@@ -1,4 +1,5 @@
 ---
+import Icon from './ui/Icon.astro';
 // Componente Astro: LaMatriz
 // No recibe props por ahora, es una sección estática de la landing
 ---
@@ -28,7 +29,7 @@
           <p class="text-xl font-mono text-primary">0.00042ms</p>
         </div>
         <div class="flex w-full sm:w-auto min-w-[160px] items-center justify-center rounded-xl h-12 px-6 bg-white/5 border border-white/10 text-white text-sm font-bold uppercase tracking-wider cursor-default">
-          <span class="material-symbols-outlined mr-2 text-primary">sensors</span>
+          <Icon name="sensors" class="mr-2 text-primary" />
           Sistema en Línea
         </div>
       </div>
@@ -40,12 +41,12 @@
       <!-- Web -->
       <div class="md:col-span-8 group relative overflow-hidden glass-card rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[360px] sm:min-h-[400px]">
         <div class="absolute -top-5 -right-10 opacity-5 transition-all duration-700 ease-out transform will-change-transform group-hover:scale-110 group-hover:rotate-6 group-hover:-translate-y-2 group-hover:translate-x-2 group-hover:opacity-15">
-          <span class="material-symbols-outlined" style="font-size:180px; line-height:1;">code</span>
+          <Icon name="code" class="text-[180px]" />
         </div>
 
         <div class="relative z-10">
           <div class="size-12 rounded-lg bg-primary/20 flex items-center justify-center mb-6 border border-primary/30">
-            <span class="material-symbols-outlined text-primary">code</span>
+            <Icon name="code" class="text-primary" />
           </div>
           <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4">Web</h3>
           <p class="text-white/60 text-base sm:text-lg max-w-md leading-relaxed">
@@ -58,7 +59,7 @@
           <div class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-mono">
             Núcleo_Web_Principal
           </div>
-          <span class="material-symbols-outlined text-primary/40 text-sm">language</span>
+          <Icon name="language" class="text-primary/40 text-sm" />
         </div>
       </div>
 
@@ -66,12 +67,12 @@
       <div class="md:col-span-4 group relative overflow-hidden glass-card rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] sm:min-h-[400px]">
         <!-- Icono decorativo fondo -->
         <div class="absolute -top-10 -right-10 opacity-5 transition-all duration-700 group-hover:scale-110 group-hover:rotate-12 group-hover:opacity-10">
-          <span class="material-symbols-outlined" style="font-size:160px; line-height:1;">phone_iphone</span>
+          <Icon name="phone_iphone" class="text-[160px]" />
         </div>
 
         <div class="relative z-10">
           <div class="size-12 rounded-lg bg-primary/20 flex items-center justify-center mb-6 border border-primary/30 text-primary">
-            <span class="material-symbols-outlined">phone_iphone</span>
+            <Icon name="phone_iphone" />
           </div>
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-4">Aplicaciones</h3>
           <p class="text-white/60 text-sm sm:text-base leading-relaxed">
@@ -83,7 +84,7 @@
           <div class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-mono">
             Módulo_Móvil
           </div>
-          <span class="material-symbols-outlined text-primary/40 text-sm">mobile_code</span>
+          <Icon name="mobile_code" class="text-primary/40 text-sm" />
         </div>
       </div>
 
@@ -91,12 +92,12 @@
       <div class="md:col-span-6 group relative overflow-hidden glass-card rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[300px]">
         <!-- Icono decorativo fondo -->
         <div class="absolute -top-10 -right-10 opacity-5 transition-all duration-700 group-hover:scale-110 group-hover:-rotate-6 group-hover:opacity-10">
-          <span class="material-symbols-outlined" style="font-size:160px; line-height:1;">view_in_ar</span>
+          <Icon name="view_in_ar" class="text-[160px]" />
         </div>
 
         <div class="relative z-10">
           <div class="size-12 rounded-lg bg-primary/20 flex items-center justify-center mb-6 border border-primary/30 text-primary">
-            <span class="material-symbols-outlined">view_in_ar</span>
+            <Icon name="view_in_ar" />
           </div>
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">AR / VR</h3>
           <p class="text-white/60 text-sm sm:text-base leading-relaxed">
@@ -108,7 +109,7 @@
           <div class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-mono">
             Módulo_Estereoscópico
           </div>
-          <span class="material-symbols-outlined text-primary/40 text-sm">head_mounted_device</span>
+          <Icon name="head_mounted_device" class="text-primary/40 text-sm" />
         </div>
       </div>
 
@@ -116,12 +117,12 @@
       <div class="md:col-span-6 group relative overflow-hidden glass-card rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[300px]">
         <!-- Icono decorativo fondo -->
         <div class="absolute -top-10 -right-10 opacity-5 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-10">
-          <span class="material-symbols-outlined" style="font-size:160px; line-height:1;">sports_esports</span>
+          <Icon name="sports_esports" class="text-[160px]" />
         </div>
 
         <div class="relative z-10">
           <div class="size-12 rounded-lg bg-primary/20 flex items-center justify-center mb-6 border border-primary/30 text-primary">
-            <span class="material-symbols-outlined">sports_esports</span>
+            <Icon name="sports_esports" />
           </div>
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Videojuegos</h3>
           <p class="text-white/60 text-sm sm:text-base leading-relaxed">
@@ -133,7 +134,7 @@
           <div class="text-[10px] text-white/30 uppercase tracking-[0.2em] font-mono">
             Sistema_Interactivo
           </div>
-          <span class="material-symbols-outlined text-primary/40 text-sm">gamepad_left</span>
+          <Icon name="gamepad_left" class="text-primary/40 text-sm" />
         </div>
       </div>
 

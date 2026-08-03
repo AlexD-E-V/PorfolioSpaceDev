@@ -1,12 +1,15 @@
 ---
+import Icon from './ui/Icon.astro';
 import DirectLink from '../components/DirectLink.tsx';
 import ContactForm from '../components/ContactForm.tsx';
 ---
 
 <section id="contacto" class="py-32 px-6 max-w-6xl mx-auto relative">
-  <!-- Background blobs -->
-  <div class="fixed top-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10"></div>
-  <div class="fixed bottom-1/4 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] -z-10"></div>
+  <!-- Background blobs. Iban en `fixed`, así que se quedaban pegados al
+       viewport y acompañaban al visitante por toda la página en vez de
+       vivir solo en esta sección. -->
+  <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10"></div>
+  <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] -z-10"></div>
 
   <!-- Header -->
   <div class="mb-12 text-center">
@@ -35,7 +38,7 @@ import ContactForm from '../components/ContactForm.tsx';
     <!-- Cuartel General -->
     <div class="glass-panel p-6 rounded-xl border border-white/5">
       <div class="flex items-center gap-3 mb-4">
-        <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+        <Icon name="location_on" class="text-primary text-sm" />
         <h5 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
           Cuartel General
         </h5>
@@ -47,10 +50,20 @@ import ContactForm from '../components/ContactForm.tsx';
 
       <div class="aspect-video bg-white/5 rounded-lg mt-4 overflow-hidden border border-white/10 opacity-40 group relative">
         
-        <!-- Imagen -->
+        <!-- Rejilla de radar. Antes aquí había una imagen alojada en
+             lh3.googleusercontent.com/aida-public/…, una URL temporal que
+             íbamos a perder sin enterarnos. Ahora es CSS, no se rompe y
+             encaja mejor con el resto de la sección. -->
         <div
-          class="absolute inset-0 bg-cover bg-center grayscale transition-all duration-700 group-hover:grayscale-0 scale-110"
-          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD_upYGIXVGrJ1eFy8WuvZItYeP8xKOJtNrXQnXY3aOr4rGxOeW257YitlPwGqVcstcV5lEXMyIYwHOz73ceKoADTAJ0YaeSpDNhlsAhZBZSgMsA0H6lS1i42rvR1XwWIEfWo8aY27BMduSYN7a8XRLlhzF5RTda0dCGECVRBHnQQ-kwf7NyS1Gi_rx2HATFzG31esLfSxsYazC3N5T3QTcJOLkpzP8NJFHb2yRRhVnBeBY8X6DVNcqb0TREy_LY_sJmicvMfUXJxQ");'>
+          class="absolute inset-0 transition-all duration-700 scale-110"
+          style="
+            background-color: rgb(var(--bg-deep));
+            background-image:
+              radial-gradient(circle at 64% 32%, rgb(var(--brand) / 0.25), transparent 45%),
+              linear-gradient(rgb(var(--brand) / 0.10) 1px, transparent 1px),
+              linear-gradient(90deg, rgb(var(--brand) / 0.10) 1px, transparent 1px);
+            background-size: 100% 100%, 18px 18px, 18px 18px;
+          ">
         </div>
 
         <!-- Capa energética -->
@@ -108,7 +121,7 @@ import ContactForm from '../components/ContactForm.tsx';
     <div class="glass-panel p-6 rounded-xl border border-white/5 flex flex-col justify-between">
       <div>
         <div class="flex items-center gap-3 mb-4">
-          <span class="material-symbols-outlined text-primary text-sm">schedule</span>
+          <Icon name="schedule" class="text-primary text-sm" />
           <h5 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
             Disponibilidad
           </h5>
