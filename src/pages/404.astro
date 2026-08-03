@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/ui/Icon.astro';
+import Logo from '../components/ui/Logo.astro';
+import { NAV_LINKS } from '../data/nav';
+
+/* Antes no había 404 propia: Astro servía una página en blanco con el error
+   por defecto, sin marca, sin cabecera y sin salida. */
+---
+
+<Layout
+  title="Página no encontrada — Mizarium"
+  description="La página que buscas no existe o cambió de sitio."
+  noindex
+>
+  <main id="contenido" class="flex min-h-[80vh] items-center justify-center px-6 py-32">
+    <div class="mx-auto max-w-xl text-center">
+      <Logo variant="iso" class="mx-auto h-16 w-auto text-primary drop-shadow-glow-lg" />
+
+      <p class="eyebrow mt-10">Error 404</p>
+
+      <h1 class="display-2 mt-4">
+        Esta coordenada está <span class="text-cosmic">vacía</span>
+      </h1>
+
+      <p class="lede mx-auto mt-6">
+        La página que buscas no existe o se movió a otro sitio. Desde aquí
+        puedes volver al principio o ir directo a lo que necesites.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="/"
+          class="group flex items-center gap-2.5 rounded-full bg-primary px-8 py-4 text-base font-bold text-on-primary shadow-glow-lg transition-all hover:bg-star-300 hover:scale-[1.03] active:scale-95"
+        >
+          <Icon name="arrow_forward" class="rotate-180 transition-transform group-hover:-translate-x-1" />
+          Volver al inicio
+        </a>
+
+        <a
+          href="/#contacto"
+          class="rounded-full border border-ink-600 bg-white/[0.04] px-7 py-4 text-base font-semibold backdrop-blur-sm transition-all hover:border-ink-400 hover:bg-white/[0.07]"
+        >
+          Escríbenos
+        </a>
+      </div>
+
+      <ul
+        class="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-mono text-[10px] uppercase tracking-[0.16em] text-slate-400"
+      >
+        {
+          NAV_LINKS.map((link, i) => (
+            <>
+              {i > 0 && <li aria-hidden="true" class="text-primary/40">✦</li>}
+              <li>
+                <a href={`/#${link.id}`} class="transition-colors hover:text-primary">
+                  {link.label}
+                </a>
+              </li>
+            </>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+</Layout>

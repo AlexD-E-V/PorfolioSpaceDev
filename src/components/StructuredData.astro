@@ -1,0 +1,78 @@
+---
+/* Datos estructurados (JSON-LD).
+
+   Es lo que permite a Google entender que Mizarium es una organización real
+   con dirección, servicios y perfiles, en vez de "una web más". Sin esto, un
+   buscador solo ve texto suelto.
+
+   Se declara `ProfessionalService` en lugar de `Organization` a secas porque
+   es más específico: describe a alguien que presta servicios, que es
+   exactamente lo que el rediseño quiere comunicar. */
+
+import { PORTFOLIO_URL } from '../data/projects';
+import { PRIMARY_SERVICE, SECONDARY_SERVICES } from '../data/services';
+
+interface Props {
+  description: string;
+}
+
+const { description } = Astro.props;
+const site = Astro.site?.origin ?? 'https://mizarium.com';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${site}/#estudio`,
+      name: 'Mizarium',
+      alternateName: 'Space DEV',
+      url: site,
+      description,
+      logo: `${site}/icon-512.png`,
+      image: `${site}/og.png`,
+      email: 'hola@mizarium.com',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Quito',
+        addressCountry: 'EC',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 0,
+        longitude: -78.45,
+      },
+      areaServed: { '@type': 'Place', name: 'Global' },
+      knowsLanguage: ['es', 'en'],
+      sameAs: [PORTFOLIO_URL, 'https://github.com/AlexSpaceDev'],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Servicios',
+        itemListElement: [PRIMARY_SERVICE, ...SECONDARY_SERVICES].map((s) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: s.title,
+            description: s.description,
+          },
+        })),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site}/#web`,
+      url: site,
+      name: 'Mizarium',
+      inLanguage: 'es',
+      publisher: { '@id': `${site}/#estudio` },
+    },
+  ],
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

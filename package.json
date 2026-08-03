@@ -1,16 +1,19 @@
 {
-  "name": "alexdevspace-me",
+  "name": "mizarium",
   "type": "module",
-  "version": "0.0.1",
+  "version": "3.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "gen:icons": "node scripts/gen-icons.cjs",
+    "gen:brand": "node scripts/gen-brand-assets.cjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource/space-grotesk": "^5.2.10",
     "@types/react": "^19.2.9",
@@ -23,5 +26,7 @@
   },
   "devDependencies": {
     "@material-symbols/svg-400": "^0.45.10"
-  }
+  },
+  "description": "Sitio web de Mizarium — estudio digital multidisciplinar.",
+  "private": true
 }

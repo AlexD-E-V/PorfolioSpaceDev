@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   /* Necesario para las URL canónicas y las etiquetas Open Graph, y más
@@ -19,5 +20,14 @@ export default defineConfig({
      Ver docs/MIZARIUM.md §9ter. */
   output: 'static',
 
-  integrations: [tailwind(), react()],
+  integrations: [
+    tailwind(),
+    react(),
+    /* Genera sitemap-index.xml a partir de las páginas reales. Hoy solo hay
+       una, pero se actualiza solo en cuanto se añadan casos de estudio.
+       La 404 se excluye: no tiene sentido indexarla. */
+    sitemap({
+      filter: (page) => !page.includes('/404'),
+    }),
+  ],
 });

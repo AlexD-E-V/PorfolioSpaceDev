@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# El receptor del formulario no tiene nada que indexar.
+Disallow: /contacto.php
+
+Sitemap: https://mizarium.com/sitemap-index.xml

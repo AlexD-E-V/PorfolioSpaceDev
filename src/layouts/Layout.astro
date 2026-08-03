@@ -12,14 +12,17 @@ import '@fontsource/space-grotesk/700.css';
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import StructuredData from "../components/StructuredData.astro";
 import { Starfield } from "../components/effects/Starfield";
 
 interface Props {
   title: string;
   description: string;
+  /** La 404 no debe indexarse. */
+  noindex?: boolean;
 }
 
-const { description, title } = Astro.props;
+const { description, title, noindex = false } = Astro.props;
 
 /* `Astro.site` sale de astro.config.mjs. El fallback evita que reviente si
    se compila sin él. */
@@ -37,6 +40,7 @@ const ogImage = new URL('/og.png', base);
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- Iconos. Generados por scripts/gen-brand-assets.cjs -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -61,9 +65,21 @@ const ogImage = new URL('/og.png', base);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    {!noindex && <StructuredData description={description} />}
   </head>
 
   <body class="relative min-h-screen overflow-x-hidden bg-background-dark text-white font-sans">
+
+    <!-- Primer elemento enfocable de la página: quien navega con teclado
+         puede saltarse la barra y llegar al contenido de un tabulador.
+         Invisible hasta que recibe el foco. -->
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:rounded-lg focus:bg-primary focus:px-5 focus:py-3 focus:font-bold focus:text-on-primary"
+    >
+      Saltar al contenido
+    </a>
 
     <!-- HEADER -->
     <Header />
@@ -109,17 +125,24 @@ const ogImage = new URL('/og.png', base);
     filter: drop-shadow(0 0 2px rgb(var(--brand) / 0.3));
   }
 
-  .mission-type-card.active {
-    @apply border-primary bg-primary/10;
-  }
+  /* Quien pide menos movimiento en su sistema deja de recibirlo.
+     Hasta ahora esto solo afectaba al scroll suave, y quedaban corriendo en
+     bucle los puntos que laten, el glitch, el barrido y las pulsaciones.
 
-  .mission-type-card.active svg {
-    @apply text-primary;
-  }
-
+     No se anula la animación, se reduce a un instante: así los estados que
+     dependen de una transición (el menú móvil, los acordeones) siguen
+     terminando donde deben en lugar de quedarse a medias. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 </style>
