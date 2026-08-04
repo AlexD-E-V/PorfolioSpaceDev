@@ -114,10 +114,18 @@ const ogImage = new URL('/og.png', base);
     min-height: 100vh;
   }
 
-  /* El header es fijo y mide ~6rem con su offset superior. Sin esto, los
-     enlaces de ancla dejan el título de cada sección debajo del header. */
+  /* Compensación al saltar por ancla.
+
+     Estaba en 7rem y sobraba muchísimo: se sumaba al padding superior que ya
+     tiene cada sección (6-7rem), así que al pulsar un enlace del menú el
+     primer texto aparecía a más de 200px del borde y parecía que el salto
+     había fallado.
+
+     La barra ocupa hasta los ~80px, y el padding de la sección ya separa el
+     contenido. Con esto el título queda a ~55px por debajo del header:
+     respira, sin el hueco enorme. */
   section[id] {
-    scroll-margin-top: 7rem;
+    scroll-margin-top: 1.5rem;
   }
 
   .social-icon-glow {

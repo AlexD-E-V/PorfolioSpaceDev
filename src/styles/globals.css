@@ -3,6 +3,34 @@
    Reparto: --brand (oro) para marca, acción y foco · --atmos (cian) para
    atmósfera · --ink-* para superficie y bordes neutros. Ver tokens.css. */
 
+/* ── Contenedor ──────────────────────────────────────────────────────── */
+
+/* Ancho común de todas las secciones, del header y del pie.
+
+   Antes cada sección repetía `max-w-6xl` (1152 px) con `px-6` fijo. Ese
+   ancho venía de Space DEV, donde funcionaba porque era un portafolio: la
+   columna estrecha se leía como una ficha. Para un estudio que vende, el
+   formato angosto encoge la marca — así que sube a 1440 px y el margen
+   lateral crece con la pantalla en vez de quedarse clavado en 24 px. */
+.shell {
+  width: 100%;
+  max-width: 90rem; /* 1440 px */
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .shell {
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .shell {
+    padding-inline: 3.5rem;
+  }
+}
+
 /* ── Superficies ─────────────────────────────────────────────────────── */
 
 .glass-panel {
