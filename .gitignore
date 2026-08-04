@@ -1,5 +1,6 @@
 # documentación de trabajo del rebrand (local, no se versiona por ahora)
 docs/
+HANDOFF.md
 
 # build output
 dist/
