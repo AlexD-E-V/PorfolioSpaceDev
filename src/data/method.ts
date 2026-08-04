@@ -1,5 +1,3 @@
-import type { IconName } from './icons';
-
 /* Las cuatro fases responden a la objeción principal para contratar un
    estudio pequeño: "no sé qué va a pasar ni cuánto va a costar". */
 
@@ -41,17 +39,5 @@ export const PHASES: Phase[] = [
   },
 ];
 
-/* El "cuatro" son disciplinas, no personas. Es verdad hoy, con dos, y sigue
-   siéndolo cuando sean cuatro. Ver docs/MIZARIUM.md §10. */
-export interface Discipline {
-  n: string;
-  title: string;
-  icon: IconName;
-}
-
-export const DISCIPLINES: Discipline[] = [
-  { n: '01', title: 'Diseño de marca e interfaz', icon: 'lightbulb' },
-  { n: '02', title: 'Ingeniería full-stack', icon: 'code' },
-  { n: '03', title: 'Motion, 3D y tiempo real', icon: 'view_in_ar' },
-  { n: '04', title: 'Producto y crecimiento', icon: 'trending_up' },
-];
+/* Aquí vivía `DISCIPLINES`, las cuatro disciplinas del bloque "Sistema
+   Mizar". Se retiró junto con el bloque. */

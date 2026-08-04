@@ -21,7 +21,7 @@ export interface Project {
   category: string;
   /** La única línea visible bajo el título. Corta. */
   hook: string;
-  /** Color de la píldora. Ver ACCENTS en Trabajo.astro. */
+  /** Color de la píldora. Ver ACCENTS en Proyectos.astro. */
   accent: 'gold' | 'cyan' | 'violet';
   /** Descripción de la imagen para lectores de pantalla. */
   alt: string;

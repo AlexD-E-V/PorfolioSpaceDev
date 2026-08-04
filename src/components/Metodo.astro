@@ -1,11 +1,12 @@
 ---
 import Icon from './ui/Icon.astro';
-import { PHASES, DISCIPLINES } from '../data/method';
+import { PHASES } from '../data/method';
 
-/* El método absorbe lo que en el diseño de referencia era una sección aparte
-   ("Sistema Mizar"). El argumento de "un solo equipo, sin traspasos" es un
-   argumento de método: aquí es donde pertenece, y así son cinco secciones y
-   no seis. Ver docs/MIZARIUM.md §5. */
+/* Las cuatro fases responden a la objeción principal para contratar un
+   estudio pequeño: no saber qué va a pasar ni cuánto va a costar.
+
+   Aquí cerraba antes un bloque "Sistema Mizar" con las cuatro disciplinas.
+   Se retiró por decisión del cliente: sobraba y alargaba la sección. */
 ---
 
 <section id="metodo" class="relative w-full py-24 md:py-28">
@@ -54,42 +55,5 @@ import { PHASES, DISCIPLINES } from '../data/method';
         ))
       }
     </ol>
-
-    <!-- Sistema Mizar -->
-    <div
-      class="glass-panel relative mt-16 overflow-hidden rounded-2xl p-8 md:p-12"
-    >
-      <div class="scanline"></div>
-
-      <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <div>
-          <p class="eyebrow">El sistema Mizar</p>
-          <h3 class="display-3 mt-4">Cuatro estrellas. Un solo punto de luz.</h3>
-          <p class="body-text mt-5">
-            Mizar parece una estrella y en realidad son cuatro. Igual que
-            nosotros: diseño, código, producto y tiempo real trabajando por
-            separado y llegándote como un producto único. Sin intermediarios,
-            sin traspasos, sin «eso lo lleva otro equipo».
-          </p>
-        </div>
-
-        <div class="grid gap-3.5 sm:grid-cols-2">
-          {
-            DISCIPLINES.map((d) => (
-              <div class="group rounded-xl border border-ink-600 bg-ink-800/70 p-5 transition-all duration-300 hover:border-primary/45">
-                <div class="flex items-center justify-between">
-                  <span class="font-mono text-lg text-primary">{d.n}</span>
-                  <Icon
-                    name={d.icon}
-                    class="text-lg text-slate-400 transition-colors group-hover:text-primary"
-                  />
-                </div>
-                <p class="mt-3 text-sm font-semibold leading-snug">{d.title}</p>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
   </div>
 </section>
