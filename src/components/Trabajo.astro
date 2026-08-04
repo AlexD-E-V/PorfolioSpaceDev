@@ -8,9 +8,21 @@ import { TEAM } from '../data/team';
    SIGNAL_MAP y framer-motion entero para animar la rejilla — la sección más
    trabajada del sitio, y la que más lo hacía parecer un portafolio.
 
-   Ahora son dos casos reales con su resultado, un enlace al portafolio
-   personal para quien quiera más, y las caras de quien lo hizo. Al quitar los
-   filtros se cayeron 138 KB de framer-motion del bundle. */
+   Y en su primera versión aquí seguía pesando demasiado texto: cada tarjeta
+   mostraba a la vez papel, año, descripción, resultado, stack y enlace. Ahora
+   manda la imagen; lo demás aparece encima al pasar por el cursor.
+
+   La rejilla usa `columns` (multicolumna CSS) en vez de `grid` para que las
+   tarjetas se empaqueten según su altura real y quede escalonada, como en la
+   referencia. Con `grid` y márgenes forzados se abrían huecos entre filas. */
+
+const ACCENTS = {
+  /* Contrastes comprobados sobre cada fondo: oro 10.9:1, cian 12.3:1 y
+     violeta 6.4:1 con texto blanco (en violeta el texto oscuro fallaría). */
+  gold: 'bg-star-500 text-on-primary',
+  cyan: 'bg-cosmic-cyan text-ink-950',
+  violet: 'bg-cosmic-violet text-white',
+} as const;
 ---
 
 <section id="trabajo" class="relative w-full py-24 md:py-28">
@@ -27,70 +39,104 @@ import { TEAM } from '../data/team';
       </p>
     </div>
 
-    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-12 gap-8 lg:columns-2">
       {
         PROJECTS.map((p) => (
-          <article class="glass-card group flex flex-col overflow-hidden rounded-2xl">
-            <div class="relative aspect-[16/10] overflow-hidden">
+          <article class="group mb-8 break-inside-avoid">
+            <div
+              class:list={[
+                'relative overflow-hidden rounded-2xl border border-ink-600 transition-colors duration-500 group-hover:border-primary/40',
+                p.aspect,
+              ]}
+            >
               <div
-                class="absolute inset-0 bg-cover bg-center grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 style={`background-image: url('${p.image}')`}
                 role="img"
                 aria-label={`Captura de ${p.title}`}
               />
-              <div class="absolute inset-0 mission-overlay" />
-              <div class="scanline" />
 
-              <div class="absolute inset-x-0 bottom-0 flex flex-wrap gap-1.5 p-4">
-                {p.tags.map((t) => (
-                  <span class="rounded border border-white/20 bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider backdrop-blur-sm">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
+              {/* Velo permanente, muy suave, para que la píldora se lea
+                  siempre sobre cualquier imagen. */}
+              <div
+                class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"
+                aria-hidden="true"
+              />
 
-            <div class="flex flex-1 flex-col p-6">
-              <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
-                {p.role} · {p.year}
-              </p>
-              <h3 class="mt-2.5 text-xl font-bold tracking-tight">{p.title}</h3>
-              <p class="body-text mt-2.5 text-sm">{p.description}</p>
+              {/* La píldora va ANTES del overlay a propósito: al revelarse,
+                  el overlay la tapa sin necesidad de desvanecerla aparte.
+                  La primera versión usaba `lg:group-hover:opacity-0` para
+                  ocultarla, pero Tailwind no llegaba a generar esa variante
+                  apilada y la píldora se quedaba flotando encima. */}
+              <span
+                class:list={[
+                  'absolute bottom-4 left-4 rounded-full px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em]',
+                  ACCENTS[p.accent],
+                ]}
+              >
+                {p.category}
+              </span>
 
-              <div class="mt-5 border-t border-ink-600 pt-4">
-                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
-                  Resultado
+              {/* Ficha que sube al pasar por encima. En pantallas sin cursor
+                  no aparece: ahí los datos van debajo, ver más abajo. */}
+              <div
+                class="pointer-events-none absolute inset-0 hidden flex-col justify-end bg-gradient-to-t from-ink-950 via-ink-950/85 to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100 lg:flex"
+              >
+                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
+                  {p.role} · {p.year}
                 </p>
-                <p class="mt-1.5 text-sm text-ink-50">{p.result}</p>
-              </div>
+                <p class="mt-2 text-[0.95rem] leading-snug text-ink-50">
+                  {p.result}
+                </p>
+                <p class="mt-3 font-mono text-[10px] text-slate-400">{p.tech}</p>
 
-              <div class="mt-5 flex items-center justify-between gap-3">
-                <span class="font-mono text-[10px] text-slate-400">{p.tech}</span>
                 {p.url && (
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Visitar ${p.title} (se abre en una pestaña nueva)`}
-                    class="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-star-300"
-                  >
+                  <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-primary">
                     Visitar
                     <Icon name="travel_explore" class="text-sm" />
-                  </a>
+                  </span>
                 )}
               </div>
+
+              {/* La tarjeta entera es el enlace, pero el nombre accesible lo
+                  da este enlace invisible: así no hay que repetir texto. */}
+              {p.url && (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="absolute inset-0"
+                  aria-label={`Ver ${p.title} (se abre en una pestaña nueva)`}
+                />
+              )}
+            </div>
+
+            <h3 class="mt-5 text-xl font-bold tracking-tight transition-colors group-hover:text-primary">
+              {p.title}
+            </h3>
+            <p class="body-text mt-1.5 text-sm">{p.hook}</p>
+
+            {/* Sin cursor no hay hover, así que lo que arriba se revela al
+                pasar por encima aquí se muestra siempre. El resultado va
+                incluido a propósito: es el dato que de verdad vende y en
+                móvil no habría ninguna otra forma de verlo. */}
+            <div class="lg:hidden">
+              <p class="mt-2.5 text-sm text-ink-50">{p.result}</p>
+              <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400">
+                {p.role} · {p.year} · {p.tech}
+              </p>
             </div>
           </article>
         ))
       }
 
-      <!-- Portafolio personal: deja esta página magra sin perder a quien
-           quiere profundidad, y evita que las dos compitan. -->
+      {/* Portafolio personal: deja esta página magra sin perder a quien
+          quiere profundidad, y evita que las dos compitan. */}
       <a
         href={PORTFOLIO_URL}
         target="_blank"
         rel="noopener noreferrer"
-        class="glass-card group flex flex-col items-start justify-center gap-4 rounded-2xl p-8 md:col-span-2 lg:col-span-1"
+        class="glass-card group mb-8 flex break-inside-avoid flex-col items-start justify-center gap-4 rounded-2xl p-8"
       >
         <Icon name="explore" class="text-3xl text-primary" />
         <h3 class="text-xl font-bold tracking-tight">¿Quieres ver más?</h3>
@@ -108,7 +154,7 @@ import { TEAM } from '../data/team';
     </div>
 
     <!-- Quién lo hizo -->
-    <div class="mt-20">
+    <div class="mt-16">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p class="eyebrow">Quién está detrás</p>
