@@ -26,8 +26,8 @@ export interface NavLink {
 
 export const NAV_LINKS: NavLink[] = [
   { id: 'servicios', label: 'Servicios', href: '/#servicios' },
-  { id: 'metodo', label: 'Método', href: '/#metodo' },
   { id: 'proyectos', label: 'Proyectos', href: '/#proyectos' },
+  { id: 'nosotros', label: 'Nosotros', href: '/#nosotros' },
   { id: 'contacto', label: 'Contacto', href: '/#contacto' },
 ];
 

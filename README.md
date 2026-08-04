@@ -59,7 +59,7 @@ public/
 src/
   assets/logos/         6 variantes del logo en SVG
   components/
-    Hero · Servicios · Metodo · Proyectos · Contacto
+    Hero · Servicios · Proyectos · Nosotros · Contacto
     ui/                 Icon (Astro y React) · Logo
     team/               MemberCard · MemberPortrait · SocialLink
     effects/            Starfield
@@ -96,12 +96,19 @@ Cambiar la paleta entera es cambiar los alias de ese archivo.
 
 ## Página
 
-Cinco secciones: **Hero · Servicios · Método · Proyectos · Contacto**.
+Cinco secciones: **Hero · Servicios · Proyectos · Nosotros · Contacto**.
 
-Varias secciones que uno esperaría aparte están absorbidas a propósito: los
-formatos de contratación dentro de Servicios porque responden a *qué compro*; el
-equipo dentro de Proyectos porque la prueba de quién lo hizo va junto a lo hecho;
-y la FAQ dentro de Contacto porque las objeciones se responden donde se decide.
+El recorrido va de qué se vende a la prueba de que se ha hecho, de ahí a quién lo
+hace y bajo qué reglas, y termina en la decisión.
+
+**Nosotros** reúne tres bloques en este orden: el equipo, el método en cuatro
+fases y los formatos de contratación. Los tres responden a la misma pregunta
+—*quiénes sois y cómo se trabaja con vosotros*—, así que van juntos. Antes
+estaban repartidos: Método era sección propia, el equipo colgaba de Proyectos y
+los formatos cerraban Servicios.
+
+La FAQ sí sigue absorbida dentro de Contacto, porque las objeciones se responden
+donde se decide.
 
 ---
 

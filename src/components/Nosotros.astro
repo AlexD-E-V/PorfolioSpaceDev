@@ -1,0 +1,145 @@
+---
+import Icon from './ui/Icon.astro';
+import MemberCard from './team/MemberCard.astro';
+import { PHASES } from '../data/method';
+import { TEAM } from '../data/team';
+import { FORMATS } from '../data/services';
+
+/* Sección nueva que reúne las tres piezas que respondían a "quiénes sois y
+   cómo se trabaja con vosotros" y que antes estaban repartidas:
+
+     · el equipo vivía al final de Proyectos
+     · el método era una sección propia entre Servicios y Proyectos
+     · los formatos de contratación eran un panel al pie de Servicios
+
+   Van juntas y en este orden porque es el orden en que se pregunta: primero
+   quién, luego cómo, y al final bajo qué acuerdo. `Metodo.astro` desaparece;
+   sus datos (`data/method.ts`) siguen intactos y se leen desde aquí.
+
+   Jerarquía de títulos: un solo `h2` para toda la sección, `h3` para lo que
+   cuelga de él —el nombre de cada persona, el titular de Método y el de
+   Formatos— y `h4` dentro de esos dos bloques. Antes el bloque de equipo
+   tenía su propio `h3` y los nombres otro igual, así que el índice de
+   encabezados salía plano. Aquí el equipo va directo bajo el `h2` y el nivel
+   se respeta sin saltos. */
+---
+
+<section id="nosotros" class="relative w-full py-24 md:py-28">
+  <div class="shell">
+
+    <!-- Cabecera de la sección -->
+    <div class="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+      <div>
+        <p class="eyebrow">Nosotros</p>
+        <h2 class="display-2 mt-4 max-w-[16ch]">Dos personas, cuatro disciplinas</h2>
+      </div>
+      <p class="body-text max-w-[34ch] text-[0.95rem]">
+        Trabajamos desde la latitud 0°, el punto donde empiezan las
+        coordenadas.
+      </p>
+    </div>
+
+    <!-- 1 · Equipo -->
+    <div class="mt-10 grid gap-5 lg:grid-cols-2">
+      {TEAM.map((member) => <MemberCard member={member} />)}
+    </div>
+
+    <!-- 2 · Método -->
+    <div class="mt-24 md:mt-28">
+      <div class="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+        <div>
+          <p class="eyebrow">Método</p>
+          {/* Baja de `display-2` a `display-3`: ya no encabeza una sección,
+              cuelga del titular de Nosotros. */}
+          <h3 class="display-3 mt-3 max-w-[20ch]">
+            De una idea vaga a algo que funciona
+          </h3>
+        </div>
+        <p
+          class="flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/[0.06] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-primary"
+        >
+          <Icon name="check_circle" class="shrink-0 text-sm" />
+          Presupuesto cerrado por escrito
+        </p>
+      </div>
+
+      <ol class="mt-10 grid border-t border-ink-600 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          PHASES.map((p, i) => (
+            <li
+              class:list={[
+                'group relative border-ink-600 px-0 py-8 sm:px-7 lg:px-6',
+                i === 0 && 'sm:pl-0 lg:pl-0',
+                i !== PHASES.length - 1 && 'lg:border-r',
+                i === 0 && 'sm:border-r',
+                i === 2 && 'sm:border-r lg:border-r',
+                /* Apiladas no hay columnas que separen una fase de la
+                   siguiente, así que el filete lo pone cada una. Se retira en
+                   cuanto la rejilla lo hace por su cuenta: a partir de `sm`
+                   para la primera fila, y de `lg` para las que ya no rompen
+                   línea. Si no, el filete se duplicaría sobre el borde
+                   superior de la lista. */
+                i === 1 && 'border-t sm:border-t-0',
+                (i === 2 || i === 3) && 'border-t lg:border-t-0',
+              ]}
+            >
+              {/* Línea que se enciende al pasar por encima */}
+              <span
+                class="absolute left-0 top-[-1px] h-px w-0 bg-primary transition-all duration-700 group-hover:w-full"
+                aria-hidden="true"
+              />
+
+              <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                {p.step} — {p.when}
+              </p>
+              <h4 class="mt-4 text-2xl font-bold tracking-tight transition-colors group-hover:text-primary">
+                {p.title}
+              </h4>
+              <p class="body-text mt-2.5 text-sm">{p.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- 3 · Formatos de contratación -->
+    <div class="mt-16 rounded-2xl border border-ink-600 bg-ink-900/60 p-6 sm:p-8 md:p-10">
+      {/* Aquí iba "Presupuesto cerrado, siempre por escrito" en mono gris.
+          Se retira: la píldora dorada del método, ahora a unos cientos de
+          píxeles por encima y dentro de la misma sección, dice lo mismo. En
+          secciones separadas la repetición reforzaba; junta, cansa. */}
+      <div>
+        <p class="eyebrow">Formatos de trabajo</p>
+        <h3 class="display-3 mt-3">Tres maneras de trabajar con nosotros</h3>
+      </div>
+
+      {/* Tres columnas solo desde `lg`. En Servicios rompían en `md`, y a 768
+          px cada tarjeta quedaba en 186 px: dos palabras por línea dentro de
+          un recuadro con 24 px de aire a cada lado. Apiladas se leen. */}
+      <div class="mt-8 grid gap-4 lg:grid-cols-3">
+        {
+          FORMATS.map((f) => (
+            <div
+              class:list={[
+                'rounded-xl border p-6 transition-all duration-300',
+                f.featured
+                  ? 'border-primary/45 bg-primary/[0.06] shadow-glow-card'
+                  : 'border-ink-600 bg-white/[0.02] hover:border-ink-400',
+              ]}
+            >
+              <h4
+                class:list={[
+                  'text-lg font-bold tracking-tight',
+                  f.featured && 'text-star-300',
+                ]}
+              >
+                {f.title}
+              </h4>
+              <p class="body-text mt-2.5 text-sm">{f.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

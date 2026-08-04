@@ -2,19 +2,24 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Servicios from '../components/Servicios.astro';
-import Metodo from '../components/Metodo.astro';
 import Proyectos from '../components/Proyectos.astro';
+import Nosotros from '../components/Nosotros.astro';
 import Contacto from '../components/Contacto.astro';
 
 /* Cinco secciones. Space DEV tenía siete y el diseño de referencia ocho.
 
-   Varias de las que faltan no se han recortado: se han absorbido. Los
-   formatos de contratación viven dentro de Servicios porque responden a "qué
-   compro"; el equipo dentro de Proyectos porque la
-   prueba de quién lo hizo va junto a lo hecho; y la FAQ dentro de Contacto
-   porque las objeciones se responden donde se decide.
+   El recorrido va de qué se vende (Servicios) a la prueba de que se ha hecho
+   (Proyectos), de ahí a quién lo hace y bajo qué reglas (Nosotros) y termina
+   en la decisión (Contacto).
 
-   Ver docs/MIZARIUM.md §5. */
+   Nosotros sustituye a la antigua sección Método y absorbe tres bloques que
+   estaban repartidos: el equipo, que colgaba de Proyectos; las cuatro fases
+   del método, que eran sección propia; y los formatos de contratación, que
+   cerraban Servicios. Los tres responden a la misma pregunta —quiénes sois y
+   cómo se trabaja con vosotros— y separados se pisaban entre sí.
+
+   La FAQ sigue dentro de Contacto: las objeciones se responden donde se
+   decide. Ver docs/MIZARIUM.md §5. */
 ---
 
 <Layout
@@ -24,8 +29,8 @@ import Contacto from '../components/Contacto.astro';
   <main id="contenido">
     <Hero />
     <Servicios />
-    <Metodo />
     <Proyectos />
+    <Nosotros />
     <Contacto />
   </main>
 </Layout>

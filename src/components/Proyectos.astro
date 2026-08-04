@@ -1,8 +1,6 @@
 ---
 import Icon from './ui/Icon.astro';
-import MemberCard from './team/MemberCard.astro';
 import { PROJECTS, PORTFOLIO_URL } from '../data/projects';
-import { TEAM } from '../data/team';
 
 /* Antes esto era `Archivos.tsx`: filtros por categoría, expandir/colapsar,
    SIGNAL_MAP y framer-motion entero para animar la rejilla — la sección más
@@ -145,24 +143,6 @@ const ACCENTS = {
           <Icon name="arrow_forward" />
         </span>
       </a>
-    </div>
-
-    <!-- Quién lo hizo -->
-    <div class="mt-24">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p class="eyebrow">Quién está detrás</p>
-          <h3 class="display-3 mt-3">Dos personas, cuatro disciplinas</h3>
-        </div>
-        <p class="body-text max-w-[34ch] text-sm">
-          Trabajamos desde la latitud 0°, el punto donde empiezan las
-          coordenadas.
-        </p>
-      </div>
-
-      <div class="mt-8 grid gap-5 lg:grid-cols-2">
-        {TEAM.map((member) => <MemberCard member={member} />)}
-      </div>
     </div>
   </div>
 </section>

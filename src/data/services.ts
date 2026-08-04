@@ -72,7 +72,11 @@ export const SECONDARY_SERVICES: Service[] = [
 ];
 
 /* Responde a "¿cómo se contrata esto?", que es de las tres primeras preguntas
-   de cualquiera que llega buscando un estudio. */
+   de cualquiera que llega buscando un estudio.
+
+   Vive aquí, junto a los servicios, porque es la otra cara del mismo dato —
+   qué se compra y bajo qué acuerdo—, pero se pinta en `Nosotros.astro`, al
+   final del recorrido: preguntar por el formato es lo último que se hace. */
 export interface Format {
   id: string;
   title: string;

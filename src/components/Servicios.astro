@@ -1,6 +1,6 @@
 ---
 import Icon from './ui/Icon.astro';
-import { PRIMARY_SERVICE, SECONDARY_SERVICES, FORMATS } from '../data/services';
+import { PRIMARY_SERVICE, SECONDARY_SERVICES } from '../data/services';
 
 /* El movimiento que reposiciona la página entera: la web ocupa una tarjeta
    grande con entregables y CTA propio, y el resto son cuatro tarjetas
@@ -121,44 +121,6 @@ const TILTS = [
                 <p class="body-text mt-2.5 text-sm">{s.description}</p>
               </div>
             </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <!-- Formatos de contratación -->
-    <div class="mt-14 rounded-2xl border border-ink-600 bg-ink-900/60 p-8 md:p-10">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p class="eyebrow">Formatos de trabajo</p>
-          <h3 class="display-3 mt-3">Tres maneras de trabajar con nosotros</h3>
-        </div>
-        <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400">
-          Presupuesto cerrado, siempre por escrito
-        </p>
-      </div>
-
-      <div class="mt-8 grid gap-4 md:grid-cols-3">
-        {
-          FORMATS.map((f) => (
-            <div
-              class:list={[
-                'rounded-xl border p-6 transition-all duration-300',
-                f.featured
-                  ? 'border-primary/45 bg-primary/[0.06] shadow-glow-card'
-                  : 'border-ink-600 bg-white/[0.02] hover:border-ink-400',
-              ]}
-            >
-              <h4
-                class:list={[
-                  'text-lg font-bold tracking-tight',
-                  f.featured && 'text-star-300',
-                ]}
-              >
-                {f.title}
-              </h4>
-              <p class="body-text mt-2.5 text-sm">{f.description}</p>
-            </div>
           ))
         }
       </div>
