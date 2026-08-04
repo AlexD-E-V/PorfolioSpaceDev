@@ -23,8 +23,8 @@ export interface Project {
   hook: string;
   /** Color de la píldora. Ver ACCENTS en Trabajo.astro. */
   accent: 'gold' | 'cyan' | 'violet';
-  /** Proporción de la imagen. Al variarla, la rejilla queda escalonada. */
-  aspect: string;
+  /** Descripción de la imagen para lectores de pantalla. */
+  alt: string;
 
   /* --- Solo visible al pasar por encima --- */
   role: string;
@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
     category: 'Salud & Social',
     hook: 'Educación sobre salud sexual, sin rodeos y sin estigma.',
     accent: 'gold',
-    aspect: 'aspect-[4/5]',
+    alt: 'La web de Rompamos el Tabú en portátil y móvil.',
     role: 'Web de campaña',
     year: '2024',
     result: 'Campaña en vivo, con el contenido abierto y consultable.',
@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
     category: 'Producto',
     hook: 'Una marca y una comunidad antes de que existiera la app.',
     accent: 'cyan',
-    aspect: 'aspect-[3/4]',
+    alt: 'Identidad de la marca Pets sobre fondo claro.',
     role: 'App y campaña de prelanzamiento',
     year: '2025',
     result: 'Base de interesados e identidad consolidada antes del lanzamiento.',

@@ -8,16 +8,20 @@ import { TEAM } from '../data/team';
    SIGNAL_MAP y framer-motion entero para animar la rejilla — la sección más
    trabajada del sitio, y la que más lo hacía parecer un portafolio.
 
-   Y en su primera versión aquí seguía pesando demasiado texto: cada tarjeta
-   mostraba a la vez papel, año, descripción, resultado, stack y enlace. Ahora
-   manda la imagen; lo demás aparece encima al pasar por el cursor.
+   La tarjeta replica la de docs/ref/newref.html: proporción 4/5 fija, imagen
+   a sangre con zoom al pasar por encima, degradado permanente, píldora de
+   color apoyada abajo a la izquierda, y debajo título y una sola línea.
 
-   La rejilla usa `columns` (multicolumna CSS) en vez de `grid` para que las
-   tarjetas se empaqueten según su altura real y quede escalonada, como en la
-   referencia. Con `grid` y márgenes forzados se abrían huecos entre filas. */
+   Diferencias respecto a esa referencia, y por qué:
+     · El desfase alterna −48/+48 px en vez de empujar solo una columna, así
+       el bloque queda equilibrado respecto a su eje.
+     · Se añade el RESULTADO al pasar por encima. La referencia no lo tiene,
+       pero es el dato que de verdad vende; aparece sin tapar el zoom, en una
+       franja al pie. Si se quiere la tarjeta idéntica a la referencia, basta
+       con borrar ese bloque. */
 
 const ACCENTS = {
-  /* Contrastes comprobados sobre cada fondo: oro 10.9:1, cian 12.3:1 y
+  /* Contrastes comprobados sobre cada fondo: oro 10.9:1, cian 12.5:1 y
      violeta 6.4:1 con texto blanco (en violeta el texto oscuro fallaría). */
   gold: 'bg-star-500 text-on-primary',
   cyan: 'bg-cosmic-cyan text-ink-950',
@@ -28,65 +32,56 @@ const ACCENTS = {
 <section id="trabajo" class="relative w-full py-24 md:py-28">
   <div class="shell">
 
-    <div class="flex flex-wrap items-end justify-between gap-6">
+    <!-- Cabecera. El párrafo explicativo que había aquí se cambió por esta
+         línea de datos: dice lo mismo con una cuarta parte del texto. -->
+    <div class="mb-16 flex flex-wrap items-baseline justify-between gap-6 md:mb-20">
       <div>
         <p class="eyebrow">Trabajo reciente</p>
         <h2 class="display-2 mt-4">Casos, no galería</h2>
       </div>
-      <p class="body-text max-w-[36ch] text-[0.95rem]">
-        Enseñamos pocos a propósito: los que explican cómo trabajamos y qué
-        consiguieron.
-      </p>
+      <div
+        class="flex gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-slate-400"
+      >
+        <span class="text-primary">2024 — 2025</span>
+        <span aria-hidden="true">/</span>
+        <span>Selección</span>
+      </div>
     </div>
 
-    <!-- Rejilla escalonada: la columna de la derecha arranca más abajo.
-
-         La versión anterior usaba `columns` (multicolumna CSS) esperando que
-         se empaquetara sola, pero con solo dos casos de altura parecida el
-         resultado quedaba plano, en línea. Con `grid` + `items-start` el
-         desfase se controla a mano y siempre ocurre. -->
-    <div class="mt-12 grid gap-x-8 gap-y-12 lg:grid-cols-2 lg:items-start">
+    <!-- Rejilla escalonada. La versión anterior usaba `columns` esperando que
+         se empaquetara sola por altura, pero con dos casos parecidos quedaba
+         en línea. Aquí el desfase se controla y siempre ocurre. -->
+    <div class="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2">
       {
         PROJECTS.map((p, i) => (
-          <article class:list={['group', i % 2 === 1 && 'lg:mt-24']}>
-            <div
-              class:list={[
-                'relative overflow-hidden rounded-2xl border border-ink-600 transition-colors duration-500 group-hover:border-primary/40',
-                p.aspect,
-              ]}
-            >
-              <div
-                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                style={`background-image: url('${p.image}')`}
-                role="img"
-                aria-label={`Captura de ${p.title}`}
+          <article
+            class:list={[
+              'group flex flex-col gap-6',
+              i % 2 === 0 ? 'md:-mt-12' : 'md:mt-12',
+            ]}
+          >
+            <div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-ink-800">
+              <img
+                src={p.image}
+                alt={p.alt}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
 
-              {/* Velo permanente, muy suave, para que la píldora se lea
-                  siempre sobre cualquier imagen. */}
+              {/* Degradado permanente: asienta la píldora sobre cualquier
+                  imagen y ata la tarjeta al fondo de la página. */}
               <div
-                class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"
+                class="absolute inset-0 bg-gradient-to-t from-ink-950 to-transparent opacity-60"
                 aria-hidden="true"
               />
 
-              {/* La píldora va ANTES del overlay a propósito: al revelarse,
-                  el overlay la tapa sin necesidad de desvanecerla aparte.
-                  La primera versión usaba `lg:group-hover:opacity-0` para
-                  ocultarla, pero Tailwind no llegaba a generar esa variante
-                  apilada y la píldora se quedaba flotando encima. */}
-              <span
-                class:list={[
-                  'absolute bottom-4 left-4 rounded-full px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em]',
-                  ACCENTS[p.accent],
-                ]}
-              >
-                {p.category}
-              </span>
-
-              {/* Ficha que sube al pasar por encima. En pantallas sin cursor
-                  no aparece: ahí los datos van debajo, ver más abajo. */}
+              {/* Franja con el resultado. Sube al pasar por encima sin tapar
+                  el zoom, a diferencia del panel completo de la versión
+                  anterior. En pantallas sin cursor no aparece: ahí el dato
+                  va debajo del título. */}
               <div
-                class="pointer-events-none absolute inset-0 hidden flex-col justify-end bg-gradient-to-t from-ink-950 via-ink-950/85 to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100 lg:flex"
+                class="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-3 bg-gradient-to-t from-ink-950 via-ink-950/90 to-transparent px-8 pb-24 pt-10 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 lg:block"
               >
                 <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
                   {p.role} · {p.year}
@@ -94,18 +89,19 @@ const ACCENTS = {
                 <p class="mt-2 text-[0.95rem] leading-snug text-ink-50">
                   {p.result}
                 </p>
-                <p class="mt-3 font-mono text-[10px] text-slate-400">{p.tech}</p>
-
-                {p.url && (
-                  <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-primary">
-                    Visitar
-                    <Icon name="travel_explore" class="text-sm" />
-                  </span>
-                )}
               </div>
 
-              {/* La tarjeta entera es el enlace, pero el nombre accesible lo
-                  da este enlace invisible: así no hay que repetir texto. */}
+              <span
+                class:list={[
+                  'absolute bottom-8 left-8 rounded-full px-4 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em]',
+                  ACCENTS[p.accent],
+                ]}
+              >
+                {p.category}
+              </span>
+
+              {/* La tarjeta entera es el enlace; el nombre accesible lo da
+                  este enlace invisible, así no hay que repetir texto. */}
               {p.url && (
                 <a
                   href={p.url}
@@ -117,32 +113,29 @@ const ACCENTS = {
               )}
             </div>
 
-            <h3 class="mt-5 text-xl font-bold tracking-tight transition-colors group-hover:text-primary">
-              {p.title}
-            </h3>
-            <p class="body-text mt-1.5 text-sm">{p.hook}</p>
+            <div>
+              <h3 class="text-2xl font-bold tracking-tight transition-colors group-hover:text-primary">
+                {p.title}
+              </h3>
+              <p class="body-text mt-2 text-sm">{p.hook}</p>
 
-            {/* Sin cursor no hay hover, así que lo que arriba se revela al
-                pasar por encima aquí se muestra siempre. El resultado va
-                incluido a propósito: es el dato que de verdad vende y en
-                móvil no habría ninguna otra forma de verlo. */}
-            <div class="lg:hidden">
-              <p class="mt-2.5 text-sm text-ink-50">{p.result}</p>
-              <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400">
-                {p.role} · {p.year} · {p.tech}
-              </p>
+              {/* Sin cursor no hay hover: el resultado se muestra siempre. */}
+              <div class="lg:hidden">
+                <p class="mt-3 text-sm text-ink-50">{p.result}</p>
+                <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400">
+                  {p.role} · {p.year} · {p.tech}
+                </p>
+              </div>
             </div>
           </article>
         ))
       }
     </div>
 
-    {/* Portafolio personal, FUERA de la rejilla y centrado.
-
-        Antes era una tarjeta más dentro de la retícula, así que caía debajo
-        de la columna más corta y dejaba un hueco enorme al lado. Sacándola
-        y centrándola cierra la sección en vez de descuadrarla. */}
-    <div class="mt-16 flex justify-center">
+    {/* Portafolio personal, FUERA de la rejilla y centrado. Antes era una
+        tarjeta más y caía debajo de la columna corta, dejando un hueco
+        enorme al lado. */}
+    <div class="mt-20 flex justify-center">
       <a
         href={PORTFOLIO_URL}
         target="_blank"
@@ -165,7 +158,7 @@ const ACCENTS = {
     </div>
 
     <!-- Quién lo hizo -->
-    <div class="mt-16">
+    <div class="mt-24">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p class="eyebrow">Quién está detrás</p>
