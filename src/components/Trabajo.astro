@@ -39,10 +39,16 @@ const ACCENTS = {
       </p>
     </div>
 
-    <div class="mt-12 gap-8 lg:columns-2">
+    <!-- Rejilla escalonada: la columna de la derecha arranca más abajo.
+
+         La versión anterior usaba `columns` (multicolumna CSS) esperando que
+         se empaquetara sola, pero con solo dos casos de altura parecida el
+         resultado quedaba plano, en línea. Con `grid` + `items-start` el
+         desfase se controla a mano y siempre ocurre. -->
+    <div class="mt-12 grid gap-x-8 gap-y-12 lg:grid-cols-2 lg:items-start">
       {
-        PROJECTS.map((p) => (
-          <article class="group mb-8 break-inside-avoid">
+        PROJECTS.map((p, i) => (
+          <article class:list={['group', i % 2 === 1 && 'lg:mt-24']}>
             <div
               class:list={[
                 'relative overflow-hidden rounded-2xl border border-ink-600 transition-colors duration-500 group-hover:border-primary/40',
@@ -129,18 +135,23 @@ const ACCENTS = {
           </article>
         ))
       }
+    </div>
 
-      {/* Portafolio personal: deja esta página magra sin perder a quien
-          quiere profundidad, y evita que las dos compitan. */}
+    {/* Portafolio personal, FUERA de la rejilla y centrado.
+
+        Antes era una tarjeta más dentro de la retícula, así que caía debajo
+        de la columna más corta y dejaba un hueco enorme al lado. Sacándola
+        y centrándola cierra la sección en vez de descuadrarla. */}
+    <div class="mt-16 flex justify-center">
       <a
         href={PORTFOLIO_URL}
         target="_blank"
         rel="noopener noreferrer"
-        class="glass-card group mb-8 flex break-inside-avoid flex-col items-start justify-center gap-4 rounded-2xl p-8"
+        class="glass-card group flex w-full max-w-xl flex-col items-center gap-3 rounded-2xl p-8 text-center"
       >
         <Icon name="explore" class="text-3xl text-primary" />
         <h3 class="text-xl font-bold tracking-tight">¿Quieres ver más?</h3>
-        <p class="body-text text-sm">
+        <p class="body-text mx-auto text-sm">
           El resto del trabajo, con cada caso desglosado, está en el portafolio
           personal de Alex.
         </p>
