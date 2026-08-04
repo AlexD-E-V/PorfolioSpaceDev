@@ -1,7 +1,7 @@
 # Mizarium — Sitio web oficial
 
 Estudio digital multidisciplinar. Diseñamos y programamos páginas web, y desde
-ahí apps, videojuegos y experiencias inmersivas. Quito, Ecuador — latitud 0°.
+ahí apps, videojuegos y experiencias inmersivas. Ambato, Ecuador.
 
 > Este proyecto era **Space DEV**. El último estado con esa marca está en el
 > tag `v2.0.0`, por si hace falta volver o recuperar un recurso retirado.
@@ -163,4 +163,4 @@ paleta.
 
 ## Autoría
 
-Mizarium — Quito, Ecuador. Latitud 0°, el punto donde empiezan las coordenadas.
+Mizarium — Ambato, Ecuador. Más allá de las estrellas.

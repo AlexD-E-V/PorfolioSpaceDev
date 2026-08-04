@@ -1,6 +1,10 @@
-/* Cuatro preguntas, no cinco, y todas son objeciones de compra: precio,
-   plazo, propiedad y soporte. Viven junto al formulario para responderlas en
-   el momento exacto de la duda, no a media página de distancia. */
+/* Tres preguntas, y las tres son objeciones de compra: precio, plazo y
+   soporte. Viven junto al formulario para responderlas en el momento exacto
+   de la duda, no a media página de distancia.
+
+   Aquí había una cuarta, "¿De quién es el código?". Se retiró por decisión
+   del cliente: la propiedad se acuerda proyecto a proyecto, así que darla por
+   zanjada en la web comprometía algo que es negociable. */
 
 export interface FaqItem {
   id: string;
@@ -20,12 +24,6 @@ export const FAQS: FaqItem[] = [
     question: '¿Cuánto tarda?',
     answer:
       'Un sitio corporativo suele estar entre tres y seis semanas. Los proyectos grandes se parten en fases con entregas visibles cada semana, así que nunca esperas meses a ciegas.',
-  },
-  {
-    id: 'propiedad',
-    question: '¿De quién es el código?',
-    answer:
-      'Tuyo. Al entregar recibes el repositorio y los accesos completos. No trabajamos con plataformas que te aten a nosotros para poder tocar tu propia web.',
   },
   {
     id: 'soporte',

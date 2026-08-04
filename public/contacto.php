@@ -40,7 +40,7 @@
    por defecto, así que no hay nada que configurar.
    ========================================================================== */
 
-$DESTINO   = 'spacedev.me@gmail.com';          // TODO: cambiar al correo definitivo
+$DESTINO   = 'mizariumstudio@gmail.com';       // buzón actual del estudio
 $REMITENTE = 'no-reply@mizarium.com';          // TODO: debe ser del dominio propio
 $ORIGENES  = ['https://mizarium.com', 'https://www.mizarium.com'];
 

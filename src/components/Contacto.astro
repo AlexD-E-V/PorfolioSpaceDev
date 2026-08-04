@@ -3,6 +3,7 @@ import Icon from './ui/Icon.astro';
 import DirectLink from './DirectLink.tsx';
 import ContactForm from './ContactForm.tsx';
 import FaqList from './FaqList.astro';
+import StarMap from './effects/StarMap.astro';
 
 /* Contacto absorbe la FAQ: las objeciones de compra —precio, plazo, propiedad
    del código, soporte— se responden en el momento exacto de la duda y no a
@@ -75,14 +76,18 @@ import FaqList from './FaqList.astro';
             </h4>
           </div>
 
-          <p class="text-sm font-light text-white/70">Quito, Ecuador</p>
+          <p class="text-sm font-light text-white/70">Ambato, Ecuador</p>
           <p class="mt-1 font-mono text-[11px] text-slate-400">
-            LAT 0°00'00" · LON 78°27'00"
+            LAT 1°14'30"S · LON 78°37'11"O
           </p>
-          <p class="mt-4 text-sm italic leading-relaxed text-slate-400">
-            Trabajamos desde la latitud 0°, el punto donde empiezan las
-            coordenadas.
-          </p>
+
+          {/* Donde antes iba la frase de la latitud 0°. La carta estelar dice
+              lo mismo —dónde estamos— sin tener que contarlo. */}
+          <StarMap
+            class="mt-5"
+            label="Ambato"
+            alt="Carta estelar con Ambato, Ecuador, marcado por una estrella sobre una nebulosa."
+          />
         </div>
       </aside>
     </div>

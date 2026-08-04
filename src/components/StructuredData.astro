@@ -11,6 +11,8 @@
 
 import { PORTFOLIO_URL } from '../data/projects';
 import { PRIMARY_SERVICE, SECONDARY_SERVICES } from '../data/services';
+import { CONTACT_EMAIL } from '../data/site';
+import { TEAM } from '../data/team';
 
 interface Props {
   description: string;
@@ -31,21 +33,26 @@ const schema = {
       description,
       logo: `${site}/icon-512.png`,
       image: `${site}/og.png`,
-      email: 'hola@mizarium.com',
+      email: CONTACT_EMAIL,
       priceRange: '$$',
+      /* Tiene que coincidir con lo que se ve en "Dónde estamos": declarar una
+         ciudad y enseñar otra es de las cosas que un buscador penaliza. */
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Quito',
+        addressLocality: 'Ambato',
+        addressRegion: 'Tungurahua',
         addressCountry: 'EC',
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 0,
-        longitude: -78.45,
+        latitude: -1.2417,
+        longitude: -78.6197,
       },
       areaServed: { '@type': 'Place', name: 'Global' },
       knowsLanguage: ['es', 'en'],
-      sameAs: [PORTFOLIO_URL, 'https://github.com/AlexSpaceDev'],
+      /* Los perfiles salen del equipo: así declarar uno nuevo es editar
+         `data/team.ts` y nada más. */
+      sameAs: [...new Set([PORTFOLIO_URL, ...TEAM.flatMap((m) => Object.values(m.socials))])],
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: 'Servicios',

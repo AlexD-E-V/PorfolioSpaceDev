@@ -1,3 +1,7 @@
+/* El portafolio personal de Alex y su enlace "sitio web" son la misma página:
+   se importa en vez de repetir la URL, que es como se desincronizan. */
+import { PORTFOLIO_URL } from './projects';
+
 export type SocialNetwork =
   | 'github'
   | 'instagram'
@@ -34,7 +38,8 @@ export const TEAM: TeamMember[] = [
     focus:
       'Toda idea se puede programar. De problemas complejos a soluciones claras a través de código y estructura.',
     socials: {
-      github: 'https://github.com/AlexSpaceDev',
+      github: 'https://github.com/AlexD-E-V',
+      website: PORTFOLIO_URL,
     },
   },
   {
@@ -46,10 +51,15 @@ export const TEAM: TeamMember[] = [
     area: 'Diseño · Marca',
     role: 'Diseñadora Gráfica',
     secondaryRole: 'Dirección Creativa',
+    /* Escrito en paralelo al de Alex —una afirmación corta y luego el oficio
+       concreto—, y sin metáfora cósmica: la versión anterior hablaba de
+       "constelaciones visuales coherentes", que suena a marca y no dice qué
+       hace. Aquí se nombra el trabajo. */
     focus:
-      'Transformo ideas en constelaciones visuales coherentes, cuidando el equilibrio entre el impacto gráfico, la funcionalidad y el detalle creativo.',
-    /* TODO: pedir sus enlaces (Behance / Instagram / Dribbble). El icono de
-       GitHub del mockup no encaja con un perfil de diseño. */
+      'Toda marca necesita una forma. Del concepto a la identidad, el color y la tipografía que la vuelven reconocible.',
+    /* TODO: pendiente de que la diseñadora pase sus enlaces (Behance /
+       Instagram). El icono de GitHub del mockup no encaja con un perfil de
+       diseño. */
     socials: {},
   },
 ];

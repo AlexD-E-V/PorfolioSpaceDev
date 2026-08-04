@@ -1,0 +1,272 @@
+---
+/* Carta estelar de la ubicación del estudio.
+
+   Sustituye a la foto de "zona desconocida" que tenía Space DEV bajo el
+   falso "Sector 7G, Base Lunar Uno". Aquella era una imagen: pesaba, no se
+   podía retonalizar y no decía nada del sitio real.
+
+   Esto es SVG + CSS, así que:
+     · no pide nada a ningún servidor — ni tiles de mapa, ni una API, ni el
+       consentimiento de cookies que arrastraría un iframe de Google Maps
+     · pesa lo que ocupa este archivo
+     · el color sale de los tokens, así que si cambia la paleta cambia solo
+
+   La lectura es doble a propósito: rejilla de meridianos y paralelos con
+   retícula sobre el punto marcado (mapa), nebulosa que respira detrás y una
+   estrella que parpadea encima (cielo). Los contornos concéntricos son el
+   guiño a la topografía de la imagen vieja, pero aquí leen como las
+   isofotas de una nebulosa.
+
+   El movimiento se detiene solo para quien pide menos animación: la regla
+   global de `prefers-reduced-motion` en Layout.astro corta la duración, y
+   todos los fotogramas 100% de aquí abajo son estados de reposo válidos —
+   la nebulosa vuelve a su sitio y la estrella se queda encendida. */
+
+interface Props {
+  /** Etiqueta que acompaña a la estrella. */
+  label: string;
+  /** Descripción para quien no ve la imagen. */
+  alt: string;
+  class?: string;
+}
+
+const { label, alt, class: className } = Astro.props;
+
+/* Punto marcado, en coordenadas del viewBox. Se comparte entre el SVG y la
+   estrella de HTML que va encima, así que vive en una sola variable. */
+const W = 320;
+const H = 200;
+const P = { x: 186, y: 104 };
+
+const MERIDIANS = [32, 64, 96, 128, 160, 192, 224, 256, 288];
+const PARALLELS = [25, 50, 75, 100, 125, 150, 175];
+
+/* Isofotas alrededor del punto, más una isla a cada lado para que el dibujo
+   no quede centrado y simétrico. */
+const HALO = [
+  { rx: 20, ry: 13 },
+  { rx: 38, ry: 25 },
+  { rx: 58, ry: 38 },
+  { rx: 80, ry: 52 },
+  { rx: 104, ry: 67 },
+];
+
+/* Estrellas de fondo. El desfase de cada una evita que parpadeen a coro. */
+const DUST = [
+  { x: 38, y: 42, r: 1.1, d: '0s' },
+  { x: 92, y: 24, r: 0.8, d: '1.4s' },
+  { x: 268, y: 58, r: 1, d: '2.6s' },
+  { x: 300, y: 132, r: 0.8, d: '0.7s' },
+  { x: 54, y: 158, r: 1.1, d: '3.3s' },
+  { x: 142, y: 176, r: 0.8, d: '2s' },
+  { x: 232, y: 168, r: 1, d: '4.1s' },
+  { x: 120, y: 70, r: 0.7, d: '3.7s' },
+];
+---
+
+<div
+  class:list={[
+    /* El tope de altura es por el tramo intermedio: entre `md` y `lg` la
+       columna ocupa el ancho entero y sin él la carta llegaba a 389 px de
+       alto, más que el resto del panel junto. */
+    'starmap relative aspect-[16/10] max-h-60 w-full overflow-hidden rounded-lg border border-ink-600 bg-ink-950',
+    className,
+  ]}
+  role="img"
+  aria-label={alt}
+>
+  <!-- Nebulosa. Dos manchas desenfocadas que van y vienen a ritmos distintos
+       para que el bucle no se note. -->
+  <div class="starmap-cloud starmap-cloud--violet" aria-hidden="true"></div>
+  <div class="starmap-cloud starmap-cloud--cyan" aria-hidden="true"></div>
+
+  <!-- `preserveAspectRatio="none"` y no `slice`: al estirar en vez de
+       recortar, la coordenada del viewBox y el porcentaje de la caja son
+       siempre la misma cosa, así que la estrella —que va en HTML encima— cae
+       sobre el cruce de la retícula en cualquier proporción. Con `slice` se
+       descuadraban en cuanto la caja dejaba de medir 16/10, que es justo lo
+       que provoca el tope de altura. Lo que se paga es que la rejilla deja de
+       ser cuadrada; en un mapa eso no chirría. -->
+  <svg
+    class="absolute inset-0 h-full w-full"
+    viewBox={`0 0 ${W} ${H}`}
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <!-- Rejilla -->
+    <g class="stroke-ink-600/45" stroke-width="0.5">
+      {MERIDIANS.map((x) => <line x1={x} y1="0" x2={x} y2={H} />)}
+      {PARALLELS.map((y) => <line x1="0" y1={y} x2={W} y2={y} />)}
+    </g>
+
+    <!-- Isofotas -->
+    <g class="stroke-ink-400/30" fill="none" stroke-width="0.6">
+      {
+        HALO.map((e) => (
+          <ellipse
+            cx={P.x}
+            cy={P.y}
+            rx={e.rx}
+            ry={e.ry}
+            transform={`rotate(-14 ${P.x} ${P.y})`}
+          />
+        ))
+      }
+      <ellipse cx="52" cy="152" rx="19" ry="12" transform="rotate(22 52 152)" />
+      <ellipse cx="52" cy="152" rx="33" ry="21" transform="rotate(22 52 152)" />
+      <ellipse cx="284" cy="36" rx="15" ry="10" transform="rotate(-8 284 36)" />
+    </g>
+
+    <!-- Retícula sobre el punto: es lo que convierte el dibujo en un mapa. -->
+    <g class="stroke-primary/35" stroke-width="0.6" stroke-dasharray="3 4">
+      <line x1="0" y1={P.y} x2={W} y2={P.y} />
+      <line x1={P.x} y1="0" x2={P.x} y2={H} />
+    </g>
+
+    <!-- Polvo estelar -->
+    <g class="fill-ink-50">
+      {
+        DUST.map((s) => (
+          <circle
+            class="starmap-dust"
+            cx={s.x}
+            cy={s.y}
+            r={s.r}
+            style={`animation-delay:${s.d}`}
+          />
+        ))
+      }
+    </g>
+  </svg>
+
+  <!-- La estrella y su etiqueta van en HTML, no en el SVG: así el anillo que
+       late reutiliza `animate-ping` —el mismo gesto que el punto de
+       "Aceptando proyectos"— y la etiqueta usa la tipografía del sitio. -->
+  {/* El contenedor no ocupa nada: es solo el punto. Cada hijo se coloca
+      respecto a él, así la estrella cae exactamente sobre el cruce de la
+      retícula. Centrar la fila entera —estrella y etiqueta juntas— la
+      desplazaba media etiqueta a la izquierda. */}
+  <div
+    class="absolute"
+    style={`left:${(P.x / W) * 100}%;top:${(P.y / H) * 100}%`}
+    aria-hidden="true"
+  >
+    {/* Dos capas y no una: quien centra NO anima. Una animación que toca
+        `transform` gana a la clase de Tailwind que lo usa para centrar, así
+        que con `animate-ping` y `-translate-x-1/2` en el mismo elemento la
+        estrella se iba 10 px abajo y a la derecha del cruce. */}
+    <span class="absolute block size-6 -translate-x-1/2 -translate-y-1/2">
+      <span class="animate-ping absolute inset-0 rounded-full bg-primary/30"></span>
+    </span>
+
+    <span class="absolute block size-5 -translate-x-1/2 -translate-y-1/2">
+      <svg class="starmap-star size-5 fill-primary" viewBox="0 0 24 24">
+        <path
+          d="M12 0c.6 6.1 5.3 10.8 11.4 11.4v1.2C17.3 13.2 12.6 17.9 12 24c-.6-6.1-5.3-10.8-11.4-11.4v-1.2C6.7 10.8 11.4 6.1 12 0z"
+        ></path>
+      </svg>
+    </span>
+
+    <span
+      class="absolute left-3.5 -translate-y-1/2 whitespace-nowrap font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary"
+    >
+      {label}
+    </span>
+  </div>
+
+  <!-- Asienta el dibujo en el panel y evita que la rejilla llegue viva hasta
+       el borde. -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/70"
+    aria-hidden="true"
+  >
+  </div>
+</div>
+
+<style>
+  .starmap-cloud {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(28px);
+    will-change: transform;
+  }
+
+  .starmap-cloud--violet {
+    inset: -18% 34% 22% -12%;
+    background: radial-gradient(
+      circle,
+      rgb(var(--accent) / 0.4),
+      transparent 68%
+    );
+    animation: starmap-drift-a 26s ease-in-out infinite;
+  }
+
+  .starmap-cloud--cyan {
+    inset: 26% -14% -22% 40%;
+    background: radial-gradient(
+      circle,
+      rgb(var(--atmos) / 0.22),
+      transparent 66%
+    );
+    animation: starmap-drift-b 34s ease-in-out infinite;
+  }
+
+  /* Los fotogramas 0% y 100% son idénticos y neutros: con movimiento
+     reducido la nube se queda donde estaba en reposo, no a medio camino. */
+  @keyframes starmap-drift-a {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: translate3d(14%, 8%, 0) scale(1.18);
+      opacity: 1;
+    }
+  }
+
+  @keyframes starmap-drift-b {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1.05);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translate3d(-12%, -9%, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .starmap-dust {
+    animation: starmap-twinkle 4.5s ease-in-out infinite;
+    opacity: 0.5;
+  }
+
+  .starmap-star {
+    animation: starmap-pulse 3.4s ease-in-out infinite;
+  }
+
+  @keyframes starmap-twinkle {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.12;
+    }
+  }
+
+  /* Termina encendida: si alguien pide menos movimiento, la estrella se
+     queda visible en lugar de apagada. */
+  @keyframes starmap-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
+  }
+</style>
